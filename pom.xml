@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.soak</groupId>
+  <artifactId>erp</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+
+  <name>epl-platform-web</name>
+  <url>http://maven.apache.org</url>
+
+
+  <parent>
+    <groupId>com.soak</groupId>
+    <artifactId>epl-parent-pom</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>../epl-parent-pom</relativePath>
+  </parent>
+
+
+
+
+  <dependencies>
+
+
+    <!-- Servlet & Jsp  -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>2.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+
+
+  </dependencies>
+
+
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <compilerArguments>
+            <extdirs>src\main\webapp\WEB-INF\lib</extdirs>
+          </compilerArguments>
+        </configuration>
+      </plugin>
+
+
+    <!-- 
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>hibernate3-maven-plugin</artifactId>
+        <version>2.1</version>
+        <executions>
+          <execution>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>hbm2ddl</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <components>
+            <component>
+              <name>hbm2ddl</name>
+              <implementation>annotationconfiguration</implementation>
+            </component>
+            <component>
+              <name>hbmdoc</name>
+            </component>
+          </components>
+          <componentProperties>
+            <configurationfile>/target/classes/hibernate.cfg.xml</configurationfile>
+            <outputfilename>schema.ddl</outputfilename>
+            <namingstrategy>mycompany.myapp.IRDNamingStrategy</namingstrategy>
+            <drop>false</drop>
+            <create>true</create>
+            <export>false</export>
+            <format>true</format>
+          </componentProperties>
+        </configuration>
+      </plugin>
+    -->
+ 
+    </plugins>
+  </build>
+
+</project>
