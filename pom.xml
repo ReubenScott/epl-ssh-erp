@@ -2,59 +2,109 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.soak</groupId>
+  <!-- 项目信息 -->
+  <groupId>com.kindustry</groupId> <!-- 项目唯一标识 -->
   <artifactId>erp</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
 
-  <name>epl-platform-web</name>
+  <name>epl-platform-erp</name>
   <url>http://maven.apache.org</url>
 
 
-  <parent>
-    <groupId>com.soak</groupId>
-    <artifactId>epl-parent-pom</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <relativePath>../epl-parent-pom</relativePath>
-  </parent>
+  <!-- 属性设置 -->
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> <!-- 编译字符编码为utf-8 -->
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding> <!-- 输出字符编码为UTF-8 -->
+    <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+    <!-- jdK版本 -->
+    <java.version>1.7</java.version>
+    <!--  本地jar目录   ${basedir}/../epl-parent-pom/lib -->
+    <local.jar.dir>${basedir}/lib</local.jar.dir>
+    <!-- spring -->
+    <spring.version>3.2.2.RELEASE</spring.version>
+    <!-- Mybatis -->
+    <mybatis.version>3.5.4</mybatis.version>
+    <!-- Mybatis 整合 Spring -->
+    <mybatis-spring.version>2.0.0</mybatis-spring.version>
+    
+    <!-- hibernate -->
+    <hibernate.version>4.1.12.Final</hibernate.version>
+    
+    <!-- struts -->
+    <struts.version>2.3.14</struts.version>
+    
+    <!--  AOP  -->
+    <aspectj.version>1.9.2</aspectj.version>
 
+    <!-- HikariCP 连接池 -->
+    <hikariCP.version>3.3.1</hikariCP.version>
+    <!-- mysql -->
+    <mysql.version>5.1.26</mysql.version>
 
+    <!-- logback+slf4j 日志文件管理包 -->
+    <slf4j.version>1.7.5</slf4j.version>
+    <logback.version>1.2.3</logback.version>
+    <janino.version>3.0.10</janino.version>
 
+    <!-- Json -->
+    <jackson.version>2.7.4</jackson.version>
 
-  <dependencies>
+    <!-- Servlet -->
+    <servlet.version>3.0.1</servlet.version>
+    <jsp-api.version>2.2</jsp-api.version>
+    <!-- jstl -->
+    <jstl.version>1.2</jstl.version>
+    <standard.version>1.1.2</standard.version>
 
-
-    <!-- Servlet & Jsp  -->
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>2.5</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>jsp-api</artifactId>
-      <version>2.0</version>
-      <scope>provided</scope>
-    </dependency>
-
-
-
-  </dependencies>
-
+    <!-- jboss client version -->
+    <jboss.version>8.2.1.Final</jboss.version>
+    
+    <!-- excel poi -->
+    <poi.version>3.14</poi.version>
+  </properties>
 
 
   <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <compilerArguments>
-            <extdirs>src\main\webapp\WEB-INF\lib</extdirs>
-          </compilerArguments>
-        </configuration>
-      </plugin>
+    <finalName>erp</finalName>
+      <plugins>
+
+        <!-- compiler插件, 设定JDK版本 -->
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>2.3.2</version>
+          <configuration>
+            <source>${java.version}</source>
+            <target>${java.version}</target>
+            <encoding>${project.build.sourceEncoding}</encoding>
+            <compilerArguments>
+               <extdirs>src\main\webapp\WEB-INF\lib</extdirs>
+            </compilerArguments>
+          </configuration>
+        </plugin>
+        
+        <!-- war 包插件  -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>2.1.1</version>
+          <configuration>
+            <warName>${project.artifactId}</warName>
+            <webResources>
+              <resource>
+                <directory>${project.basedir}/src/main/webapp/WEB-INF/lib</directory>
+                <targetPath>WEB-INF/lib</targetPath>
+                <includes>
+                  <include>**/*.jar</include>
+                </includes>
+              </resource>
+            </webResources>
+            <archive>
+              <!-- 打包后不包括pom的描述文件 -->
+              <addMavenDescriptor>false</addMavenDescriptor>
+            </archive>
+          </configuration>
+        </plugin>
 
 
     <!-- 
@@ -95,5 +145,194 @@
  
     </plugins>
   </build>
+
+  <dependencies>
+
+
+    <!-- Servlet & Jsp  -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>2.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+
+
+    <!-- 导入Mysql数据库链接jar包 -->
+    <!-- DB Driver Start  -->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+        <version>${mysql.version}</version>
+    </dependency>
+    <!-- PostgreSQL -->
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+        <version>42.1.1</version>
+    </dependency>
+    <!-- DB Driver End  -->
+
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>druid</artifactId>
+      <version>1.0.26</version>
+    </dependency>
+    
+    
+    <!--  Struts2 -->
+    <dependency>
+      <groupId>org.apache.struts</groupId>
+      <artifactId>struts2-core</artifactId>
+      <version>${struts.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.struts</groupId>
+      <artifactId>struts2-spring-plugin</artifactId>
+      <version>${struts.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.struts</groupId>
+      <artifactId>struts2-convention-plugin</artifactId>
+      <version>${struts.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.struts</groupId>
+      <artifactId>struts2-json-plugin</artifactId>
+      <version>${struts.version}</version>
+    </dependency>
+    
+    <!-- spring核心包 -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+        <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-beans</artifactId>
+        <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+        <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-tx</artifactId>
+        <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aop</artifactId>
+        <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+        <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+        <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+        <version>${spring.version}</version>
+    </dependency>
+    <dependency> 
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aspects</artifactId>
+        <version>${spring.version}</version>
+    </dependency>
+
+    <!-- hibernate -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>${hibernate.version}</version>
+    </dependency>
+    
+    
+    
+     
+    <!-- 安全认证框架 -->
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-all</artifactId>
+      <version>1.2.6</version>
+    </dependency> 
+    <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+      <version>1.1.35</version>
+    </dependency>
+        
+
+    <dependency>
+      <groupId>com.github.penggle</groupId>
+      <artifactId>kaptcha</artifactId>
+      <version>2.3.2</version>
+    </dependency>
+
+    <!-- excel start -->
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi</artifactId>
+        <version>${poi.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml</artifactId>
+        <version>${poi.version}</version>
+    </dependency>
+    <!-- excel end -->
+      
+    <!-- 日志文件管理包 -->
+    <!-- logback+slf4j start -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+        <version>${slf4j.version}</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+        <version>${logback.version}</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.janino</groupId>
+      <artifactId>janino</artifactId>
+        <version>${janino.version}</version>
+    </dependency>
+    <!-- logback+slf4j  end  -->
+    
+    
+    <dependencies>
+      <dependency>
+          <groupId>log4j</groupId>
+          <artifactId>log4j</artifactId>
+          <version>1.2.17</version>
+      </dependency>
+    </dependencies>
+    
+    
+
+  </dependencies>
+
+
 
 </project>
