@@ -61,7 +61,7 @@
     <jboss.version>8.2.1.Final</jboss.version>
     
     <!-- excel poi -->
-    <poi.version>3.14</poi.version>
+    <poi.version>5.0.0</poi.version>
   </properties>
 
 
