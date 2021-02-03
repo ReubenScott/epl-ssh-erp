@@ -6,7 +6,7 @@
   <!-- 加载spring路径 -->
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:spring.xml,classpath:spring-hibernate.xml</param-value>
+    <param-value>classpath:spring.xml</param-value>
   </context-param>
   
   <!-- shiro过滤器 -->
@@ -218,7 +218,7 @@
     <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
   </listener>
   <listener>
-    <listener-class>com.erp.listener.SessionListenerHandler</listener-class>
+    <listener-class>com.kindustry.erp.listener.SessionListenerHandler</listener-class>
   </listener>
   
   
