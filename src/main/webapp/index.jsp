@@ -75,11 +75,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</style>
   </head>
  <body class="easyui-layout">
-	<div data-options="region:'north',border:false" style="height:40px;background:#EEE;padding:10px;overflow: hidden;"  href="layout/north.jsp"></div>
+	<div data-options="region:'north',border:false" style="height:20px;background:#EEE;padding:0px;overflow: hidden;"  href="layout/north.jsp"></div>
 	<div data-options="region:'west',split:true,title:'主要菜单'" style="width:200px;">
 			<div id="menuAccordion"></div>
 	</div> 
 	<div data-options="region:'south',border:false" style="height:25px;background:#EEE;padding:5px;" href="layout/south.jsp"></div>
-	<div data-options="region:'center',plain:true,title:'欢迎使用ERP'" style="overflow: hidden;"  href="layout/center.jsp"></div>
+	<div data-options="region:'center',plain:true" style="overflow: hidden;"  href="layout/center.jsp"></div>
 </body>
 </html>

@@ -141,11 +141,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   <body>
       <div data-options="region:'center',border : false">
-  		<div class="well well-small" style="margin-left: 5px;margin-top: 5px">
-				<span class="badge">提示</span>
-				<p>
-					在此你可以对<span class="label-info"><strong>bug</strong></span>进行管理!建议上传压缩包。直接上传图片会导致预览变形！可以直接把文件拖入编辑器中,完成上传！最大上传文件为25M!
-				</p>
+  		<div class="well well-small" style="margin-left: 1px;margin-top: 1px">
+				<span class="badge">提示</span>在此你可以对<span class="label-info"><strong>bug</strong></span>进行管理!建议上传压缩包。直接上传图片会导致预览变形！可以直接把文件拖入编辑器中,完成上传！最大上传文件为25M!
 		</div>
 		<div id="tb" style="padding:2px 0">
 			<table cellpadding="0" cellspacing="0">

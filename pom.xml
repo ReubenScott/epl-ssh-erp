@@ -3,7 +3,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <!-- 项目信息 -->
-  <groupId>com.kindustry</groupId> <!-- 项目唯一标识 -->
+  <groupId>com.kindustry</groupId> 
+  <!-- 项目唯一标识 -->
   <artifactId>erp</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
@@ -14,15 +15,17 @@
 
   <!-- 属性设置 -->
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> <!-- 编译字符编码为utf-8 -->
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding> <!-- 输出字符编码为UTF-8 -->
+    <!-- 编译字符编码为utf-8 -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
+    <!-- 输出字符编码为UTF-8 -->
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding> 
     <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
     <!-- jdK版本 -->
-    <java.version>1.7</java.version>
+    <java.version>1.8</java.version>
     <!--  本地jar目录   ${basedir}/../epl-parent-pom/lib -->
     <local.jar.dir>${basedir}/lib</local.jar.dir>
     <!-- spring -->
-    <spring.version>3.2.2.RELEASE</spring.version>
+    <spring.version>4.3.10.RELEASE</spring.version>
     <!-- Mybatis -->
     <mybatis.version>3.5.4</mybatis.version>
     <!-- Mybatis 整合 Spring -->
@@ -71,12 +74,14 @@
 
         <!-- compiler插件, 设定JDK版本 -->
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>2.3.2</version>
+          <version>3.1</version>
           <configuration>
             <source>${java.version}</source>
             <target>${java.version}</target>
             <encoding>${project.build.sourceEncoding}</encoding>
+            <showWarnings>true</showWarnings>
             <compilerArguments>
                <extdirs>src\main\webapp\WEB-INF\lib</extdirs>
             </compilerArguments>
@@ -105,7 +110,46 @@
             </archive>
           </configuration>
         </plugin>
+        
+        
+        <!-- Jetty 插件 -->
+        <plugin>
+          <groupId>org.eclipse.jetty</groupId>
+          <artifactId>jetty-maven-plugin</artifactId>
+          <version>9.3.11.v20160721</version>
+          <configuration>
+            <webAppConfig>
+              <contextPath>/</contextPath>
+            </webAppConfig>
+            <scanIntervalSeconds>0</scanIntervalSeconds>
+            <connectors>
+              <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+                <port>8080</port>
+                <maxIdleTime>60000</maxIdleTime>
+              </connector>
+              <connector implementation="org.eclipse.jetty.server.ssl.SslSelectChannelConnector"> 
+                <port>8443</port>
+                <keystore>keystore</keystore>
+                <keyPassword>123456</keyPassword> 
+                <password>123456</password>
+              </connector> 
+            </connectors>
+          </configuration>
+        </plugin>
 
+        <!-- tomcat:run plugin -->
+        <plugin>
+          <groupId>org.apache.tomcat.maven</groupId>
+          <artifactId>tomcat7-maven-plugin</artifactId>
+          <version>2.2</version>
+          <configuration>
+            <!-- http port --> 
+            <port>9090</port> 
+            <!-- application path always starts with /--> 
+            <path>/</path> 
+            <contextReloadable>true</contextReloadable>
+          </configuration>
+        </plugin>
 
     <!-- 
       <plugin>
@@ -148,28 +192,39 @@
 
   <dependencies>
 
-
-    <!-- Servlet & Jsp  -->
+    <!--servlet和jsp-->
     <dependency>
       <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>2.5</version>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.0.1</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>javax.servlet</groupId>
+      <groupId>javax.servlet.jsp</groupId>
       <artifactId>jsp-api</artifactId>
       <version>2.0</version>
       <scope>provided</scope>
     </dependency>
-    <!-- jstl -->
+
+
+    <!-- 本地Jar包 Start -->
+    <!-- fusionexport -->
     <dependency>
-      <groupId>javax.servlet.jsp.jstl</groupId>
-      <artifactId>jstl</artifactId>
-      <version>1.2</version>
+      <groupId>com.fusioncharts</groupId>
+      <artifactId>fcexporter</artifactId>
+      <version>1.0</version>
+      <scope>system</scope>
+      <systemPath>${basedir}/lib/fcexporter.jar</systemPath>
     </dependency>
-
-
+    <dependency>
+      <groupId>com.fusioncharts</groupId>
+      <artifactId>fcexporthandler</artifactId>
+      <version>1.0</version>
+      <scope>system</scope>
+      <systemPath>${basedir}/lib/fcexporthandler.jar</systemPath>
+    </dependency>
+    <!-- 本地Jar包 End -->
+    
 
     <!-- 导入Mysql数据库链接jar包 -->
     <!-- DB Driver Start  -->
@@ -269,6 +324,13 @@
       <version>${hibernate.version}</version>
     </dependency>
     
+    <!--quartz任务调度 -->
+    <dependency>
+      <groupId>quartz</groupId>
+      <artifactId>quartz-all</artifactId>
+      <version>1.6.6</version>
+    </dependency>
+        
     <!-- 安全认证框架 -->
     <dependency>
       <groupId>org.apache.shiro</groupId>
@@ -291,12 +353,6 @@
     </dependency>
 
     
-    <dependency>
-      <groupId>quartz</groupId>
-      <artifactId>quartz-all</artifactId>
-      <version>1.6.6</version>
-    </dependency>
-        
 
     <dependency>
       <groupId>com.github.penggle</groupId>
@@ -318,15 +374,20 @@
     <!-- excel end -->
       
     <!-- 日志文件管理包 -->
-    <dependencies>
-      <dependency>
-          <groupId>log4j</groupId>
-          <artifactId>log4j</artifactId>
-          <version>1.2.17</version>
-      </dependency>
-    </dependencies>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.17</version>
+    </dependency>
     
-    
+
+    <!-- 单元测试    -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+        <version>4.12</version>
+        <scope>test</scope>
+    </dependency>
 
   </dependencies>
 

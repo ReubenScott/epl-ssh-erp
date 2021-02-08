@@ -16,8 +16,28 @@ import com.kindustry.erp.util.Constants;
 @SuppressWarnings("unchecked")
 @Repository("publicDao")
 public class PublicDaoImpl<T> implements PublicDao<T> {
+
   @Autowired
   private SessionFactory sessionFactory;
+
+  /**
+   * sessionFactoryを取得する。
+   * 
+   * @return the sessionFactory
+   */
+  public SessionFactory getSessionFactory() {
+    return sessionFactory;
+  }
+
+  /**
+   * sessionFactoryを設定する。
+   * 
+   * @param sessionFactory
+   *          the sessionFactory to set
+   */
+  public void setSessionFactory(SessionFactory sessionFactory) {
+    this.sessionFactory = sessionFactory;
+  }
 
   private Session getCurrentSession() {
     return sessionFactory.getCurrentSession();
