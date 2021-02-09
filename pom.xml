@@ -35,7 +35,7 @@
     <hibernate.version>4.1.12.Final</hibernate.version>
     
     <!-- struts -->
-    <struts.version>2.3.14</struts.version>
+    <struts.version>2.3.37</struts.version>
     
     <!--  AOP  -->
     <aspectj.version>1.9.2</aspectj.version>

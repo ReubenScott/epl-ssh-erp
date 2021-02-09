@@ -53,7 +53,7 @@ public class MyShiroRealm extends AuthorizingRealm {
       String sql = null;
       // 超级管理员默认拥有所有操作权限
       if (Constants.SYSTEM_ADMINISTRATOR.equals(username)) {
-        sql = "SELECT p.PERMISSION_ID,p.MYID FROM PERMISSION AS p\n" + "where p.STATUS='A' and p.TYPE='o' and p.ISUSED='Y'";
+        sql = "SELECT p.PERMISSION_ID,p.MYID FROM PERMISSION AS p\n" + "where p.STATUS='A' and p.TYPE='O' and p.ISUSED='Y'";
       } else {
         // 用户，用户角色，角色，角色权限，权限 ==> 五表关联查询
         sql =

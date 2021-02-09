@@ -76,7 +76,7 @@ public class LoginAction extends BaseAction {
     CaptchaUsernamePasswordToken token = new CaptchaUsernamePasswordToken();
     token.setUsername(userName);
     token.setCaptcha(captcha);
-    token.setRememberMe(true);
+    // token.setRememberMe(true);
     token.setPassword(password.toCharArray());
     Json json = new Json();
     json.setTitle("登录提示");
