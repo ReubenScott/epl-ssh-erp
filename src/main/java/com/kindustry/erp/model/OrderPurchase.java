@@ -17,7 +17,7 @@ import org.hibernate.annotations.DynamicUpdate;
  * OrderPurchase entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "ORDER_PURCHASE", catalog = "ERP")
+@Table(name = "ORDER_PURCHASE")
 @DynamicUpdate(true)
 @DynamicInsert(true)
 public class OrderPurchase implements java.io.Serializable {

@@ -214,14 +214,14 @@
       <artifactId>fcexporter</artifactId>
       <version>1.0</version>
       <scope>system</scope>
-      <systemPath>${basedir}/lib/fcexporter.jar</systemPath>
+      <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/fcexporter.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>com.fusioncharts</groupId>
       <artifactId>fcexporthandler</artifactId>
       <version>1.0</version>
       <scope>system</scope>
-      <systemPath>${basedir}/lib/fcexporthandler.jar</systemPath>
+      <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/fcexporthandler.jar</systemPath>
     </dependency>
     <!-- 本地Jar包 End -->
     
@@ -330,6 +330,7 @@
       <artifactId>quartz-all</artifactId>
       <version>1.6.6</version>
     </dependency>
+    
         
     <!-- 安全认证框架 -->
     <dependency>

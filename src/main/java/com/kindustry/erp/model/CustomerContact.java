@@ -17,7 +17,7 @@ import org.hibernate.annotations.DynamicUpdate;
  * CustomerContact entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "CUSTOMER_CONTACT", catalog = "ERP")
+@Table(name = "CUSTOMER_CONTACT")
 @DynamicUpdate(true)
 @DynamicInsert(true)
 public class CustomerContact implements java.io.Serializable {

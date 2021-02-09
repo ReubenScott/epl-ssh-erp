@@ -17,7 +17,7 @@ import org.hibernate.annotations.DynamicUpdate;
  * Suplier entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "SUPLIER", catalog = "ERP")
+@Table(name = "SUPLIER")
 @DynamicUpdate(true)
 @DynamicInsert(true)
 public class Suplier implements java.io.Serializable {

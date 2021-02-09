@@ -14,7 +14,7 @@ import javax.persistence.TemporalType;
  * OrderPurchaseLine entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "ORDER_PURCHASE_LINE", catalog = "ERP")
+@Table(name = "ORDER_PURCHASE_LINE")
 public class OrderPurchaseLine implements java.io.Serializable {
   private static final long serialVersionUID = -7943495920395585672L;
   private Integer orderPurchaseLid;

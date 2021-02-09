@@ -18,7 +18,8 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
-@Table(name = "USER_ROLE", catalog = "ERP")
+// @Table(name = "USER_ROLE")
+@Table(name = "USER_ROLE")
 @DynamicInsert(true)
 @DynamicUpdate(true)
 public class UserRole implements Serializable {

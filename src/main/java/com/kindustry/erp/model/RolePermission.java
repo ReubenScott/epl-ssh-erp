@@ -17,7 +17,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
-@Table(name = "ROLE_PERMISSION", catalog = "ERP")
+@Table(name = "ROLE_PERMISSION")
 @DynamicUpdate(true)
 @DynamicInsert(true)
 public class RolePermission implements java.io.Serializable {

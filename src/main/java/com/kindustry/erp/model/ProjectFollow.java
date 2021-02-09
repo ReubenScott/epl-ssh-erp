@@ -17,7 +17,7 @@ import org.hibernate.annotations.DynamicUpdate;
  * ProjectFollow entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "PROJECT_FOLLOW", catalog = "ERP")
+@Table(name = "PROJECT_FOLLOW")
 @DynamicUpdate(true)
 @DynamicInsert(true)
 public class ProjectFollow implements java.io.Serializable {

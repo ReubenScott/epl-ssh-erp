@@ -17,7 +17,8 @@ import org.hibernate.annotations.DynamicUpdate;
  * SystemCode entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "SYSTEM_CODE", catalog = "ERP")
+// @Table(name = "SYSTEM_CODE")
+@Table(name = "SYSTEM_CODE")
 @DynamicUpdate(true)
 @DynamicInsert(true)
 public class SystemCode implements java.io.Serializable {

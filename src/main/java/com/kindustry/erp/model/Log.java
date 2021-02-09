@@ -15,7 +15,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
-@Table(name = "LOG", catalog = "ERP")
+@Table(name = "LOG")
 @DynamicInsert(true)
 @DynamicUpdate(true)
 public class Log implements Serializable {

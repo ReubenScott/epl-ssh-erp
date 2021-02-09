@@ -20,7 +20,8 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
-@Table(name = "USERS", catalog = "ERP")
+// @Table(name = "USERS")
+@Table(name = "USERS")
 @DynamicInsert(true)
 @DynamicUpdate(true)
 public class Users implements Serializable {

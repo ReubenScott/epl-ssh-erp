@@ -17,7 +17,7 @@ import org.hibernate.annotations.DynamicUpdate;
  * Province entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "PROVINCE", catalog = "ERP")
+@Table(name = "PROVINCE")
 @DynamicUpdate(true)
 @DynamicInsert(true)
 public class Province implements java.io.Serializable {

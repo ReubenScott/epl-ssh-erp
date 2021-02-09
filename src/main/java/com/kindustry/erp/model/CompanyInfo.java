@@ -19,7 +19,7 @@ import com.kindustry.erp.util.ExcelVOAttribute;
  * CompanyInfo entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "COMPANY_INFO", catalog = "ERP")
+@Table(name = "COMPANY_INFO")
 @DynamicUpdate(true)
 @DynamicInsert(true)
 public class CompanyInfo implements java.io.Serializable {

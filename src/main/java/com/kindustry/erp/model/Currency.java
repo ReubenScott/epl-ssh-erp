@@ -17,7 +17,7 @@ import org.hibernate.annotations.DynamicUpdate;
  * Currency entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "CURRENCY", catalog = "ERP")
+@Table(name = "CURRENCY")
 @DynamicUpdate(true)
 @DynamicInsert(true)
 public class Currency implements java.io.Serializable {

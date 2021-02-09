@@ -17,7 +17,7 @@ import org.hibernate.annotations.DynamicUpdate;
  * Parameter entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "PARAMETER", catalog = "ERP")
+@Table(name = "PARAMETER")
 @DynamicUpdate(true)
 @DynamicInsert(true)
 public class Parameter implements java.io.Serializable {

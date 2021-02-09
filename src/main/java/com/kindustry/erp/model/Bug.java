@@ -17,7 +17,7 @@ import org.hibernate.annotations.DynamicUpdate;
  * Bug entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "BUG", catalog = "ERP")
+@Table(name = "BUG")
 @DynamicUpdate(true)
 @DynamicInsert(true)
 public class Bug implements java.io.Serializable {

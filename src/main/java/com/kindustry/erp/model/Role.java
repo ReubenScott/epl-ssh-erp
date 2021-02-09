@@ -19,7 +19,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
-@Table(name = "ROLE", catalog = "ERP")
+@Table(name = "ROLE")
 @DynamicUpdate(true)
 @DynamicInsert(true)
 public class Role implements java.io.Serializable {
