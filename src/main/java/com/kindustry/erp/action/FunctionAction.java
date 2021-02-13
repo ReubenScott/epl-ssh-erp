@@ -9,42 +9,40 @@ import com.kindustry.erp.model.Permission;
 import com.kindustry.erp.service.FunctionService;
 import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.view.Json;
-import com.opensymphony.xwork2.ModelDriven;
+import com.kindustry.framework.action.BaseAction;
 
 /**
  * 程式管理action
  */
 @Namespace("/function")
 @Action(value = "functionAction")
-public class FunctionAction extends BaseAction implements ModelDriven<Permission> {
+public class FunctionAction extends BaseAction<Permission> {
+
   private static final long serialVersionUID = 6463691086064623009L;
-  private Permission permission;
-  private Integer id;
+
   @Autowired
   private FunctionService functionService;
 
-  public Permission getPermission() {
-    return permission;
-  }
+  // treegrid
+  private Long id;
 
-  public void setPermission(Permission permission) {
-    this.permission = permission;
-  }
-
-  public Integer getId() {
+  /**
+   * idを取得する。
+   * 
+   * @return the id
+   */
+  public Long getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  /**
+   * idを設定する。
+   * 
+   * @param id
+   *          the id to set
+   */
+  public void setId(Long id) {
     this.id = id;
-  }
-
-  public FunctionService getFunctionService() {
-    return functionService;
-  }
-
-  public void setFunctionService(FunctionService functionService) {
-    this.functionService = functionService;
   }
 
   /**
@@ -67,7 +65,7 @@ public class FunctionAction extends BaseAction implements ModelDriven<Permission
    * 弹出框编辑function
    */
   public String persistenceFunctionDig() {
-    OutputJson(getMessage(functionService.persistenceFunction(getModel())), Constants.TEXT_TYPE_PLAIN);
+    OutputJson(getMessage(functionService.persistenceFunction(super.sample)), Constants.TEXT_TYPE_PLAIN);
     return null;
   }
 
@@ -97,12 +95,6 @@ public class FunctionAction extends BaseAction implements ModelDriven<Permission
   public String findAllFunctionLists() {
     OutputJson(functionService.findAllFunctionList());
     return null;
-  }
-
-  @Override
-  public Permission getModel() {
-    if (null == permission) permission = new Permission();
-    return permission;
   }
 
 }

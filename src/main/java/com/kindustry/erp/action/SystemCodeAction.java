@@ -8,17 +8,16 @@ import com.kindustry.erp.model.SystemCode;
 import com.kindustry.erp.service.SystemCodeService;
 import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.view.Json;
-import com.opensymphony.xwork2.ModelDriven;
+import com.kindustry.framework.action.BaseAction;
 
 @Namespace("/systemCode")
 @Action(value = "systemCodeAction")
-public class SystemCodeAction extends BaseAction implements ModelDriven<SystemCode> {
+public class SystemCodeAction extends BaseAction<SystemCode> {
   private static final long serialVersionUID = 5950902654202396939L;
 
   private Integer id;
   private String permissionName;
   private Integer codePid;
-  private SystemCode systemCode;
 
   @Autowired
   private SystemCodeService systemCodeService;
@@ -43,14 +42,14 @@ public class SystemCodeAction extends BaseAction implements ModelDriven<SystemCo
    * 按照codeid查询词典
    */
   public void findSystemCodeByType() {
-    OutputJson(systemCodeService.findSystemCodeByType(getModel().getCodeMyid()));
+    OutputJson(systemCodeService.findSystemCodeByType(super.sample.getCodeMyid()));
   }
 
   /**
    * 弹窗持久化systemCode
    */
   public String persistenceSystemCodeDig() {
-    OutputJson(getMessage(systemCodeService.persistenceSystemCodeDig(getModel(), permissionName, codePid)), Constants.TEXT_TYPE_PLAIN);
+    OutputJson(getMessage(systemCodeService.persistenceSystemCodeDig(super.sample, permissionName, codePid)), Constants.TEXT_TYPE_PLAIN);
     return null;
   }
 
@@ -60,7 +59,7 @@ public class SystemCodeAction extends BaseAction implements ModelDriven<SystemCo
   public String delSystemCode() {
     Json json = new Json();
     json.setTitle("提示");
-    if (systemCodeService.delSystemCode(getModel().getCodeId())) {
+    if (systemCodeService.delSystemCode(super.sample.getCodeId())) {
       json.setStatus(true);
       json.setMessage("数据更新成功!");
     } else {
@@ -92,20 +91,6 @@ public class SystemCodeAction extends BaseAction implements ModelDriven<SystemCo
 
   public void setCodePid(Integer codePid) {
     this.codePid = codePid;
-  }
-
-  public SystemCode getSystemCode() {
-    return systemCode;
-  }
-
-  public void setSystemCode(SystemCode systemCode) {
-    this.systemCode = systemCode;
-  }
-
-  @Override
-  public SystemCode getModel() {
-    if (null == systemCode) systemCode = new SystemCode();
-    return systemCode;
   }
 
 }

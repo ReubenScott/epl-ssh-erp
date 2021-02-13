@@ -7,23 +7,23 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kindustry.erp.dao.PublicDao;
 import com.kindustry.erp.model.CompanyInfo;
 import com.kindustry.erp.service.CompanyInfoService;
 import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.util.PageUtil;
+import com.kindustry.framework.dao.IBaseDao;
 
 @Service("companyInfoService")
 public class CompanyInfoServiceImpl implements CompanyInfoService {
   @Autowired
-  private PublicDao<CompanyInfo> dao;
+  private IBaseDao<CompanyInfo> baseDao;
 
   @Override
   public List<CompanyInfo> findAllCompanyInfoList(Map<String, Object> map, PageUtil pageUtil) {
     String hql = "from CompanyInfo t where t.status='A' ";
     hql += Constants.getSearchConditionsHQL("t", map);
     hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
-    return dao.find(hql, map, pageUtil.getPage(), pageUtil.getRows());
+    return baseDao.find(hql, map, pageUtil.getPage(), pageUtil.getRows());
   }
 
   @Override
@@ -31,7 +31,7 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
     String hql = "select count(*) from CompanyInfo t where t.status='A' ";
     hql += Constants.getSearchConditionsHQL("t", map);
     hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
-    return dao.count(hql, map);
+    return baseDao.count(hql, map);
   }
 
   @Override
@@ -48,7 +48,7 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
       for (CompanyInfo c : list) {
         c.setStatus("I");
         c.setLastmod(new Date());
-        dao.deleteToUpdate(c);
+        baseDao.update(c);
       }
     }
     return true;
@@ -60,7 +60,7 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
       for (CompanyInfo c : list) {
         c.setLastmod(new Date());
         c.setModifyer(Constants.getCurrendUser().getUserId());
-        dao.save(c);
+        baseDao.save(c);
       }
     }
     return true;
@@ -75,7 +75,7 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
         c.setStatus("A");
         c.setCreater(Constants.getCurrendUser().getUserId());
         c.setModifyer(Constants.getCurrendUser().getUserId());
-        dao.save(c);
+        baseDao.save(c);
       }
     }
     return true;
@@ -83,10 +83,10 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
 
   @Override
   public boolean delCompanyInfo(Integer companyId) {
-    CompanyInfo companyInfo = dao.get(CompanyInfo.class, companyId);
+    CompanyInfo companyInfo = baseDao.get(CompanyInfo.class, companyId);
     companyInfo.setStatus("I");
     companyInfo.setLastmod(new Date());
-    dao.deleteToUpdate(companyInfo);
+    baseDao.update(companyInfo);
     return true;
   }
 

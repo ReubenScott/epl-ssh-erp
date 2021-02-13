@@ -13,14 +13,13 @@ import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.util.PageUtil;
 import com.kindustry.erp.view.GridModel;
 import com.kindustry.erp.view.Json;
-import com.opensymphony.xwork2.ModelDriven;
+import com.kindustry.framework.action.BaseAction;
 
 @Namespace("/user")
 @Action(value = "userAction")
-public class UserAction extends BaseAction implements ModelDriven<Users> {
+public class UserAction extends BaseAction<Users> {
   private static final long serialVersionUID = 4291781552774352567L;
 
-  private Users users;
   private String isCheckedIds;
   @Autowired
   private UserService userService;
@@ -45,7 +44,7 @@ public class UserAction extends BaseAction implements ModelDriven<Users> {
    * 持久化用户弹窗模式
    */
   public String persistenceUsersDig() {
-    OutputJson(getMessage(userService.persistenceUsers(getModel())), Constants.TEXT_TYPE_PLAIN);
+    OutputJson(getMessage(userService.persistenceUsers(super.sample)), Constants.TEXT_TYPE_PLAIN);
     return null;
   }
 
@@ -53,7 +52,7 @@ public class UserAction extends BaseAction implements ModelDriven<Users> {
    * 查询用户拥有角色
    */
   public String findUsersRolesList() {
-    OutputJson(userService.findUsersRolesList(getModel().getUserId()));
+    OutputJson(userService.findUsersRolesList(super.sample.getUserId()));
     return null;
   }
 
@@ -62,7 +61,7 @@ public class UserAction extends BaseAction implements ModelDriven<Users> {
    */
   public String saveUserRoles() {
     Json json = new Json();
-    if (userService.saveUserRoles(getModel().getUserId(), isCheckedIds)) {
+    if (userService.saveUserRoles(super.sample.getUserId(), isCheckedIds)) {
       json.setStatus(true);
       json.setMessage("数据更新成功！");
     } else {
@@ -73,16 +72,8 @@ public class UserAction extends BaseAction implements ModelDriven<Users> {
   }
 
   public String delUsers() {
-    OutputJson(getMessage(userService.delUsers(getModel().getUserId())));
+    OutputJson(getMessage(userService.delUsers(super.sample.getUserId())));
     return null;
-  }
-
-  public Users getUsers() {
-    return users;
-  }
-
-  public void setUsers(Users users) {
-    this.users = users;
   }
 
   public String getIsCheckedIds() {
@@ -93,11 +84,4 @@ public class UserAction extends BaseAction implements ModelDriven<Users> {
     this.isCheckedIds = isCheckedIds;
   }
 
-  @Override
-  public Users getModel() {
-    if (users == null) {
-      users = new Users();
-    }
-    return users;
-  }
 }

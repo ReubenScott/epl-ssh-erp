@@ -5,6 +5,7 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kindustry.erp.service.CurrencyService;
+import com.kindustry.framework.action.BaseAction;
 
 @Namespace("/currency")
 @Action("currencyAction")

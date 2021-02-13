@@ -8,15 +8,14 @@ import com.kindustry.erp.model.Organization;
 import com.kindustry.erp.service.OrganizationService;
 import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.view.Json;
-import com.opensymphony.xwork2.ModelDriven;
+import com.kindustry.framework.action.BaseAction;
 
 @Namespace("/orgz")
 @Action(value = "organizationAction")
-public class OrganizationAction extends BaseAction implements ModelDriven<Organization> {
+public class OrganizationAction extends BaseAction<Organization> {
   private static final long serialVersionUID = -9199839463550072039L;
 
   private Integer id;
-  private Organization organization;
   @Autowired
   private OrganizationService organizationService;
 
@@ -40,7 +39,7 @@ public class OrganizationAction extends BaseAction implements ModelDriven<Organi
    * 持久化组织
    */
   public String persistenceOrganization() {
-    OutputJson(getMessage(organizationService.persistenceOrganization(getModel())), Constants.TEXT_TYPE_PLAIN);
+    OutputJson(getMessage(organizationService.persistenceOrganization(super.sample)), Constants.TEXT_TYPE_PLAIN);
     return null;
   }
 
@@ -65,22 +64,6 @@ public class OrganizationAction extends BaseAction implements ModelDriven<Organi
 
   public void setId(Integer id) {
     this.id = id;
-  }
-
-  public Organization getOrganization() {
-    return organization;
-  }
-
-  public void setOrganization(Organization organization) {
-    this.organization = organization;
-  }
-
-  @Override
-  public Organization getModel() {
-    if (organization == null) {
-      organization = new Organization();
-    }
-    return organization;
   }
 
 }

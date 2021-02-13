@@ -5,25 +5,29 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.subject.Subject;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.kindustry.erp.model.Users;
 import com.kindustry.erp.service.LoginService;
 import com.kindustry.erp.shiro.CaptchaUsernamePasswordToken;
 import com.kindustry.erp.shiro.IncorrectCaptchaException;
 import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.view.Json;
+import com.kindustry.framework.action.BaseAction;
 
 @Action(value = "systemAction", results = {@Result(name = Constants.LOGIN_SUCCESS_URL, location = "/index.jsp"), @Result(name = Constants.LOGIN_URL, location = "/login.jsp"),
   @Result(name = Constants.LOGIN_LOGIN_OUT_URL, type = "redirect", location = "systemAction!loginInit.action")})
-public class LoginAction extends BaseAction {
+public class LoginAction extends BaseAction<Users> {
   private static final long serialVersionUID = -1145816102834586851L;
 
   private String userName;
   private String password;
+  private String remember;
   private String captcha;
   private String userMacAddr;
   private String userKey;
@@ -55,6 +59,25 @@ public class LoginAction extends BaseAction {
     this.captcha = captcha;
   }
 
+  /**
+   * rememberを取得する。
+   * 
+   * @return the remember
+   */
+  public String getRemember() {
+    return remember;
+  }
+
+  /**
+   * rememberを設定する。
+   * 
+   * @param remember
+   *          the remember to set
+   */
+  public void setRemember(String remember) {
+    this.remember = remember;
+  }
+
   public String getUserMacAddr() {
     return userMacAddr;
   }
@@ -71,13 +94,16 @@ public class LoginAction extends BaseAction {
     this.userKey = userKey;
   }
 
-  public String load() {
+  public void load() {
     Subject subject = SecurityUtils.getSubject();
     CaptchaUsernamePasswordToken token = new CaptchaUsernamePasswordToken();
     token.setUsername(userName);
     token.setCaptcha(captcha);
-    // token.setRememberMe(true);
-    token.setPassword(password.toCharArray());
+    System.out.println(captcha);
+    System.out.println(remember);
+    // token.setRememberMe();
+    token.setPassword(super.sample.getPassword().toCharArray());
+
     Json json = new Json();
     json.setTitle("登录提示");
     try {
@@ -105,7 +131,6 @@ public class LoginAction extends BaseAction {
       json.setMessage(Constants.UNKNOWN_EXCEPTION);
     }
     OutputJson(json, Constants.TEXT_TYPE_PLAIN);
-    return null;
   }
 
   /**
@@ -113,12 +138,23 @@ public class LoginAction extends BaseAction {
    * 
    * @return
    */
-  public String logout() {
-    SecurityUtils.getSubject().logout();
+  public void logout() {
+    System.out.println("logout");
+
+    // Get the user if one is logged in.
+    Subject currentUser = SecurityUtils.getSubject();
+    if (currentUser == null) return;
+
+    // Log the user out and kill their session if possible.
+    currentUser.logout();
+    Session session = currentUser.getSession(false);
+    if (session == null) return;
+
+    session.stop();
+
     Json json = new Json();
     json.setStatus(true);
     OutputJson(json);
-    return null;
   }
 
   /**

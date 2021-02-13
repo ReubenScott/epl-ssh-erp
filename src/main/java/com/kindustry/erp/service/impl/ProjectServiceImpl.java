@@ -7,37 +7,37 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kindustry.erp.dao.PublicDao;
 import com.kindustry.erp.model.Customer;
 import com.kindustry.erp.model.Project;
 import com.kindustry.erp.model.ProjectFollow;
 import com.kindustry.erp.service.ProjectService;
 import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.util.PageUtil;
+import com.kindustry.framework.dao.IBaseDao;
 
 @Service("projectService")
 @SuppressWarnings("unchecked")
 public class ProjectServiceImpl implements ProjectService {
   @SuppressWarnings("rawtypes")
   @Autowired
-  private PublicDao dao;
+  private IBaseDao baseDao;
 
   @Override
   public List<Project> findProjectListCombobox() {
     String hql = "from Project t where t.status='A'";
-    return dao.find(hql);
+    return baseDao.find(hql);
   }
 
   @Override
   public List<Customer> findCustomers() {
     String hql = "from Customer t where t.status='A'";
-    return dao.find(hql);
+    return baseDao.find(hql);
   }
 
   @Override
   public List<ProjectFollow> findProjectFollowsList(Integer projectId) {
     String hql = "from ProjectFollow t where t.status='A' and t.projectId=" + projectId;
-    return dao.find(hql);
+    return baseDao.find(hql);
   }
 
   @Override
@@ -45,7 +45,7 @@ public class ProjectServiceImpl implements ProjectService {
     String hql = "from Project t where t.status='A'";
     hql += Constants.getSearchConditionsHQL("t", map);
     hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
-    return dao.find(hql, map, pageUtil.getPage(), pageUtil.getRows());
+    return baseDao.find(hql, map, pageUtil.getPage(), pageUtil.getRows());
   }
 
   @Override
@@ -53,7 +53,7 @@ public class ProjectServiceImpl implements ProjectService {
     String hql = "select count(*) from Project t where t.status='A' ";
     hql += Constants.getSearchConditionsHQL("t", param);
     hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
-    return dao.count(hql, param);
+    return baseDao.count(hql, param);
   }
 
   @Override
@@ -65,7 +65,7 @@ public class ProjectServiceImpl implements ProjectService {
       p.setCreater(userId);
       p.setModifyer(userId);
       p.setStatus(Constants.PERSISTENCE_STATUS);
-      dao.save(p);
+      baseDao.save(p);
       List<ProjectFollow> addList = map.get("addList");
       if (addList != null && addList.size() != 0) {
         for (ProjectFollow cus : addList) {
@@ -75,13 +75,13 @@ public class ProjectServiceImpl implements ProjectService {
           cus.setModifyer(userId);
           cus.setProjectId(p.getProjectId());
           cus.setStatus(Constants.PERSISTENCE_STATUS);
-          dao.save(cus);
+          baseDao.save(cus);
         }
       }
     } else {
       p.setLastmod(new Date());
       p.setModifyer(userId);
-      dao.update(p);
+      baseDao.update(p);
 
       List<ProjectFollow> addList = map.get("addList");
       if (addList != null && addList.size() != 0) {
@@ -92,7 +92,7 @@ public class ProjectServiceImpl implements ProjectService {
           cus.setModifyer(userId);
           cus.setProjectId(p.getProjectId());
           cus.setStatus(Constants.PERSISTENCE_STATUS);
-          dao.save(cus);
+          baseDao.save(cus);
         }
       }
       List<ProjectFollow> updList = map.get("updList");
@@ -101,7 +101,7 @@ public class ProjectServiceImpl implements ProjectService {
           cus.setLastmod(new Date());
           cus.setModifyer(userId);
           cus.setProjectId(p.getProjectId());
-          dao.update(cus);
+          baseDao.update(cus);
         }
       }
       List<ProjectFollow> delList = map.get("delList");
@@ -111,7 +111,7 @@ public class ProjectServiceImpl implements ProjectService {
           cus.setModifyer(userId);
           cus.setProjectId(p.getProjectId());
           cus.setStatus(Constants.PERSISTENCE_DELETE_STATUS);
-          dao.deleteToUpdate(cus);
+          baseDao.update(cus);
         }
       }
     }
@@ -121,18 +121,18 @@ public class ProjectServiceImpl implements ProjectService {
   @Override
   public boolean delProject(Integer projectId) {
     Integer userId = Constants.getCurrendUser().getUserId();
-    Project i = (Project)dao.get(Project.class, projectId);
+    Project i = (Project)baseDao.get(Project.class, projectId);
     i.setLastmod(new Date());
     i.setModifyer(userId);
     i.setStatus(Constants.PERSISTENCE_DELETE_STATUS);
-    dao.deleteToUpdate(i);
+    baseDao.update(i);
     String hql = "from ProjectFollow t where t.status='A' and t.projectId=" + projectId;
-    List<ProjectFollow> list = dao.find(hql);
+    List<ProjectFollow> list = baseDao.find(hql);
     for (ProjectFollow pf : list) {
       pf.setLastmod(new Date());
       pf.setModifyer(userId);
       pf.setStatus(Constants.PERSISTENCE_DELETE_STATUS);
-      dao.deleteToUpdate(pf);
+      baseDao.update(pf);
     }
     return true;
   }

@@ -10,7 +10,6 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kindustry.erp.dao.PublicDao;
 import com.kindustry.erp.model.Role;
 import com.kindustry.erp.model.UserRole;
 import com.kindustry.erp.model.Users;
@@ -19,21 +18,22 @@ import com.kindustry.erp.shiro.ShiroUser;
 import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.util.PageUtil;
 import com.kindustry.erp.view.UserRoleModel;
+import com.kindustry.framework.dao.IBaseDao;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
   @Autowired
-  private PublicDao<Users> dao;
+  private IBaseDao<Users> baseDao;
   @SuppressWarnings("rawtypes")
   @Autowired
-  private PublicDao publicDao;
+  private IBaseDao publicDao;
 
   @Override
   public List<Users> findAllUserList(Map<String, Object> map, PageUtil pageUtil) {
     String hql = "from Users u where u.status='A' ";
     hql += Constants.getSearchConditionsHQL("u", map);
     hql += Constants.getGradeSearchConditionsHQL("u", pageUtil);
-    List<Users> list = dao.find(hql, map, pageUtil.getPage(), pageUtil.getRows());
+    List<Users> list = baseDao.find(hql, map, pageUtil.getPage(), pageUtil.getRows());
     for (Users users : list) {
       users.setUserRoles(null);
     }
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
     String hql = "select count(*) from Users  u where u.status='A' ";
     hql += Constants.getSearchConditionsHQL("u", map);
     hql += Constants.getGradeSearchConditionsHQL("u", pageUtil);
-    return dao.count(hql, map);
+    return baseDao.count(hql, map);
   }
 
   @Override
@@ -57,22 +57,22 @@ public class UserServiceImpl implements UserService {
       u.setCreater(userId);
       u.setModifyer(userId);
       u.setStatus(Constants.PERSISTENCE_STATUS);
-      dao.save(u);
+      baseDao.save(u);
     } else {
       u.setLastmod(new Date());
       u.setModifyer(userId);
-      dao.update(u);
+      baseDao.update(u);
     }
     return true;
   }
 
   @Override
   public boolean delUsers(Integer userId) {
-    Users users = dao.get(Users.class, userId);
+    Users users = baseDao.get(Users.class, userId);
     users.setStatus(Constants.PERSISTENCE_DELETE_STATUS);
     users.setLastmod(new Date());
     users.setModifyer(Constants.getCurrendUser().getUserId());
-    dao.deleteToUpdate(users);
+    baseDao.update(users);
     return true;
   }
 
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
   public List<UserRoleModel> findUsersRolesList(Integer userId) {
     String sql = "SELECT ur.USER_ID,ur.ROLE_ID \n" + "FROM USER_ROLE ur \n" + "WHERE ur.STATUS ='A' AND ur.USER_ID=" + userId;
     @SuppressWarnings("rawtypes")
-    List list = dao.findBySQL(sql);
+    List list = baseDao.findBySQL(sql);
     List<UserRoleModel> listm = new ArrayList<UserRoleModel>();
     for (Object o : list) {
       Object[] obj = (Object[])o;
@@ -95,14 +95,14 @@ public class UserServiceImpl implements UserService {
   @SuppressWarnings("unchecked")
   @Override
   public boolean saveUserRoles(Integer userId, String isCheckedIds) {
-    Users users = dao.get(Users.class, userId);
+    Users users = baseDao.get(Users.class, userId);
     Set<UserRole> set = users.getUserRoles();
     Map<Integer, UserRole> map = new HashMap<Integer, UserRole>();
     for (UserRole userRole : set) {
       map.put(userRole.getRole().getRoleId(), userRole);
       userRole.setLastmod(new Date());
       userRole.setStatus(Constants.PERSISTENCE_DELETE_STATUS);
-      dao.deleteToUpdate(users);
+      baseDao.update(users);
     }
     if (isCheckedIds != null && !"".equals(isCheckedIds)) {
       String[] ids = isCheckedIds.split(",");

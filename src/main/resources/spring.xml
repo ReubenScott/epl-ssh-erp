@@ -13,7 +13,7 @@
   <context:property-placeholder location="classpath:config.properties"/>
   
   <!-- Spring Annotation  -->
-  <context:component-scan base-package="com.kindustry.erp.dao.impl,com.kindustry.erp.service.impl"></context:component-scan>
+  <context:component-scan base-package="com.kindustry.*.dao.impl,com.kindustry.*.service.impl"></context:component-scan>
   
   <!-- =======================================
     各模块xml配置在此添加...  <import resource="modules/module-bean.xml" />

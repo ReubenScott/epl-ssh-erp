@@ -1,6 +1,5 @@
 package com.kindustry.erp.model;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,95 +7,80 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
+import com.kindustry.framework.orm.entity.BaseEntity;
 
 @Entity
 @Table(name = "PERMISSION")
 @DynamicUpdate(true)
 @DynamicInsert(true)
-public class Permission implements java.io.Serializable {
+public class Permission extends BaseEntity {
+
   private static final long serialVersionUID = 1136795483472903508L;
-  private Integer permissionId;
-  private Integer pid;
-  private String name;
-  private String pname;
-  private Integer sort;
-  private String myid;
-  private String type;
-  private String state;
-  private String isused;
-  private String url;
-  private String iconCls;
-  private String status;
-  private String description;
-  private Date created;
-  private Date lastmod;
-  private Integer creater;
-  private Integer modifyer;
-  private Set<RolePermission> rolePermissions = new HashSet<RolePermission>(0);
 
-  // Constructors
-
-  /** default constructor */
-  public Permission() {}
-
-  /** minimal constructor */
-  public Permission(String status, Date created) {
-    this.status = status;
-    this.created = created;
-  }
-
-  /** full constructor */
-  public Permission(Integer pid, String name, String pname, Integer sort, String myid, String type, String isused, String url, String iconCls, String status, String description,
-    Date created, Date lastmod, Integer creater, Integer modifyer, Set<RolePermission> rolePermissions) {
-    this.pid = pid;
-    this.name = name;
-    this.pname = pname;
-    this.sort = sort;
-    this.myid = myid;
-    this.type = type;
-    this.isused = isused;
-    this.url = url;
-    this.iconCls = iconCls;
-    this.status = status;
-    this.description = description;
-    this.created = created;
-    this.lastmod = lastmod;
-    this.creater = creater;
-    this.modifyer = modifyer;
-    this.rolePermissions = rolePermissions;
-  }
-
-  // Property accessors
-  @Id
-  @GeneratedValue
-  @Column(name = "PERMISSION_ID", unique = true, nullable = false)
-  public Integer getPermissionId() {
-    return this.permissionId;
-  }
-
-  public void setPermissionId(Integer permissionId) {
-    this.permissionId = permissionId;
-  }
+  // @Id
+  // @GeneratedValue
+  // @Column(name = "PERMISSION_ID", unique = true, nullable = false)
+  // private Integer permissionId;
 
   @Column(name = "PID")
-  public Integer getPid() {
+  private Long pid;
+
+  @Column(name = "NAME", length = 100)
+  private String name;
+
+  @Column(name = "PNAME", length = 100)
+  private String pname;
+
+  @Column(name = "SORT")
+  private Integer sort;
+
+  @Column(name = "MYID", length = 55)
+  private String myid;
+
+  @Column(name = "TYPE", length = 1)
+  private String type;
+
+  @Column(name = "STATE", length = 20)
+  private String state;
+
+  @Column(name = "ISUSED", length = 1)
+  private String isused;
+
+  @Column(name = "URL", length = 200)
+  private String url;
+
+  @Column(name = "ICONCLS", length = 100)
+  private String iconCls;
+
+  @Column(name = "DESCRIPTION", length = 2000)
+  private String description;
+
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "permission")
+  private Set<RolePermission> rolePermissions = new HashSet<RolePermission>(0);
+
+  // Property accessors
+  // public Integer getPermissionId() {
+  // return this.permissionId;
+  // }
+  //
+  // public void setPermissionId(Integer permissionId) {
+  // this.permissionId = permissionId;
+  // }
+
+  public Long getPid() {
     return this.pid;
   }
 
-  public void setPid(Integer pid) {
+  public void setPid(Long pid) {
     this.pid = pid;
   }
 
-  @Column(name = "NAME", length = 100)
   public String getName() {
     return this.name;
   }
@@ -105,7 +89,6 @@ public class Permission implements java.io.Serializable {
     this.name = name;
   }
 
-  @Column(name = "PNAME", length = 100)
   public String getPname() {
     return this.pname;
   }
@@ -114,7 +97,6 @@ public class Permission implements java.io.Serializable {
     this.pname = pname;
   }
 
-  @Column(name = "SORT")
   public Integer getSort() {
     return this.sort;
   }
@@ -123,7 +105,6 @@ public class Permission implements java.io.Serializable {
     this.sort = sort;
   }
 
-  @Column(name = "MYID", length = 55)
   public String getMyid() {
     return this.myid;
   }
@@ -132,7 +113,6 @@ public class Permission implements java.io.Serializable {
     this.myid = myid;
   }
 
-  @Column(name = "TYPE", length = 1)
   public String getType() {
     return this.type;
   }
@@ -141,7 +121,6 @@ public class Permission implements java.io.Serializable {
     this.type = type;
   }
 
-  @Column(name = "ISUSED", length = 1)
   public String getIsused() {
     return this.isused;
   }
@@ -150,7 +129,6 @@ public class Permission implements java.io.Serializable {
     this.isused = isused;
   }
 
-  @Column(name = "URL", length = 200)
   public String getUrl() {
     return this.url;
   }
@@ -159,7 +137,6 @@ public class Permission implements java.io.Serializable {
     this.url = url;
   }
 
-  @Column(name = "STATE", length = 20)
   public String getState() {
     return this.state;
   }
@@ -168,7 +145,6 @@ public class Permission implements java.io.Serializable {
     this.state = state;
   }
 
-  @Column(name = "ICONCLS", length = 100)
   public String getIconCls() {
     return iconCls;
   }
@@ -177,16 +153,6 @@ public class Permission implements java.io.Serializable {
     this.iconCls = iconCls;
   }
 
-  @Column(name = "STATUS", nullable = false, length = 1)
-  public String getStatus() {
-    return this.status;
-  }
-
-  public void setStatus(String status) {
-    this.status = status;
-  }
-
-  @Column(name = "DESCRIPTION", length = 2000)
   public String getDescription() {
     return this.description;
   }
@@ -195,45 +161,6 @@ public class Permission implements java.io.Serializable {
     this.description = description;
   }
 
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "CREATED", nullable = false, length = 10)
-  public Date getCreated() {
-    return this.created;
-  }
-
-  public void setCreated(Date created) {
-    this.created = created;
-  }
-
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "LASTMOD", length = 10)
-  public Date getLastmod() {
-    return this.lastmod;
-  }
-
-  public void setLastmod(Date lastmod) {
-    this.lastmod = lastmod;
-  }
-
-  @Column(name = "CREATER")
-  public Integer getCreater() {
-    return this.creater;
-  }
-
-  public void setCreater(Integer creater) {
-    this.creater = creater;
-  }
-
-  @Column(name = "MODIFYER")
-  public Integer getModifyer() {
-    return this.modifyer;
-  }
-
-  public void setModifyer(Integer modifyer) {
-    this.modifyer = modifyer;
-  }
-
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "permission")
   public Set<RolePermission> getRolePermissions() {
     return this.rolePermissions;
   }

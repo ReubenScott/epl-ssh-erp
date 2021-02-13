@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.fastjson.JSON;
 import com.kindustry.erp.model.Parameter;
 import com.kindustry.erp.service.SystemParameterService;
+import com.kindustry.framework.action.BaseAction;
 
 @Namespace("/systemParameter")
 @Action("systemParameterAction")

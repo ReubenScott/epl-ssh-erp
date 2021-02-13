@@ -15,31 +15,14 @@ import com.kindustry.erp.service.OrderPurchaseService;
 import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.util.PageUtil;
 import com.kindustry.erp.view.GridModel;
-import com.opensymphony.xwork2.ModelDriven;
+import com.kindustry.framework.action.BaseAction;
 
 @Namespace("/orderPurchase")
 @Action(value = "orderPurchaseAction")
-public class OrderPurchaseAction extends BaseAction implements ModelDriven<OrderPurchase> {
+public class OrderPurchaseAction extends BaseAction<OrderPurchase> {
   private static final long serialVersionUID = -4519339213430093830L;
   @Autowired
   private OrderPurchaseService orderPurchaseService;
-  private OrderPurchase orderPurchase;
-
-  public OrderPurchase getOrderPurchase() {
-    return orderPurchase;
-  }
-
-  public void setOrderPurchase(OrderPurchase orderPurchase) {
-    this.orderPurchase = orderPurchase;
-  }
-
-  @Override
-  public OrderPurchase getModel() {
-    if (orderPurchase == null) {
-      orderPurchase = new OrderPurchase();
-    }
-    return orderPurchase;
-  }
 
   public void findPurchaseOrderList() {
     Map<String, Object> map = new HashMap<String, Object>();
@@ -55,13 +38,13 @@ public class OrderPurchaseAction extends BaseAction implements ModelDriven<Order
 
   public void findPurchaseOrderLineList() {
     GridModel gridModel = new GridModel();
-    gridModel.setRows(orderPurchaseService.findPurchaseOrderLineList(getModel().getOrderPurchaseId()));
+    gridModel.setRows(orderPurchaseService.findPurchaseOrderLineList(super.sample.getOrderPurchaseId()));
     gridModel.setTotal(null);
     OutputJson(gridModel);
   }
 
   public void delOrderPurchase() {
-    OutputJson(getMessage(orderPurchaseService.delOrderPurchase(getModel().getOrderPurchaseId())));
+    OutputJson(getMessage(orderPurchaseService.delOrderPurchase(super.sample.getOrderPurchaseId())));
   }
 
   /**
@@ -78,7 +61,7 @@ public class OrderPurchaseAction extends BaseAction implements ModelDriven<Order
     if (deleted != null && !"".equals(deleted)) {
       map.put("delList", JSON.parseArray(deleted, OrderPurchaseLine.class));
     }
-    OutputJson(getMessage(orderPurchaseService.persistenceOrderPurchase(getModel(), map)), Constants.TEXT_TYPE_PLAIN);
+    OutputJson(getMessage(orderPurchaseService.persistenceOrderPurchase(super.sample, map)), Constants.TEXT_TYPE_PLAIN);
   }
 
 }

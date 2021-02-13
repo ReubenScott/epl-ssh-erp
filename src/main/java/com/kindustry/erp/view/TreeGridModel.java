@@ -3,8 +3,9 @@ package com.kindustry.erp.view;
 import java.util.Date;
 
 public class TreeGridModel {
-  private Integer permissionId;
-  private Integer pid;
+
+  private String sid;
+  private String pid;
   private String name;
   private String pname;
   private Integer sort;
@@ -21,19 +22,30 @@ public class TreeGridModel {
   private Integer creater;
   private Integer modifyer;
 
-  public Integer getPermissionId() {
-    return permissionId;
+  /**
+   * sidを取得する。
+   * 
+   * @return the sid
+   */
+  public String getSid() {
+    return sid;
   }
 
-  public void setPermissionId(Integer permissionId) {
-    this.permissionId = permissionId;
+  /**
+   * sidを設定する。
+   * 
+   * @param sid
+   *          the sid to set
+   */
+  public void setSid(String sid) {
+    this.sid = sid;
   }
 
-  public Integer getPid() {
+  public String getPid() {
     return pid;
   }
 
-  public void setPid(Integer pid) {
+  public void setPid(String pid) {
     this.pid = pid;
   }
 

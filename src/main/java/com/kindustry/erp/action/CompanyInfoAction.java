@@ -15,17 +15,15 @@ import com.kindustry.erp.service.CompanyInfoService;
 import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.util.PageUtil;
 import com.kindustry.erp.view.GridModel;
-import com.opensymphony.xwork2.ModelDriven;
+import com.kindustry.framework.action.BaseAction;
 
 @Namespace("/companyInfo")
 @Action("companyInfoAction")
-public class CompanyInfoAction extends BaseAction implements ModelDriven<CompanyInfo> {
+public class CompanyInfoAction extends BaseAction<CompanyInfo> {
   private static final long serialVersionUID = 443373914949130816L;
 
   @Autowired
   private CompanyInfoService companyInfoService;
-
-  private CompanyInfo companyInfo;
 
   /**
    * 查询所有或符合条件的CompanyInfo
@@ -58,8 +56,8 @@ public class CompanyInfoAction extends BaseAction implements ModelDriven<Company
    */
   public void persistenceCompanyInfoDlg() {
     List<CompanyInfo> list = new ArrayList<CompanyInfo>();
-    list.add(getModel());
-    Integer companyId = getModel().getCompanyId();
+    list.add(super.sample);
+    Integer companyId = super.sample.getCompanyId();
     if (companyId == null || "".equals(companyId)) {
       OutputJson(getMessage(companyInfoService.addCompanyInfo(list)), Constants.TEXT_TYPE_PLAIN);
     } else {
@@ -71,23 +69,7 @@ public class CompanyInfoAction extends BaseAction implements ModelDriven<Company
    * 删除companyinfo
    */
   public void delCompanyInfo() {
-    OutputJson(getMessage(companyInfoService.delCompanyInfo(getModel().getCompanyId())));
-  }
-
-  public CompanyInfo getCompanyInfo() {
-    return companyInfo;
-  }
-
-  public void setCompanyInfo(CompanyInfo companyInfo) {
-    this.companyInfo = companyInfo;
-  }
-
-  @Override
-  public CompanyInfo getModel() {
-    if (companyInfo == null) {
-      companyInfo = new CompanyInfo();
-    }
-    return companyInfo;
+    OutputJson(getMessage(companyInfoService.delCompanyInfo(super.sample.getCompanyId())));
   }
 
 }

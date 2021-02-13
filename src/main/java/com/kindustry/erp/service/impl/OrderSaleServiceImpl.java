@@ -8,19 +8,19 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kindustry.erp.dao.PublicDao;
 import com.kindustry.erp.model.OrderSale;
 import com.kindustry.erp.model.OrderSaleLine;
 import com.kindustry.erp.service.OrderSaleService;
 import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.util.PageUtil;
+import com.kindustry.framework.dao.IBaseDao;
 
 @Service("orderSaleService")
 @SuppressWarnings("unchecked")
 public class OrderSaleServiceImpl implements OrderSaleService {
   @SuppressWarnings("rawtypes")
   @Autowired
-  private PublicDao dao;
+  private IBaseDao baseDao;
 
   @Override
   public List<OrderSaleLine> findOrderSaleLineList(Integer orderSaleId) {
@@ -28,7 +28,7 @@ public class OrderSaleServiceImpl implements OrderSaleService {
       return new ArrayList<OrderSaleLine>();
     } else {
       String hql = "from OrderSaleLine t where t.status='A' and t.orderSaleId=" + orderSaleId;
-      return dao.find(hql);
+      return baseDao.find(hql);
     }
   }
 
@@ -37,7 +37,7 @@ public class OrderSaleServiceImpl implements OrderSaleService {
     String hql = "from OrderSale t where t.status='A' ";
     hql += Constants.getSearchConditionsHQL("t", map);
     hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
-    return dao.find(hql, map, pageUtil.getPage(), pageUtil.getRows());
+    return baseDao.find(hql, map, pageUtil.getPage(), pageUtil.getRows());
   }
 
   @Override
@@ -45,24 +45,24 @@ public class OrderSaleServiceImpl implements OrderSaleService {
     String hql = "select count(*) from OrderSale t where t.status='A' ";
     hql += Constants.getSearchConditionsHQL("t", map);
     hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
-    return dao.count(hql, map);
+    return baseDao.count(hql, map);
   }
 
   @Override
   public boolean delOrderSale(Integer orderSaleId) {
     Integer userId = Constants.getCurrendUser().getUserId();
-    OrderSale c = (OrderSale)dao.get(OrderSale.class, orderSaleId);
+    OrderSale c = (OrderSale)baseDao.get(OrderSale.class, orderSaleId);
     c.setLastmod(new Date());
     c.setModifyer(userId);
     c.setStatus(Constants.PERSISTENCE_DELETE_STATUS);
-    dao.deleteToUpdate(c);
+    baseDao.update(c);
     String hql = "from OrderSaleLine t where t.status='A' and t.orderSaleId=" + orderSaleId;
-    List<OrderSaleLine> list = dao.find(hql);
+    List<OrderSaleLine> list = baseDao.find(hql);
     for (OrderSaleLine cus : list) {
       cus.setLastmod(new Date());
       cus.setModifyer(userId);
       cus.setStatus(Constants.PERSISTENCE_DELETE_STATUS);
-      dao.deleteToUpdate(cus);
+      baseDao.update(cus);
     }
     return true;
   }
@@ -76,7 +76,7 @@ public class OrderSaleServiceImpl implements OrderSaleService {
       c.setCreater(userId);
       c.setModifyer(userId);
       c.setStatus(Constants.PERSISTENCE_STATUS);
-      dao.save(c);
+      baseDao.save(c);
       List<OrderSaleLine> addList = map.get("addList");
       if (addList != null && addList.size() != 0) {
         for (OrderSaleLine cus : addList) {
@@ -86,13 +86,13 @@ public class OrderSaleServiceImpl implements OrderSaleService {
           cus.setModifyer(userId);
           cus.setOrderSaleId(c.getOrderSaleId());
           cus.setStatus(Constants.PERSISTENCE_STATUS);
-          dao.save(cus);
+          baseDao.save(cus);
         }
       }
     } else {
       c.setLastmod(new Date());
       c.setModifyer(userId);
-      dao.update(c);
+      baseDao.update(c);
       List<OrderSaleLine> addList = map.get("addList");
       if (addList != null && addList.size() != 0) {
         for (OrderSaleLine cus : addList) {
@@ -102,7 +102,7 @@ public class OrderSaleServiceImpl implements OrderSaleService {
           cus.setModifyer(userId);
           cus.setOrderSaleId(c.getOrderSaleId());
           cus.setStatus(Constants.PERSISTENCE_STATUS);
-          dao.save(cus);
+          baseDao.save(cus);
         }
       }
       List<OrderSaleLine> updList = map.get("updList");
@@ -111,7 +111,7 @@ public class OrderSaleServiceImpl implements OrderSaleService {
           cus.setLastmod(new Date());
           cus.setModifyer(userId);
           cus.setOrderSaleId(c.getOrderSaleId());
-          dao.update(cus);
+          baseDao.update(cus);
         }
       }
       List<OrderSaleLine> delList = map.get("delList");
@@ -121,7 +121,7 @@ public class OrderSaleServiceImpl implements OrderSaleService {
           cus.setModifyer(userId);
           cus.setOrderSaleId(c.getOrderSaleId());
           cus.setStatus(Constants.PERSISTENCE_DELETE_STATUS);
-          dao.deleteToUpdate(cus);
+          baseDao.update(cus);
         }
       }
     }

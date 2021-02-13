@@ -12,7 +12,7 @@ public interface LogsService {
 
   Long getCount(Map<String, Object> params, PageUtil pageUtil);
 
-  boolean delLogs(Integer logId);
+  boolean delLogs(Long logId);
 
   boolean persistenceLogs(Log model);
 

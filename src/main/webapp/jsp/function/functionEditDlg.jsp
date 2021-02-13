@@ -20,11 +20,12 @@
 				return $.formatString('<span class="{0}" style="display:inline-block;vertical-align:middle;width:16px;height:16px;"></span>{1}', v.value, v.value);
 			}
 		});
+	    /*
 		var tempId=$("#tempId").val();
 		if(tempId=="F"){
 			$("#pid").combotree("disable");
 		}
-		
+		*/
 		$("#form").form({
 			url:"function/functionAction!persistenceFunctionDig.action",
 			onSubmit:function(){
@@ -121,7 +122,7 @@
 		<form id="form" method="post">
 			<fieldset>
 				<legend><img src="extend/fromedit.png" style="margin-bottom: -3px;"/> 程式编辑</legend>
-				<input name="permissionId" id="permissionId"  type="hidden"/>
+				<input name="sid" id="permissionId"  type="hidden"/>
 				<input name="created" id="created"  type="hidden"/>
 				<input name="creater" id="creater"  type="hidden"/>
 				<input name="status" id="status"  type="hidden"/>

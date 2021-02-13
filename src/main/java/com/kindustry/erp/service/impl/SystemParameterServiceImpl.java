@@ -10,7 +10,6 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kindustry.erp.dao.PublicDao;
 import com.kindustry.erp.model.Parameter;
 import com.kindustry.erp.service.SystemParameterService;
 import com.kindustry.erp.shiro.ShiroUser;
@@ -18,11 +17,12 @@ import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.view.CheckBoxModel;
 import com.kindustry.erp.view.Options;
 import com.kindustry.erp.view.ParameterModel;
+import com.kindustry.framework.dao.IBaseDao;
 
 @Service("systemParameterService")
 public class SystemParameterServiceImpl implements SystemParameterService {
   @Autowired
-  private PublicDao<Parameter> dao;
+  private IBaseDao<Parameter> baseDao;
 
   @Override
   public boolean persistenceParameter(Map<String, List<Parameter>> map) {
@@ -38,7 +38,7 @@ public class SystemParameterServiceImpl implements SystemParameterService {
         p.setLastmod(new Date());
         p.setModifyer(Constants.getCurrendUser().getUserId());
         p.setStatus(Constants.PERSISTENCE_DELETE_STATUS);
-        dao.deleteToUpdate(p);
+        baseDao.update(p);
       }
     }
     return true;
@@ -53,7 +53,7 @@ public class SystemParameterServiceImpl implements SystemParameterService {
         p.setStatus("A");
         p.setCreater(users.getUserId());
         p.setModifyer(users.getUserId());
-        dao.save(p);
+        baseDao.save(p);
       }
     }
     return true;
@@ -65,7 +65,7 @@ public class SystemParameterServiceImpl implements SystemParameterService {
       for (Parameter p : updlist) {
         p.setLastmod(new Date());
         p.setModifyer(user.getUserId());
-        dao.update(p);
+        baseDao.update(p);
       }
     }
     return true;
@@ -74,7 +74,7 @@ public class SystemParameterServiceImpl implements SystemParameterService {
   @Override
   public List<ParameterModel> findParameterList(String type) {
     String hql = "from Parameter t where t.status='A'";
-    List<Parameter> temp = dao.find(hql);
+    List<Parameter> temp = baseDao.find(hql);
     List<ParameterModel> list2 = new ArrayList<ParameterModel>();
     for (Parameter p : temp) {
       ParameterModel pm = new ParameterModel();

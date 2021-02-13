@@ -45,13 +45,12 @@
         </layout>     
     </appender>   
   
-<!-- 输出到控制台中 -->  
-   <appender name="console" class="org.apache.log4j.ConsoleAppender">  
-        <layout class="org.apache.log4j.PatternLayout">  
-            <param name="ConversionPattern"  
-                value="%d{yyyy-MM-dd HH:mm:ss} %-5p (%c:%L) - %m%n" />  
-        </layout>
-    </appender>  
+  <!-- 输出到控制台中 -->  
+  <appender name="console" class="org.apache.log4j.ConsoleAppender">  
+    <layout class="org.apache.log4j.PatternLayout">  
+        <param name="ConversionPattern"  value="%d{yyyy-MM-dd HH:mm:ss} %-5p (%c:%L) - %m%n" />  
+    </layout>
+  </appender>  
   
 <!-- 	<appender name="EMAIL_QQ" class="org.apache.log4j.net.SMTPAppender">  -->
 <!--        <param name="Threshold" value="INFO"/>  -->
@@ -71,6 +70,23 @@
 <!--            <param name="ConversionPattern" value="[%d{ISO8601}] %-5p %c %m%n"/> -->
 <!--        </layout> -->
 <!--    </appender>  -->
+
+
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" additivity="true">
+        <level value="TRACE" />
+    </logger>
+    
+    <logger name="org.hibernate.type.descriptor.sql.BasicExtractor" additivity="true">
+        <level value="TRACE" />
+    </logger>
+    
+    <logger name="org.hibernate.engine.QueryParameters" additivity="true">
+        <level value="DEBUG" />
+    </logger>
+    
+    <logger name="org.hibernate.engine.query.HQLQueryPlan" additivity="true">
+        <level value="DEBUG" />
+    </logger>
   
  <!-- 设置包限制输出的通道 -->  
   <category name="com.kindustry.erp" additivity="false">  

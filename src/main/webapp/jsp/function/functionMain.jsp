@@ -32,7 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					striped:true,
 					border:true,
 					//singleSelect:false,
-					idField: 'permissionId',
+					idField: 'sid', 
 					treeField: 'name',
 					toolbar:'#tb',
 					frozenColumns:[[
@@ -136,9 +136,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				if(node){
 					parent.$.messager.confirm("提示","确定要删除记录吗?",function(r){  
 					    if (r){  
-					    	$.post("function/functionAction!delFunction.action", {id:node.permissionId}, function(rsp) {
+					    	$.post("function/functionAction!delFunction.action", {'id': node.sid}, function(rsp) {
 								if(rsp.status){
-									$dg.treegrid('remove', node.permissionId);
+									$dg.treegrid('remove', node.sid);
 								}
 								parent.$.messager.show({
 									title : rsp.title,
@@ -287,78 +287,45 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							msg :"操作暂无下层!",
 							timeout : 1000 * 2
 						});
-					}else{
-						parent.$.modalDialog({
-							title : "添加程式",
-							width : 600,
-							height : 400,
-							href : "jsp/function/functionEditDlg.jsp",
-							onLoad:function(){
-								if(row){
-									var f = parent.$.modalDialog.handler.find("#form");
-									f.form("load", {"pid":row.permissionId});
-								}
-							},	
-							buttons : [ {
-								text : '保存',
-								iconCls : 'icon-ok',
-								handler : function() {
-									parent.$.modalDialog.openner= $grid;//因为添加成功之后，需要刷新这个treegrid，所以先预定义好
-									var f = parent.$.modalDialog.handler.find("#form");
-									f.submit();
-								}
-							}, {
-								text : '取消',
-								iconCls : 'icon-cancel',
-								handler : function() {
-									parent.$.modalDialog.handler.dialog('destroy');
-									parent.$.modalDialog.handler = undefined;
-								}
-							}
-							]
-						});
 					}
-				}else{
-					parent.$.modalDialog({
-						title : "添加程式",
-						width : 600,
-						height : 400,
-						href : "jsp/function/functionEditDlg.jsp",
-						onLoad:function(){
-							if(row){
-								var f = parent.$.modalDialog.handler.find("#form");
-								f.form("load", {"pid":row.permissionId});
-							}
-						},	
-						buttons : [ {
-							text : '保存',
-							iconCls : 'icon-ok',
-							handler : function() {
-								parent.$.modalDialog.openner= $grid;//因为添加成功之后，需要刷新这个treegrid，所以先预定义好
-								var f = parent.$.modalDialog.handler.find("#form");
-								f.submit();
-							}
-						}, {
-							text : '取消',
-							iconCls : 'icon-cancel',
-							handler : function() {
-								parent.$.modalDialog.handler.dialog('destroy');
-								parent.$.modalDialog.handler = undefined;
-							}
-						}
-						]
-					});
 				}
+				parent.$.modalDialog({
+					title : "添加程式",
+					width : 600,
+					height : 400,
+					href : "jsp/function/functionEditDlg.jsp",
+					onLoad:function(){
+						if(row){
+							var f = parent.$.modalDialog.handler.find("#form");
+							f.form("load", {"pid":row.sid});
+						}
+					},	
+					buttons : [ {
+						text : '保存',
+						iconCls : 'icon-ok',
+						handler : function() {
+							parent.$.modalDialog.openner= $grid;//因为添加成功之后，需要刷新这个treegrid，所以先预定义好
+							var f = parent.$.modalDialog.handler.find("#form");
+							f.submit();
+						}
+					}, {
+						text : '取消',
+						iconCls : 'icon-cancel',
+						handler : function() {
+							parent.$.modalDialog.handler.dialog('destroy');
+							parent.$.modalDialog.handler = undefined;
+						}
+					}
+					]
+				});
 			}
 		</script>
   </head>
   <body>
   	<div class="well well-small" style="margin-left: 5px;margin-top: 5px">
 				<span class="badge">提示</span>
-				<p>
 					在此你可以对<span class="label-info"><strong>菜单功能</strong></span>进行编辑!  &nbsp;<span class="label-info"><strong>注意</strong></span>操作功能是对菜单功能的操作权限！
 					请谨慎填写程序编码，权限区分标志，请勿重复!
-				</p>
 			</div>
     <div id="tb" style="padding:10px;height:auto">
 			<div style="margin-bottom:5px">

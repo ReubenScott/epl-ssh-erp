@@ -7,21 +7,21 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kindustry.erp.dao.PublicDao;
 import com.kindustry.erp.model.Organization;
 import com.kindustry.erp.service.OrganizationService;
 import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.view.TreeModel;
+import com.kindustry.framework.dao.IBaseDao;
 
 @Service("organizationService")
 public class OrganizationServiceImpl implements OrganizationService {
   @Autowired
-  private PublicDao<Organization> dao;
+  private IBaseDao<Organization> baseDao;
 
   @Override
   public List<TreeModel> findOrganizationList() {
     String hql = "from Organization o where o.status='A' ";
-    List<Organization> templist = dao.find(hql);
+    List<Organization> templist = baseDao.find(hql);
     List<TreeModel> list = new ArrayList<TreeModel>();
     for (Organization o : templist) {
       TreeModel treeModel = new TreeModel();
@@ -43,7 +43,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     } else {
       hql += " and o.pid = " + id;
     }
-    return dao.find(hql);
+    return baseDao.find(hql);
   }
 
   @Override
@@ -56,11 +56,11 @@ public class OrganizationServiceImpl implements OrganizationService {
       o.setCreater(userId);
       o.setModifyer(userId);
       o.setStatus(Constants.PERSISTENCE_STATUS);
-      dao.save(o);
+      baseDao.save(o);
     } else {
       o.setLastmod(new Date());
       o.setModifyer(userId);
-      dao.update(o);
+      baseDao.update(o);
     }
     return true;
   }
@@ -69,15 +69,15 @@ public class OrganizationServiceImpl implements OrganizationService {
   public boolean delOrganization(Integer id) {
     Integer userId = Constants.getCurrendUser().getUserId();
     String hql = "from Organization o where o.status='A' and o.pid=" + id;
-    List<Organization> list = dao.find(hql);
+    List<Organization> list = baseDao.find(hql);
     if (list != null && !list.isEmpty()) {
       return false;
     } else {
-      Organization o = dao.get(Organization.class, id);
+      Organization o = baseDao.get(Organization.class, id);
       o.setStatus(Constants.PERSISTENCE_DELETE_STATUS);
       o.setLastmod(new Date());
       o.setModifyer(userId);
-      dao.deleteToUpdate(o);
+      baseDao.update(o);
       return true;
     }
 

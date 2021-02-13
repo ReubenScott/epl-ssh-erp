@@ -90,6 +90,14 @@ function Login() {
 	var data=$(":input").each(function() {
 		 formData[this.name] =$("#"+this.name ).val();
 	});
+	var $check_boxes = $('input[type=checkbox][name=remember][checked=checked]'); 
+    var $remembers = new Array(); 
+    $check_boxes.each(function(){ 
+    	$remembers.push($(this).val()); 
+    }); 
+    
+	formData['remember'] = $remembers[0];
+	
 	$.ajax({
 		async : false,
 		cache : false,

@@ -29,14 +29,13 @@ import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.util.PageUtil;
 import com.kindustry.erp.util.ResourceUtil;
 import com.kindustry.erp.view.GridModel;
-import com.opensymphony.xwork2.ModelDriven;
+import com.kindustry.framework.action.BaseAction;
 
 @Namespace("/bug")
 @Action("bugAction")
-public class BugAction extends BaseAction implements ModelDriven<Bug> {
+public class BugAction extends BaseAction<Bug> {
   private static final long serialVersionUID = 1130360187782527019L;
 
-  private Bug bug;
   private File filedata;
   private String filedataFileName;
   private String filedataContentType;
@@ -63,14 +62,14 @@ public class BugAction extends BaseAction implements ModelDriven<Bug> {
    * 添加bug
    */
   public void persistenceBug() {
-    OutputJson(getMessage(bugService.persistenceBug(getModel())), Constants.TEXT_TYPE_PLAIN);
+    OutputJson(getMessage(bugService.persistenceBug(super.sample)), Constants.TEXT_TYPE_PLAIN);
   }
 
   /**
    * 删除bug
    */
   public void delBug() {
-    OutputJson(getMessage(bugService.delBug(getModel().getBugId())));
+    OutputJson(getMessage(bugService.delBug(super.sample.getBugId())));
   }
 
   /**
@@ -208,20 +207,6 @@ public class BugAction extends BaseAction implements ModelDriven<Bug> {
 
   public void setFiledataContentType(String filedataContentType) {
     this.filedataContentType = filedataContentType;
-  }
-
-  public Bug getBug() {
-    return bug;
-  }
-
-  public void setBug(Bug bug) {
-    this.bug = bug;
-  }
-
-  @Override
-  public Bug getModel() {
-    if (null == bug) bug = new Bug();
-    return bug;
   }
 
 }

@@ -6,17 +6,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kindustry.erp.dao.PublicDao;
 import com.kindustry.erp.service.LoginService;
 import com.kindustry.erp.shiro.ShiroUser;
 import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.view.MenuModel;
+import com.kindustry.framework.dao.IBaseDao;
 
 @SuppressWarnings("rawtypes")
 @Service("loginService")
 public class LoginServiceImpl implements LoginService {
   @Autowired
-  private PublicDao dao;
+  private IBaseDao baseDao;
 
   @Override
   public List<MenuModel> findMenuList() {
@@ -25,15 +25,15 @@ public class LoginServiceImpl implements LoginService {
     String sql = null;
     // 超级管理员默认拥有所有功能权限
     if (Constants.SYSTEM_ADMINISTRATOR.equals(user.getAccount())) {
-      sql = "SELECT p.PERMISSION_ID,p.PID,p.NAME,p.ICONCLS,p.URL FROM PERMISSION AS p\n" + "where p.STATUS='A' and p.TYPE='F' and p.ISUSED='Y'";
+      sql = "SELECT p.SID,p.PID,p.NAME,p.ICONCLS,p.URL FROM PERMISSION AS p where p.STATUS='A' and p.TYPE='F' and p.ISUSED='Y' order by p.sort asc, p.sid asc";
     } else {
       sql =
-        "SELECT DISTINCT p.PERMISSION_ID,p.PID,p.NAME,p.ICONCLS,p.URL FROM\n" + "ROLE_PERMISSION AS rp\n" + "INNER JOIN ROLE AS r ON rp.ROLE_ID = r.ROLE_ID\n"
+        "SELECT DISTINCT p.SID,p.PID,p.NAME,p.ICONCLS,p.URL FROM\n" + "ROLE_PERMISSION AS rp\n" + "INNER JOIN ROLE AS r ON rp.ROLE_ID = r.ROLE_ID\n"
           + "INNER JOIN USER_ROLE AS ur ON rp.ROLE_ID = ur.ROLE_ID\n" + "INNER JOIN USERS AS u ON u.USER_ID = ur.USER_ID\n"
-          + "INNER JOIN PERMISSION AS p ON rp.PERMISSION_ID = p.PERMISSION_ID\n"
+          + "INNER JOIN PERMISSION AS p ON rp.PERMISSION_ID = p.SID\n"
           + "WHERE rp.STATUS='A' and r.STATUS='A' and ur.STATUS='A' and u.STATUS='A' and p.STATUS='A' and p.TYPE='F' and p.ISUSED='Y'\n" + "and u.USER_ID=" + user.getUserId() + "";
     }
-    List listmenu = dao.findBySQL(sql);
+    List listmenu = baseDao.findBySQL(sql);
     List<MenuModel> parentList = new ArrayList<MenuModel>();
     for (Object object : listmenu) {
       Object[] objs = (Object[])object;

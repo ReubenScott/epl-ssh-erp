@@ -12,17 +12,17 @@ import com.kindustry.erp.service.PermissionAssignmentService;
 import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.view.GridModel;
 import com.kindustry.erp.view.Json;
-import com.opensymphony.xwork2.ModelDriven;
+import com.kindustry.framework.action.BaseAction;
 
 @Namespace("/permission")
 @Action(value = "permissionAssignmentAction")
-public class PermissionAssignmentAction extends BaseAction implements ModelDriven<Role> {
+public class PermissionAssignmentAction extends BaseAction<Role> {
 
   private static final long serialVersionUID = -7213591273339022098L;
 
-  private Role role;
   private Integer id;
   private String checkedIds;
+
   @Autowired
   private PermissionAssignmentService permissionAssignmentService;
 
@@ -50,7 +50,7 @@ public class PermissionAssignmentAction extends BaseAction implements ModelDrive
    * 根据roleid获取权限
    */
   public String getRolePermission() {
-    OutputJson(permissionAssignmentService.getRolePermission(getModel().getRoleId()));
+    OutputJson(permissionAssignmentService.getRolePermission(super.sample.getRoleId()));
     return null;
   }
 
@@ -58,7 +58,7 @@ public class PermissionAssignmentAction extends BaseAction implements ModelDrive
    * 持久化角色
    */
   public String persistenceRoleDlg() {
-    OutputJson(getMessage(permissionAssignmentService.persistenceRole(getModel())), Constants.TEXT_TYPE_PLAIN);
+    OutputJson(getMessage(permissionAssignmentService.persistenceRole(super.sample)), Constants.TEXT_TYPE_PLAIN);
     return null;
   }
 
@@ -67,7 +67,7 @@ public class PermissionAssignmentAction extends BaseAction implements ModelDrive
    */
   public String savePermission() {
     Json json = new Json();
-    if (permissionAssignmentService.savePermission(getModel().getRoleId(), checkedIds)) {
+    if (permissionAssignmentService.savePermission(super.sample.getRoleId(), checkedIds)) {
       json.setStatus(true);
       json.setMessage("分配成功！查看已分配权限请重新登录！");
     } else {
@@ -78,7 +78,7 @@ public class PermissionAssignmentAction extends BaseAction implements ModelDrive
   }
 
   public String delRole() {
-    OutputJson(getMessage(permissionAssignmentService.persistenceRole(getModel().getRoleId())));
+    OutputJson(getMessage(permissionAssignmentService.persistenceRole(super.sample.getRoleId())));
     return null;
   }
 
@@ -101,14 +101,6 @@ public class PermissionAssignmentAction extends BaseAction implements ModelDrive
     return map;
   }
 
-  public Role getRole() {
-    return role;
-  }
-
-  public void setRole(Role role) {
-    this.role = role;
-  }
-
   public Integer getId() {
     return id;
   }
@@ -123,14 +115,6 @@ public class PermissionAssignmentAction extends BaseAction implements ModelDrive
 
   public void setCheckedIds(String checkedIds) {
     this.checkedIds = checkedIds;
-  }
-
-  @Override
-  public Role getModel() {
-    if (role == null) {
-      role = new Role();
-    }
-    return role;
   }
 
 }

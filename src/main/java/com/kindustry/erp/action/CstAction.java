@@ -15,24 +15,15 @@ import com.kindustry.erp.service.CstService;
 import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.util.PageUtil;
 import com.kindustry.erp.view.GridModel;
-import com.opensymphony.xwork2.ModelDriven;
+import com.kindustry.framework.action.BaseAction;
 
 @Namespace("/cst")
 @Action("cstAction")
-public class CstAction extends BaseAction implements ModelDriven<Customer> {
+public class CstAction extends BaseAction<Customer> {
   private static final long serialVersionUID = -2381895232521870960L;
 
-  private Customer customer;
   @Autowired
   private CstService cstService;
-
-  public Customer getCustomer() {
-    return customer;
-  }
-
-  public void setCustomer(Customer customer) {
-    this.customer = customer;
-  }
 
   /**
    * 查询所有客户
@@ -85,20 +76,14 @@ public class CstAction extends BaseAction implements ModelDriven<Customer> {
     if (deleted != null && !"".equals(deleted)) {
       map.put("delList", JSON.parseArray(deleted, CustomerContact.class));
     }
-    OutputJson(getMessage(cstService.persistenceCustomer(getModel(), map)), Constants.TEXT_TYPE_PLAIN);
+    OutputJson(getMessage(cstService.persistenceCustomer(super.sample, map)), Constants.TEXT_TYPE_PLAIN);
   }
 
   /**
    * 删除客户
    */
   public void delCustomer() {
-    OutputJson(getMessage(cstService.delCustomer(getModel().getCustomerId())));
-  }
-
-  @Override
-  public Customer getModel() {
-    if (customer == null) customer = new Customer();
-    return customer;
+    OutputJson(getMessage(cstService.delCustomer(super.sample.getCustomerId())));
   }
 
 }

@@ -13,7 +13,6 @@
 	%>
 	<link rel="stylesheet" type="text/css" href="themes/<%=easyuiThemeName %>/easyui.css">
 	<script type="text/javascript" src="js/xheditor/jquery-1.8.0.min.js"></script>
-	<script type="text/javascript" src="js/xheditor/jquery-1.8.0.min.js"></script>
 	<script type="text/javascript" src="js/xheditor/xheditor-1.1.14-zh-cn.min.js" charset="utf-8"></script>
 	<link rel="stylesheet" type="text/css" href="themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="css/common.css">

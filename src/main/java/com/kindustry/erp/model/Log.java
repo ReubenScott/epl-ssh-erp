@@ -5,8 +5,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -14,56 +12,47 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.kindustry.framework.orm.entity.BaseEntity;
+
 @Entity
 @Table(name = "LOG")
 @DynamicInsert(true)
 @DynamicUpdate(true)
-public class Log implements Serializable {
+public class Log extends BaseEntity implements Serializable {
+
   private static final long serialVersionUID = -6324602935200380329L;
-  private Integer logId;
-  private Integer userId;
-  private String name;
-  private Date logDate;
-  private Integer type;
-  private String mac;
-  private String ip;
-  private Integer objectType;
-  private String objectId;
-  private String eventName;
-  private String eventRecord;
-
-  public Log() {
-    super();
-  }
-
-  public Log(Integer logId, Integer userId, String name, Date logDate, Integer type, String mac, String ip, Integer objectType, String objectId, String eventName,
-    String eventRecord) {
-    super();
-    this.logId = logId;
-    this.userId = userId;
-    this.name = name;
-    this.logDate = logDate;
-    this.type = type;
-    this.mac = mac;
-    this.ip = ip;
-    this.objectType = objectType;
-    this.objectId = objectId;
-    this.eventName = eventName;
-    this.eventRecord = eventRecord;
-  }
-
-  @Id
-  @GeneratedValue
-  @Column(name = "LOG_ID", unique = true, nullable = false)
-  public Integer getLogId() {
-    return logId;
-  }
-
-  public void setLogId(Integer logId) {
-    this.logId = logId;
-  }
 
   @Column(name = "USER_ID")
+  private Integer userId;
+
+  @Column(name = "NAME", length = 20)
+  private String name;
+
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "LOG_DATE", length = 10)
+  private Date logDate;
+
+  @Column(name = "TYPE")
+  private Integer type;
+
+  @Column(name = "MAC", length = 20)
+  private String mac;
+
+  @Column(name = "IP", length = 20)
+  private String ip;
+
+  @Column(name = "OBJECT_TYPE")
+  private Integer objectType;
+
+  @Column(name = "OBJECT_ID", length = 100)
+  private String objectId;
+
+  @Column(name = "EVENT_NAME", length = 100)
+  private String eventName;
+
+  @Column(name = "EVENT_RECORD", length = 500)
+  private String eventRecord;
+
   public Integer getUserId() {
     return userId;
   }
@@ -72,7 +61,6 @@ public class Log implements Serializable {
     this.userId = userId;
   }
 
-  @Column(name = "NAME", length = 20)
   public String getName() {
     return name;
   }
@@ -81,8 +69,6 @@ public class Log implements Serializable {
     this.name = name;
   }
 
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "LOG_DATE", length = 10)
   public Date getLogDate() {
     return logDate;
   }
@@ -91,7 +77,6 @@ public class Log implements Serializable {
     this.logDate = logDate;
   }
 
-  @Column(name = "TYPE")
   public Integer getType() {
     return type;
   }
@@ -100,7 +85,6 @@ public class Log implements Serializable {
     this.type = type;
   }
 
-  @Column(name = "MAC", length = 20)
   public String getMac() {
     return mac;
   }
@@ -109,7 +93,6 @@ public class Log implements Serializable {
     this.mac = mac;
   }
 
-  @Column(name = "IP", length = 20)
   public String getIp() {
     return ip;
   }
@@ -118,7 +101,6 @@ public class Log implements Serializable {
     this.ip = ip;
   }
 
-  @Column(name = "OBJECT_TYPE")
   public Integer getObjectType() {
     return objectType;
   }
@@ -127,7 +109,6 @@ public class Log implements Serializable {
     this.objectType = objectType;
   }
 
-  @Column(name = "OBJECT_ID", length = 100)
   public String getObjectId() {
     return objectId;
   }
@@ -136,7 +117,6 @@ public class Log implements Serializable {
     this.objectId = objectId;
   }
 
-  @Column(name = "EVENT_NAME", length = 100)
   public String getEventName() {
     return eventName;
   }
@@ -145,7 +125,6 @@ public class Log implements Serializable {
     this.eventName = eventName;
   }
 
-  @Column(name = "EVENT_RECORD", length = 500)
   public String getEventRecord() {
     return eventRecord;
   }

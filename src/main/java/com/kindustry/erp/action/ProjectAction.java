@@ -15,22 +15,13 @@ import com.kindustry.erp.service.ProjectService;
 import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.util.PageUtil;
 import com.kindustry.erp.view.GridModel;
-import com.opensymphony.xwork2.ModelDriven;
+import com.kindustry.framework.action.BaseAction;
 
 @Namespace("/project")
 @Action(value = "projectAction")
-public class ProjectAction extends BaseAction implements ModelDriven<Project> {
+public class ProjectAction extends BaseAction<Project> {
   private static final long serialVersionUID = -8785609987685604362L;
   private ProjectService projectService;
-  private Project project;
-
-  public Project getProject() {
-    return project;
-  }
-
-  public void setProject(Project project) {
-    this.project = project;
-  }
 
   @Autowired
   public void setProjectService(ProjectService projectService) {
@@ -63,7 +54,7 @@ public class ProjectAction extends BaseAction implements ModelDriven<Project> {
    * @throws
    */
   public String findProjectFollowsList() throws Exception {
-    OutputJson(projectService.findProjectFollowsList(getModel().getProjectId()));
+    OutputJson(projectService.findProjectFollowsList(super.sample.getProjectId()));
     return null;
   }
 
@@ -126,7 +117,7 @@ public class ProjectAction extends BaseAction implements ModelDriven<Project> {
     if (deleted != null && !"".equals(deleted)) {
       map.put("delList", JSON.parseArray(deleted, ProjectFollow.class));
     }
-    OutputJson(getMessage(projectService.persistenceProject(getModel(), map)), Constants.TEXT_TYPE_PLAIN);
+    OutputJson(getMessage(projectService.persistenceProject(super.sample, map)), Constants.TEXT_TYPE_PLAIN);
     return null;
   }
 
@@ -141,14 +132,8 @@ public class ProjectAction extends BaseAction implements ModelDriven<Project> {
    * @throws
    */
   public String delProject() throws Exception {
-    OutputJson(getMessage(projectService.delProject(getModel().getProjectId())));
+    OutputJson(getMessage(projectService.delProject(super.sample.getProjectId())));
     return null;
   }
 
-  public Project getModel() {
-    if (null == project) {
-      project = new Project();
-    }
-    return project;
-  }
 }

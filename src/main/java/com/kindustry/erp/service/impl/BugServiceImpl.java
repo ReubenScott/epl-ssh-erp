@@ -7,16 +7,16 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kindustry.erp.dao.PublicDao;
 import com.kindustry.erp.model.Bug;
 import com.kindustry.erp.service.BugService;
 import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.util.PageUtil;
+import com.kindustry.framework.dao.IBaseDao;
 
 @Service("bugService")
 public class BugServiceImpl implements BugService {
   @Autowired
-  private PublicDao<Bug> dao;
+  private IBaseDao<Bug> baseDao;
 
   @Override
   public List<Bug> findBugList(Map<String, Object> map, PageUtil pageUtil) {
@@ -24,7 +24,7 @@ public class BugServiceImpl implements BugService {
     hql += Constants.getSearchConditionsHQL("t", map);
     hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
     hql += " order by t.bugId desc ";
-    return dao.find(hql, map, pageUtil.getPage(), pageUtil.getRows());
+    return baseDao.find(hql, map, pageUtil.getPage(), pageUtil.getRows());
   }
 
   @Override
@@ -33,7 +33,7 @@ public class BugServiceImpl implements BugService {
     hql += Constants.getSearchConditionsHQL("t", map);
     hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
     hql += " order by t.bugId desc ";
-    return dao.count(hql, map);
+    return baseDao.count(hql, map);
   }
 
   @Override
@@ -45,22 +45,22 @@ public class BugServiceImpl implements BugService {
       bug.setModifyer(userId);
       bug.setStatus("A");
       bug.setCreater(userId);
-      dao.save(bug);
+      baseDao.save(bug);
     } else {
       bug.setLastmod(new Date());
       bug.setModifyer(userId);
-      dao.update(bug);
+      baseDao.update(bug);
     }
     return true;
   }
 
   @Override
   public boolean delBug(Integer bugId) {
-    Bug bug = dao.get(Bug.class, bugId);
+    Bug bug = baseDao.get(Bug.class, bugId);
     bug.setLastmod(new Date());
     bug.setModifyer(Constants.getCurrendUser().getUserId());
     bug.setStatus(Constants.PERSISTENCE_DELETE_STATUS);
-    dao.deleteToUpdate(bug);
+    baseDao.update(bug);
     return true;
   }
 

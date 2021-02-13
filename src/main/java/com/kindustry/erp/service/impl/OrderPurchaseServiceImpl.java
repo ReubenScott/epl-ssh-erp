@@ -8,26 +8,26 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kindustry.erp.dao.PublicDao;
 import com.kindustry.erp.model.OrderPurchase;
 import com.kindustry.erp.model.OrderPurchaseLine;
 import com.kindustry.erp.service.OrderPurchaseService;
 import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.util.PageUtil;
+import com.kindustry.framework.dao.IBaseDao;
 
 @Service("orderPurchaseService")
 @SuppressWarnings("unchecked")
 public class OrderPurchaseServiceImpl implements OrderPurchaseService {
   @SuppressWarnings("rawtypes")
   @Autowired
-  private PublicDao dao;
+  private IBaseDao baseDao;
 
   @Override
   public List<OrderPurchase> findPurchaseOrderList(Map<String, Object> map, PageUtil pageUtil) {
     String hql = "from OrderPurchase t where t.status='A' ";
     hql += Constants.getSearchConditionsHQL("t", map);
     hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
-    return dao.find(hql, map, pageUtil.getPage(), pageUtil.getRows());
+    return baseDao.find(hql, map, pageUtil.getPage(), pageUtil.getRows());
   }
 
   @Override
@@ -35,24 +35,24 @@ public class OrderPurchaseServiceImpl implements OrderPurchaseService {
     String hql = "select count(*) from OrderPurchase t where t.status='A' ";
     hql += Constants.getSearchConditionsHQL("t", map);
     hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
-    return dao.count(hql, map);
+    return baseDao.count(hql, map);
   }
 
   @Override
   public boolean delOrderPurchase(Integer orderPurchaseId) {
     Integer userId = Constants.getCurrendUser().getUserId();
-    OrderPurchase c = (OrderPurchase)dao.get(OrderPurchase.class, orderPurchaseId);
+    OrderPurchase c = (OrderPurchase)baseDao.get(OrderPurchase.class, orderPurchaseId);
     c.setLastmod(new Date());
     c.setModifyer(userId);
     c.setStatus(Constants.PERSISTENCE_DELETE_STATUS);
-    dao.deleteToUpdate(c);
+    baseDao.update(c);
     String hql = "from OrderPurchaseLine t where t.status='A' and t.orderPurchaseId=" + orderPurchaseId;
-    List<OrderPurchaseLine> list = dao.find(hql);
+    List<OrderPurchaseLine> list = baseDao.find(hql);
     for (OrderPurchaseLine cus : list) {
       cus.setLastmod(new Date());
       cus.setModifyer(userId);
       cus.setStatus(Constants.PERSISTENCE_DELETE_STATUS);
-      dao.deleteToUpdate(cus);
+      baseDao.update(cus);
     }
     return true;
   }
@@ -63,7 +63,7 @@ public class OrderPurchaseServiceImpl implements OrderPurchaseService {
       return new ArrayList<OrderPurchaseLine>();
     } else {
       String hql = "from OrderPurchaseLine t where t.status='A' and t.orderPurchaseId=" + orderPurchaseId;
-      return dao.find(hql);
+      return baseDao.find(hql);
     }
   }
 
@@ -76,7 +76,7 @@ public class OrderPurchaseServiceImpl implements OrderPurchaseService {
       c.setCreater(userId);
       c.setModifyer(userId);
       c.setStatus(Constants.PERSISTENCE_STATUS);
-      dao.save(c);
+      baseDao.save(c);
       List<OrderPurchaseLine> addList = map.get("addList");
       if (addList != null && addList.size() != 0) {
         for (OrderPurchaseLine cus : addList) {
@@ -86,13 +86,13 @@ public class OrderPurchaseServiceImpl implements OrderPurchaseService {
           cus.setModifyer(userId);
           cus.setOrderPurchaseId(c.getOrderPurchaseId());
           cus.setStatus(Constants.PERSISTENCE_STATUS);
-          dao.save(cus);
+          baseDao.save(cus);
         }
       }
     } else {
       c.setLastmod(new Date());
       c.setModifyer(userId);
-      dao.update(c);
+      baseDao.update(c);
       List<OrderPurchaseLine> addList = map.get("addList");
       if (addList != null && addList.size() != 0) {
         for (OrderPurchaseLine cus : addList) {
@@ -102,7 +102,7 @@ public class OrderPurchaseServiceImpl implements OrderPurchaseService {
           cus.setModifyer(userId);
           cus.setOrderPurchaseId(c.getOrderPurchaseId());
           cus.setStatus(Constants.PERSISTENCE_STATUS);
-          dao.save(cus);
+          baseDao.save(cus);
         }
       }
       List<OrderPurchaseLine> updList = map.get("updList");
@@ -111,7 +111,7 @@ public class OrderPurchaseServiceImpl implements OrderPurchaseService {
           cus.setLastmod(new Date());
           cus.setModifyer(userId);
           cus.setOrderPurchaseId(c.getOrderPurchaseId());
-          dao.update(cus);
+          baseDao.update(cus);
         }
       }
       List<OrderPurchaseLine> delList = map.get("delList");
@@ -121,7 +121,7 @@ public class OrderPurchaseServiceImpl implements OrderPurchaseService {
           cus.setModifyer(userId);
           cus.setOrderPurchaseId(c.getOrderPurchaseId());
           cus.setStatus(Constants.PERSISTENCE_DELETE_STATUS);
-          dao.deleteToUpdate(cus);
+          baseDao.update(cus);
         }
       }
     }

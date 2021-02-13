@@ -660,6 +660,9 @@
 	},{
 		value : 'icon-time',
 		text : 'icon-time'
+	},{
+		value : 'icon-sale',
+		text : 'icon-sale'
 	}
 	];
 })(jQuery);

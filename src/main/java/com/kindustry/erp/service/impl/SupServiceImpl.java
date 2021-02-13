@@ -8,26 +8,26 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kindustry.erp.dao.PublicDao;
 import com.kindustry.erp.model.Suplier;
 import com.kindustry.erp.model.SuplierContact;
 import com.kindustry.erp.service.SupService;
 import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.util.PageUtil;
+import com.kindustry.framework.dao.IBaseDao;
 
 @Service("supService")
 @SuppressWarnings("unchecked")
 public class SupServiceImpl implements SupService {
   @SuppressWarnings("rawtypes")
   @Autowired
-  private PublicDao dao;
+  private IBaseDao baseDao;
 
   @Override
   public List<Suplier> findSuplierList(Map<String, Object> map, PageUtil pageUtil) {
     String hql = "from Suplier t where t.status='A'";
     hql += Constants.getSearchConditionsHQL("t", map);
     hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
-    return dao.find(hql, map, pageUtil.getPage(), pageUtil.getRows());
+    return baseDao.find(hql, map, pageUtil.getPage(), pageUtil.getRows());
   }
 
   @Override
@@ -35,24 +35,24 @@ public class SupServiceImpl implements SupService {
     String hql = "select count(*) from Suplier t where t.status='A' ";
     hql += Constants.getSearchConditionsHQL("t", map);
     hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
-    return dao.count(hql, map);
+    return baseDao.count(hql, map);
   }
 
   @Override
   public boolean delSuplier(Integer suplierId) {
     Integer userId = Constants.getCurrendUser().getUserId();
-    Suplier c = (Suplier)dao.get(Suplier.class, suplierId);
+    Suplier c = (Suplier)baseDao.get(Suplier.class, suplierId);
     c.setLastmod(new Date());
     c.setModifiyer(userId);
     c.setStatus(Constants.PERSISTENCE_DELETE_STATUS);
-    dao.deleteToUpdate(c);
+    baseDao.update(c);
     String hql = "from SuplierContact t where t.status='A' and t.suplierId=" + suplierId;
-    List<SuplierContact> list = dao.find(hql);
+    List<SuplierContact> list = baseDao.find(hql);
     for (SuplierContact cus : list) {
       cus.setLastmod(new Date());
       cus.setModifyer(userId);
       cus.setStatus(Constants.PERSISTENCE_DELETE_STATUS);
-      dao.deleteToUpdate(cus);
+      baseDao.update(cus);
     }
     return true;
   }
@@ -66,7 +66,7 @@ public class SupServiceImpl implements SupService {
       c.setCreater(userId);
       c.setModifiyer(userId);
       c.setStatus(Constants.PERSISTENCE_STATUS);
-      dao.save(c);
+      baseDao.save(c);
       List<SuplierContact> addList = map.get("addList");
       if (addList != null && addList.size() != 0) {
         for (SuplierContact cus : addList) {
@@ -76,13 +76,13 @@ public class SupServiceImpl implements SupService {
           cus.setModifyer(userId);
           cus.setSuplierId(c.getSuplierId());
           cus.setStatus(Constants.PERSISTENCE_STATUS);
-          dao.save(cus);
+          baseDao.save(cus);
         }
       }
     } else {
       c.setLastmod(new Date());
       c.setModifiyer(userId);
-      dao.update(c);
+      baseDao.update(c);
       List<SuplierContact> addList = map.get("addList");
       if (addList != null && addList.size() != 0) {
         for (SuplierContact cus : addList) {
@@ -92,7 +92,7 @@ public class SupServiceImpl implements SupService {
           cus.setModifyer(userId);
           cus.setSuplierId(c.getSuplierId());
           cus.setStatus(Constants.PERSISTENCE_STATUS);
-          dao.save(cus);
+          baseDao.save(cus);
         }
       }
       List<SuplierContact> updList = map.get("updList");
@@ -101,7 +101,7 @@ public class SupServiceImpl implements SupService {
           cus.setLastmod(new Date());
           cus.setModifyer(userId);
           cus.setSuplierId(c.getSuplierId());
-          dao.update(cus);
+          baseDao.update(cus);
         }
       }
       List<SuplierContact> delList = map.get("delList");
@@ -111,7 +111,7 @@ public class SupServiceImpl implements SupService {
           cus.setModifyer(userId);
           cus.setSuplierId(c.getSuplierId());
           cus.setStatus(Constants.PERSISTENCE_DELETE_STATUS);
-          dao.deleteToUpdate(cus);
+          baseDao.update(cus);
         }
       }
     }
@@ -124,7 +124,7 @@ public class SupServiceImpl implements SupService {
       return new ArrayList<SuplierContact>();
     } else {
       String hql = "from SuplierContact t where t.status='A' and t.suplierId=" + suplierId;
-      return dao.find(hql);
+      return baseDao.find(hql);
     }
   }
 
@@ -133,7 +133,7 @@ public class SupServiceImpl implements SupService {
     String hql = "from Suplier t where t.status='A'";
     hql += Constants.getSearchConditionsHQL("t", map);
     hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
-    return dao.find(hql, map);
+    return baseDao.find(hql, map);
   }
 
 }

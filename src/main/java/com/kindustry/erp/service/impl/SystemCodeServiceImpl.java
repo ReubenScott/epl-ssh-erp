@@ -7,16 +7,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kindustry.erp.dao.PublicDao;
 import com.kindustry.erp.model.SystemCode;
 import com.kindustry.erp.service.SystemCodeService;
 import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.view.TreeModel;
+import com.kindustry.framework.dao.IBaseDao;
 
 @Service("systemCodeService")
 public class SystemCodeServiceImpl implements SystemCodeService {
   @Autowired
-  private PublicDao<SystemCode> dao;
+  private IBaseDao<SystemCode> baseDao;
 
   @Override
   public List<SystemCode> findSystemCodeList(Integer id) {
@@ -26,13 +26,13 @@ public class SystemCodeServiceImpl implements SystemCodeService {
     } else {
       hql += " and t.parentId=" + id;
     }
-    return dao.find(hql);
+    return baseDao.find(hql);
   }
 
   @Override
   public List<TreeModel> findSystemCodeList() {
     String hql = "from SystemCode t where t.status='A' ";
-    List<SystemCode> list = dao.find(hql);
+    List<SystemCode> list = baseDao.find(hql);
     List<TreeModel> tempList = new ArrayList<TreeModel>();
     for (SystemCode s : list) {
       TreeModel treeModel = new TreeModel();
@@ -64,15 +64,15 @@ public class SystemCodeServiceImpl implements SystemCodeService {
         systemCode.setState(Constants.TREE_STATUS_OPEN);
       } else {
         // 存在父级
-        SystemCode code = dao.get(SystemCode.class, pid);
+        SystemCode code = baseDao.get(SystemCode.class, pid);
         if (!"closed".equals(code.getState())) {
           code.setState("closed");
-          dao.update(code);
+          baseDao.update(code);
         }
         systemCode.setState(Constants.TREE_STATUS_OPEN);
       }
       String hql = " from SystemCode t where t.status='A' and t.type='M' and t.permissionId=" + systemCode.getPermissionId();
-      List<SystemCode> list = dao.find(hql);
+      List<SystemCode> list = baseDao.find(hql);
       if (list != null && !list.isEmpty()) {
         if (pid == null || "".equals(pid)) {
           SystemCode sysc = list.get(0);
@@ -91,14 +91,14 @@ public class SystemCodeServiceImpl implements SystemCodeService {
         ss.setState(Constants.TREE_STATUS_CLOSED);
         ss.setIconCls(temp[1]);
         ss.setType("M");
-        dao.save(ss);
+        baseDao.save(ss);
         systemCode.setParentId(ss.getCodeId());
       }
-      dao.save(systemCode);
+      baseDao.save(systemCode);
     } else {
       systemCode.setLastmod(new Date());
       systemCode.setModifyer(userId);
-      dao.update(systemCode);
+      baseDao.update(systemCode);
     }
     return true;
   }
@@ -106,16 +106,16 @@ public class SystemCodeServiceImpl implements SystemCodeService {
   @Override
   public boolean delSystemCode(Integer codeId) {
     String hql = "from SystemCode t where t.status='A' and t.parentId=" + codeId;
-    List<SystemCode> list = dao.find(hql);
+    List<SystemCode> list = baseDao.find(hql);
     if (list != null && !list.isEmpty()) {
       return false;
     } else {
       Integer userId = Constants.getCurrendUser().getUserId();
-      SystemCode s = dao.get(SystemCode.class, codeId);
+      SystemCode s = baseDao.get(SystemCode.class, codeId);
       s.setLastmod(new Date());
       s.setModifyer(userId);
       s.setStatus(Constants.PERSISTENCE_DELETE_STATUS);
-      dao.deleteToUpdate(s);
+      baseDao.update(s);
       return true;
     }
   }
@@ -123,11 +123,11 @@ public class SystemCodeServiceImpl implements SystemCodeService {
   @Override
   public List<SystemCode> findSystemCodeByType(String codeMyId) {
     String hql = "from SystemCode t where t.status='A' and t.type='D' and t.codeMyid='" + codeMyId + "'";
-    List<SystemCode> list = dao.find(hql);
+    List<SystemCode> list = baseDao.find(hql);
     if (list.size() == 1) {
       SystemCode ss = list.get(0);
       String hql2 = "from SystemCode t where t.status='A' and t.parentId=" + ss.getCodeId();
-      return dao.find(hql2);
+      return baseDao.find(hql2);
     }
     return null;
   }

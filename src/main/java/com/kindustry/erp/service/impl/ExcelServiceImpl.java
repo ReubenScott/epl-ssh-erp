@@ -6,14 +6,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kindustry.erp.dao.PublicDao;
 import com.kindustry.erp.service.ExcelService;
+import com.kindustry.framework.dao.IBaseDao;
 
 @Service("excelService")
 public class ExcelServiceImpl implements ExcelService {
   @SuppressWarnings("rawtypes")
   @Autowired
-  private PublicDao dao;
+  private IBaseDao baseDao;
 
   @SuppressWarnings("unchecked")
   @Override
@@ -21,7 +21,7 @@ public class ExcelServiceImpl implements ExcelService {
     List<T> list = new ArrayList<T>();
     String[] ids = isCheckedIds.split(",");
     for (String id : ids) {
-      list.add((T)dao.get(clazz, Integer.valueOf(id)));
+      list.add((T)baseDao.get(clazz, Integer.valueOf(id)));
     }
     return list;
   }

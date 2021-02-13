@@ -22,13 +22,35 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicInsert(true)
 public class RolePermission implements java.io.Serializable {
   private static final long serialVersionUID = 1167900432405270755L;
+
+  @Id
+  @GeneratedValue
+  @Column(name = "ID", unique = true, nullable = false)
   private Integer id;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "ROLE_ID", nullable = false)
   private Role role;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "PERMISSION_ID", nullable = false)
   private Permission permission;
+
+  @Column(name = "STATUS", length = 1)
   private String status;
+
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "CREATED", length = 10)
   private Date created;
+
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "LASTMOD", length = 10)
   private Date lastmod;
+
+  @Column(name = "CREATER")
   private Integer creater;
+
+  @Column(name = "MODIFYER")
   private Integer modifyer;
 
   // Constructors
@@ -54,9 +76,6 @@ public class RolePermission implements java.io.Serializable {
   }
 
   // Property accessors
-  @Id
-  @GeneratedValue
-  @Column(name = "ID", unique = true, nullable = false)
   public Integer getId() {
     return this.id;
   }
@@ -65,8 +84,6 @@ public class RolePermission implements java.io.Serializable {
     this.id = id;
   }
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "ROLE_ID", nullable = false)
   public Role getRole() {
     return this.role;
   }
@@ -75,8 +92,6 @@ public class RolePermission implements java.io.Serializable {
     this.role = role;
   }
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "PERMISSION_ID", nullable = false)
   public Permission getPermission() {
     return this.permission;
   }
@@ -85,7 +100,6 @@ public class RolePermission implements java.io.Serializable {
     this.permission = permission;
   }
 
-  @Column(name = "STATUS", length = 1)
   public String getStatus() {
     return this.status;
   }
@@ -94,8 +108,6 @@ public class RolePermission implements java.io.Serializable {
     this.status = status;
   }
 
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "CREATED", length = 10)
   public Date getCreated() {
     return this.created;
   }
@@ -104,8 +116,6 @@ public class RolePermission implements java.io.Serializable {
     this.created = created;
   }
 
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "LASTMOD", length = 10)
   public Date getLastmod() {
     return this.lastmod;
   }
@@ -114,7 +124,6 @@ public class RolePermission implements java.io.Serializable {
     this.lastmod = lastmod;
   }
 
-  @Column(name = "CREATER")
   public Integer getCreater() {
     return this.creater;
   }
@@ -123,7 +132,6 @@ public class RolePermission implements java.io.Serializable {
     this.creater = creater;
   }
 
-  @Column(name = "MODIFYER")
   public Integer getModifyer() {
     return this.modifyer;
   }

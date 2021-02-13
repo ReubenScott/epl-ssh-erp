@@ -20,16 +20,15 @@ import com.kindustry.erp.util.PageUtil;
 import com.kindustry.erp.util.ZipUtils;
 import com.kindustry.erp.view.GridModel;
 import com.kindustry.erp.view.Json;
-import com.opensymphony.xwork2.ModelDriven;
+import com.kindustry.framework.action.BaseAction;
 
 @Namespace("/dbBackUp")
 @Action("dbBackUpAction")
-public class DbBackUpAction extends BaseAction implements ModelDriven<BackupScheduleConfig> {
+public class DbBackUpAction extends BaseAction<BackupScheduleConfig> {
   private static final long serialVersionUID = -4388039240342955491L;
   private String fileName;
   @Autowired
   private DbBackUpService dbBackUpService;
-  private BackupScheduleConfig backupScheduleConfig;
 
   public String getFileName() {
     return fileName;
@@ -37,22 +36,6 @@ public class DbBackUpAction extends BaseAction implements ModelDriven<BackupSche
 
   public void setFileName(String fileName) {
     this.fileName = fileName;
-  }
-
-  public BackupScheduleConfig getBackupScheduleConfig() {
-    return backupScheduleConfig;
-  }
-
-  public void setBackupScheduleConfig(BackupScheduleConfig backupScheduleConfig) {
-    this.backupScheduleConfig = backupScheduleConfig;
-  }
-
-  @Override
-  public BackupScheduleConfig getModel() {
-    if (backupScheduleConfig == null) {
-      backupScheduleConfig = new BackupScheduleConfig();
-    }
-    return backupScheduleConfig;
   }
 
   /**
@@ -131,7 +114,7 @@ public class DbBackUpAction extends BaseAction implements ModelDriven<BackupSche
    */
   public void schedule() {
     dbBackUpService.unSchedule();
-    String msg = dbBackUpService.schedule(getModel().getScheduleHour(), getModel().getScheduleMinute(), "Y");
+    String msg = dbBackUpService.schedule(super.sample.getScheduleHour(), super.sample.getScheduleMinute(), "Y");
     Json json = new Json();
     json.setTitle("提示");
     json.setStatus(true);

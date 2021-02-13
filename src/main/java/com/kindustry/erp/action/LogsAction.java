@@ -12,14 +12,13 @@ import com.kindustry.erp.service.LogsService;
 import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.util.PageUtil;
 import com.kindustry.erp.view.GridModel;
-import com.opensymphony.xwork2.ModelDriven;
+import com.kindustry.framework.action.BaseAction;
 
 @Namespace("/logs")
 @Action(value = "logsAction")
-public class LogsAction extends BaseAction implements ModelDriven<Log> {
+public class LogsAction extends BaseAction<Log> {
   private static final long serialVersionUID = 4149928264423089262L;
 
-  private Log log;
   @Autowired
   private LogsService logsService;
 
@@ -43,7 +42,7 @@ public class LogsAction extends BaseAction implements ModelDriven<Log> {
    * 删除日志
    */
   public String delLogs() {
-    OutputJson(getMessage(logsService.delLogs(getModel().getLogId())));
+    OutputJson(getMessage(logsService.delLogs(super.sample.getSid())));
     return null;
   }
 
@@ -51,22 +50,8 @@ public class LogsAction extends BaseAction implements ModelDriven<Log> {
    * 持久化日志弹窗
    */
   public String persistenceLogs() {
-    OutputJson(getMessage(logsService.persistenceLogs(getModel())), Constants.TEXT_TYPE_PLAIN);
+    OutputJson(getMessage(logsService.persistenceLogs(super.sample)), Constants.TEXT_TYPE_PLAIN);
     return null;
-  }
-
-  public Log getLog() {
-    return log;
-  }
-
-  public void setLog(Log log) {
-    this.log = log;
-  }
-
-  @Override
-  public Log getModel() {
-    if (null == log) log = new Log();
-    return log;
   }
 
 }

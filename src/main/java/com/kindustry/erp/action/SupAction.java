@@ -15,31 +15,14 @@ import com.kindustry.erp.service.SupService;
 import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.util.PageUtil;
 import com.kindustry.erp.view.GridModel;
-import com.opensymphony.xwork2.ModelDriven;
+import com.kindustry.framework.action.BaseAction;
 
 @Namespace("/sup")
 @Action("supAction")
-public class SupAction extends BaseAction implements ModelDriven<Suplier> {
+public class SupAction extends BaseAction<Suplier> {
   private static final long serialVersionUID = 5557229007665414931L;
   @Autowired
   private SupService supService;
-  private Suplier suplier;
-
-  public Suplier getSuplier() {
-    return suplier;
-  }
-
-  public void setSuplier(Suplier suplier) {
-    this.suplier = suplier;
-  }
-
-  @Override
-  public Suplier getModel() {
-    if (suplier == null) {
-      suplier = new Suplier();
-    }
-    return suplier;
-  }
 
   /**
    * 查询所有客户列表
@@ -75,7 +58,7 @@ public class SupAction extends BaseAction implements ModelDriven<Suplier> {
    * 删除Suplier
    */
   public void delSuplier() {
-    OutputJson(getMessage(supService.delSuplier(getModel().getSuplierId())));
+    OutputJson(getMessage(supService.delSuplier(super.sample.getSuplierId())));
   }
 
   /**
@@ -92,7 +75,7 @@ public class SupAction extends BaseAction implements ModelDriven<Suplier> {
     if (deleted != null && !"".equals(deleted)) {
       map.put("delList", JSON.parseArray(deleted, SuplierContact.class));
     }
-    OutputJson(getMessage(supService.persistenceSuplier(getModel(), map)), Constants.TEXT_TYPE_PLAIN);
+    OutputJson(getMessage(supService.persistenceSuplier(super.sample, map)), Constants.TEXT_TYPE_PLAIN);
   }
 
   /**
@@ -100,7 +83,7 @@ public class SupAction extends BaseAction implements ModelDriven<Suplier> {
    */
   public void findSuplierContactList() {
     GridModel gridModel = new GridModel();
-    gridModel.setRows(supService.findSuplierContactList(getModel().getSuplierId()));
+    gridModel.setRows(supService.findSuplierContactList(super.sample.getSuplierId()));
     gridModel.setTotal(null);
     OutputJson(gridModel);
   }
@@ -109,6 +92,6 @@ public class SupAction extends BaseAction implements ModelDriven<Suplier> {
    * 查询供应商联系人下拉框格式
    */
   public void findSuplierContactListCombobox() {
-    OutputJson(supService.findSuplierContactList(getModel().getSuplierId()));
+    OutputJson(supService.findSuplierContactList(super.sample.getSuplierId()));
   }
 }

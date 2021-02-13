@@ -12,16 +12,15 @@ import com.kindustry.erp.service.ItemService;
 import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.util.PageUtil;
 import com.kindustry.erp.view.GridModel;
-import com.opensymphony.xwork2.ModelDriven;
+import com.kindustry.framework.action.BaseAction;
 
 @Namespace("/item")
 @Action("itemAction")
-public class ItemAction extends BaseAction implements ModelDriven<Item> {
+public class ItemAction extends BaseAction<Item> {
   private static final long serialVersionUID = 1L;
   @Autowired
   private ItemService itemService;
 
-  private Item item;
   private Integer suplierId;
 
   public Integer getSuplierId() {
@@ -30,14 +29,6 @@ public class ItemAction extends BaseAction implements ModelDriven<Item> {
 
   public void setSuplierId(Integer suplierId) {
     this.suplierId = suplierId;
-  }
-
-  public Item getItem() {
-    return item;
-  }
-
-  public void setItem(Item item) {
-    this.item = item;
   }
 
   /**
@@ -66,34 +57,28 @@ public class ItemAction extends BaseAction implements ModelDriven<Item> {
    * 持久化item
    */
   public void persistenceItem() {
-    OutputJson(getMessage(itemService.persistenceItem(getModel())), Constants.TEXT_TYPE_PLAIN);
+    OutputJson(getMessage(itemService.persistenceItem(super.sample)), Constants.TEXT_TYPE_PLAIN);
   }
 
   /**
    * 添加品牌
    */
   public void addBrands() {
-    OutputJson(getMessage(itemService.addBrands(getModel().getName())));
+    OutputJson(getMessage(itemService.addBrands(super.sample.getName())));
   }
 
   /**
    * 删除
    */
   public void delItem() {
-    OutputJson(getMessage(itemService.delItem(getModel().getItemId())));
+    OutputJson(getMessage(itemService.delItem(super.sample.getItemId())));
   }
 
   /**
    * 根据myid查询商品
    */
   public void findItemByMyid() {
-    OutputJson(itemService.findItemByMyid(getModel().getMyid(), suplierId));
-  }
-
-  @Override
-  public Item getModel() {
-    if (item == null) item = new Item();
-    return item;
+    OutputJson(itemService.findItemByMyid(super.sample.getMyid(), suplierId));
   }
 
 }

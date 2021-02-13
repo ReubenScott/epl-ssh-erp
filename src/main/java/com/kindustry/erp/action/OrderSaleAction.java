@@ -15,38 +15,22 @@ import com.kindustry.erp.service.OrderSaleService;
 import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.util.PageUtil;
 import com.kindustry.erp.view.GridModel;
-import com.opensymphony.xwork2.ModelDriven;
+import com.kindustry.framework.action.BaseAction;
 
 @Namespace("/orderSale")
 @Action("orderSaleAction")
-public class OrderSaleAction extends BaseAction implements ModelDriven<OrderSale> {
+public class OrderSaleAction extends BaseAction<OrderSale> {
   private static final long serialVersionUID = -8602771960595933874L;
 
   @Autowired
   private OrderSaleService orderSaleService;
-
-  private OrderSale orderSale;
-
-  public OrderSale getOrderSale() {
-    return orderSale;
-  }
-
-  public void setOrderSale(OrderSale orderSale) {
-    this.orderSale = orderSale;
-  }
-
-  @Override
-  public OrderSale getModel() {
-    if (null == orderSale) orderSale = new OrderSale();
-    return orderSale;
-  }
 
   /**
    * 查询客户订单明细
    */
   public void findOrderSaleLineList() {
     GridModel gridModel = new GridModel();
-    gridModel.setRows(orderSaleService.findOrderSaleLineList(getModel().getOrderSaleId()));
+    gridModel.setRows(orderSaleService.findOrderSaleLineList(super.sample.getOrderSaleId()));
     gridModel.setTotal(null);
     OutputJson(gridModel);
   }
@@ -72,7 +56,7 @@ public class OrderSaleAction extends BaseAction implements ModelDriven<OrderSale
    * @return
    */
   public void delOrderSale() {
-    OutputJson(getMessage(orderSaleService.delOrderSale(getModel().getOrderSaleId())));
+    OutputJson(getMessage(orderSaleService.delOrderSale(super.sample.getOrderSaleId())));
   }
 
   /**
@@ -89,7 +73,7 @@ public class OrderSaleAction extends BaseAction implements ModelDriven<OrderSale
     if (deleted != null && !"".equals(deleted)) {
       map.put("delList", JSON.parseArray(deleted, OrderSaleLine.class));
     }
-    OutputJson(getMessage(orderSaleService.persistenceOrderSale(getModel(), map)), Constants.TEXT_TYPE_PLAIN);
+    OutputJson(getMessage(orderSaleService.persistenceOrderSale(super.sample, map)), Constants.TEXT_TYPE_PLAIN);
   }
 
 }

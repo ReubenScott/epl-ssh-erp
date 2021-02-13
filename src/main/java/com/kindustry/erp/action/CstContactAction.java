@@ -7,31 +7,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.kindustry.erp.model.CustomerContact;
 import com.kindustry.erp.service.CstContactService;
 import com.kindustry.erp.view.GridModel;
-import com.opensymphony.xwork2.ModelDriven;
+import com.kindustry.framework.action.BaseAction;
 
 @Namespace("/cstContact")
 @Action("cstContactAction")
-public class CstContactAction extends BaseAction implements ModelDriven<CustomerContact> {
+public class CstContactAction extends BaseAction<CustomerContact> {
+
   private static final long serialVersionUID = -8181101456238148341L;
+
   @Autowired
   private CstContactService cstContactService;
-
-  private CustomerContact customerContact;
-
-  public CustomerContact getCustomerContact() {
-    return customerContact;
-  }
-
-  public void setCustomerContact(CustomerContact customerContact) {
-    this.customerContact = customerContact;
-  }
 
   /**
    * 查询客户联系人
    */
   public void findCustomerContactList() {
     GridModel gridModel = new GridModel();
-    gridModel.setRows(cstContactService.findCustomerContactList(getModel().getCustomerId()));
+    gridModel.setRows(cstContactService.findCustomerContactList(super.sample.getCustomerId()));
     gridModel.setTotal(null);
     OutputJson(gridModel);
   }
@@ -40,13 +32,7 @@ public class CstContactAction extends BaseAction implements ModelDriven<Customer
    * 查询客户联系人
    */
   public void findCustomerContactListCombobox() {
-    OutputJson(cstContactService.findCustomerContactList(getModel().getCustomerId()));
-  }
-
-  @Override
-  public CustomerContact getModel() {
-    if (customerContact == null) customerContact = new CustomerContact();
-    return customerContact;
+    OutputJson(cstContactService.findCustomerContactList(super.sample.getCustomerId()));
   }
 
 }

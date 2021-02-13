@@ -10,13 +10,13 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kindustry.erp.dao.PublicDao;
 import com.kindustry.erp.model.Permission;
 import com.kindustry.erp.model.Role;
 import com.kindustry.erp.model.RolePermission;
 import com.kindustry.erp.service.PermissionAssignmentService;
 import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.view.TreeGrid;
+import com.kindustry.framework.dao.IBaseDao;
 
 @SuppressWarnings("unchecked")
 @Service("permissionAssignmentService")
@@ -24,16 +24,16 @@ public class PermissionAssignmentServiceImpl implements PermissionAssignmentServ
 
   @SuppressWarnings("rawtypes")
   @Autowired
-  private PublicDao dao;
+  private IBaseDao baseDao;
 
   @Override
   public List<TreeGrid> findAllFunctionsList(Integer id) {
     String hql = "from Permission t where t.status='A' ";
-    List<Permission> list = dao.find(hql);
+    List<Permission> list = baseDao.find(hql);
     List<TreeGrid> templist = new ArrayList<TreeGrid>();
     for (Permission permission : list) {
       TreeGrid treeGridModel = new TreeGrid();
-      treeGridModel.setId(String.valueOf(permission.getPermissionId()));
+      treeGridModel.setId(String.valueOf(permission.getSid()));
       if (permission.getPid() != null) {
         treeGridModel.setState("open");
       }
@@ -58,9 +58,9 @@ public class PermissionAssignmentServiceImpl implements PermissionAssignmentServ
     hql += Constants.getSearchConditionsHQL("t", map);
     List<Role> templist = null;
     if (b) {
-      templist = dao.find(hql, map, page, rows);
+      templist = baseDao.find(hql, map, page, rows);
     } else {
-      templist = dao.find(hql, map);
+      templist = baseDao.find(hql, map);
     }
     for (Role role : templist) {
       role.setRolePermissions(null);
@@ -73,22 +73,22 @@ public class PermissionAssignmentServiceImpl implements PermissionAssignmentServ
   public Long getCount(Map<String, Object> map) {
     String hql = "select count(*) from Role t where t.status='A' ";
     hql += Constants.getSearchConditionsHQL("t", map);
-    return dao.count(hql, map);
+    return baseDao.count(hql, map);
   }
 
   public Permission getFunction(Integer id) {
-    return (Permission)dao.get(Permission.class, id);
+    return (Permission)baseDao.get(Permission.class, id);
   }
 
   @Override
   public List<Permission> getRolePermission(Integer roleId) {
     String sql = "SELECT t.PERMISSION_ID FROM ROLE_PERMISSION t WHERE t.STATUS = 'A' and t.ROLE_ID=" + roleId;
-    List<Integer> list = dao.findBySQL(sql);
+    List<Long> list = baseDao.findBySQL(sql);
     List<Permission> templist = new ArrayList<Permission>();
     if (list != null && !list.isEmpty()) {
-      for (Integer i : list) {
+      for (Long i : list) {
         Permission permission = new Permission();
-        permission.setPermissionId(i);
+        permission.setSid(i);
         templist.add(permission);
       }
     }
@@ -104,11 +104,11 @@ public class PermissionAssignmentServiceImpl implements PermissionAssignmentServ
       r.setCreater(userId);
       r.setModifyer(userId);
       r.setStatus(Constants.PERSISTENCE_STATUS);
-      dao.save(r);
+      baseDao.save(r);
     } else {
       r.setLastmod(new Date());
       r.setModifyer(userId);
-      dao.update(r);
+      baseDao.update(r);
     }
     return true;
   }
@@ -116,11 +116,11 @@ public class PermissionAssignmentServiceImpl implements PermissionAssignmentServ
   @Override
   public boolean savePermission(Integer roleId, String checkedIds) {
     Integer userId = Constants.getCurrendUser().getUserId();
-    Role role = (Role)dao.get(Role.class, roleId);
+    Role role = (Role)baseDao.get(Role.class, roleId);
     Map<String, RolePermission> map = new HashMap<String, RolePermission>();
     Set<RolePermission> rolePermissions = role.getRolePermissions();
     for (RolePermission rolePermission : rolePermissions) {
-      Integer permissionId = rolePermission.getPermission().getPermissionId();
+      Long permissionId = rolePermission.getPermission().getSid();
       map.put(permissionId.toString(), rolePermission);
       updRolePermission(userId, rolePermission, Constants.PERSISTENCE_DELETE_STATUS);
     }
@@ -141,7 +141,7 @@ public class PermissionAssignmentServiceImpl implements PermissionAssignmentServ
           rolePermission.setModifyer(userId);
           rolePermission.setPermission(function);
           rolePermission.setRole(role);
-          dao.save(rolePermission);
+          baseDao.save(rolePermission);
         }
       }
     }
@@ -151,11 +151,11 @@ public class PermissionAssignmentServiceImpl implements PermissionAssignmentServ
   @Override
   public boolean persistenceRole(Integer roleId) {
     Integer userId = Constants.getCurrendUser().getUserId();
-    Role role = (Role)dao.get(Role.class, roleId);
+    Role role = (Role)baseDao.get(Role.class, roleId);
     role.setLastmod(new Date());
     role.setModifyer(userId);
     role.setStatus(Constants.PERSISTENCE_DELETE_STATUS);
-    dao.deleteToUpdate(role);
+    baseDao.update(role);
     return true;
   }
 
@@ -164,7 +164,7 @@ public class PermissionAssignmentServiceImpl implements PermissionAssignmentServ
     rolePermission.setCreater(userId);
     rolePermission.setModifyer(userId);
     rolePermission.setStatus(satus);
-    dao.update(rolePermission);
+    baseDao.update(rolePermission);
   }
 
 }
