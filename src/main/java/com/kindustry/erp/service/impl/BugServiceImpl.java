@@ -35,7 +35,6 @@ public class BugServiceImpl extends BaseServiceImpl implements BugService {
     String hql = "select count(*) from Bug t where t.status='A' ";
     hql += BaseUtil.getSearchConditionsHQL("t", map);
     hql += BaseUtil.getGradeSearchConditionsHQL("t", pageUtil);
-    hql += " order by t.bugId desc ";
     return baseDao.count(hql, map);
   }
 
