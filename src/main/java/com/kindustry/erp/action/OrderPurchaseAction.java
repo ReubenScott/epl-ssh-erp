@@ -9,13 +9,13 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.OrderPurchase;
 import com.kindustry.erp.model.OrderPurchaseLine;
 import com.kindustry.erp.service.OrderPurchaseService;
-import com.kindustry.erp.util.Constants;
-import com.kindustry.erp.util.PageUtil;
 import com.kindustry.erp.view.GridModel;
 import com.kindustry.framework.action.BaseAction;
+import com.kindustry.util.PageUtil;
 
 @Namespace("/orderPurchase")
 @Action(value = "orderPurchaseAction")
@@ -33,18 +33,18 @@ public class OrderPurchaseAction extends BaseAction<OrderPurchase> {
     GridModel gridModel = new GridModel();
     gridModel.setRows(orderPurchaseService.findPurchaseOrderList(map, pageUtil));
     gridModel.setTotal(orderPurchaseService.getCount(map, pageUtil));
-    OutputJson(gridModel);
+    outputJson(gridModel);
   }
 
   public void findPurchaseOrderLineList() {
     GridModel gridModel = new GridModel();
     gridModel.setRows(orderPurchaseService.findPurchaseOrderLineList(super.sample.getOrderPurchaseId()));
     gridModel.setTotal(null);
-    OutputJson(gridModel);
+    outputJson(gridModel);
   }
 
   public void delOrderPurchase() {
-    OutputJson(getMessage(orderPurchaseService.delOrderPurchase(super.sample.getOrderPurchaseId())));
+    outputJson(getMessage(orderPurchaseService.delOrderPurchase(super.sample.getOrderPurchaseId())));
   }
 
   /**
@@ -61,7 +61,7 @@ public class OrderPurchaseAction extends BaseAction<OrderPurchase> {
     if (deleted != null && !"".equals(deleted)) {
       map.put("delList", JSON.parseArray(deleted, OrderPurchaseLine.class));
     }
-    OutputJson(getMessage(orderPurchaseService.persistenceOrderPurchase(super.sample, map)), Constants.TEXT_TYPE_PLAIN);
+    outputJson(getMessage(orderPurchaseService.persistenceOrderPurchase(super.sample, map)), Constants.TEXT_TYPE_PLAIN);
   }
 
 }

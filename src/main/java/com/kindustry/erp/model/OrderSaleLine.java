@@ -36,8 +36,8 @@ public class OrderSaleLine implements java.io.Serializable {
   private Date created;
   private Date lastmod;
   private String status;
-  private Integer creater;
-  private Integer modifyer;
+  private String creater;
+  private String modifyer;
   private Double price;
   private Double tax;
   private Double priceTax;
@@ -52,36 +52,6 @@ public class OrderSaleLine implements java.io.Serializable {
 
   /** default constructor */
   public OrderSaleLine() {}
-
-  /** full constructor */
-  public OrderSaleLine(Integer orderSaleId, Integer itemId, String myid, String itemName, String spec, String unit, Integer brandId, String brandName, Integer orderQty,
-    String description, Date created, Date lastmod, String status, Integer creater, Integer modifyer, Double price, Double tax, Double priceTax, Double amount, Double taxAmount,
-    Double priceTaxAmount, Integer taxNo, Integer factQty, Double discountNo) {
-    this.orderSaleId = orderSaleId;
-    this.itemId = itemId;
-    this.myid = myid;
-    this.itemName = itemName;
-    this.spec = spec;
-    this.unit = unit;
-    this.brandId = brandId;
-    this.brandName = brandName;
-    this.orderQty = orderQty;
-    this.description = description;
-    this.created = created;
-    this.lastmod = lastmod;
-    this.status = status;
-    this.creater = creater;
-    this.modifyer = modifyer;
-    this.price = price;
-    this.tax = tax;
-    this.priceTax = priceTax;
-    this.amount = amount;
-    this.taxAmount = taxAmount;
-    this.priceTaxAmount = priceTaxAmount;
-    this.taxNo = taxNo;
-    this.factQty = factQty;
-    this.discountNo = discountNo;
-  }
 
   // Property accessors
   @Id
@@ -215,20 +185,20 @@ public class OrderSaleLine implements java.io.Serializable {
   }
 
   @Column(name = "CREATER")
-  public Integer getCreater() {
+  public String getCreater() {
     return this.creater;
   }
 
-  public void setCreater(Integer creater) {
+  public void setCreater(String creater) {
     this.creater = creater;
   }
 
   @Column(name = "MODIFYER")
-  public Integer getModifyer() {
+  public String getModifyer() {
     return this.modifyer;
   }
 
-  public void setModifyer(Integer modifyer) {
+  public void setModifyer(String modifyer) {
     this.modifyer = modifyer;
   }
 

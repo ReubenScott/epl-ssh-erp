@@ -7,18 +7,20 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.Customer;
 import com.kindustry.erp.model.Project;
 import com.kindustry.erp.model.ProjectFollow;
 import com.kindustry.erp.service.ProjectService;
-import com.kindustry.erp.util.Constants;
-import com.kindustry.erp.util.PageUtil;
 import com.kindustry.framework.dao.IBaseDao;
+import com.kindustry.framework.service.impl.BaseServiceImpl;
+import com.kindustry.util.BaseUtil;
+import com.kindustry.util.PageUtil;
 
 @Service("projectService")
 @SuppressWarnings("unchecked")
-public class ProjectServiceImpl implements ProjectService {
-  @SuppressWarnings("rawtypes")
+public class ProjectServiceImpl extends BaseServiceImpl implements ProjectService {
+
   @Autowired
   private IBaseDao baseDao;
 
@@ -43,22 +45,22 @@ public class ProjectServiceImpl implements ProjectService {
   @Override
   public List<Project> findProjectList(Map<String, Object> map, PageUtil pageUtil) {
     String hql = "from Project t where t.status='A'";
-    hql += Constants.getSearchConditionsHQL("t", map);
-    hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
+    hql += BaseUtil.getSearchConditionsHQL("t", map);
+    hql += BaseUtil.getGradeSearchConditionsHQL("t", pageUtil);
     return baseDao.find(hql, map, pageUtil.getPage(), pageUtil.getRows());
   }
 
   @Override
   public Long getCount(Map<String, Object> param, PageUtil pageUtil) {
     String hql = "select count(*) from Project t where t.status='A' ";
-    hql += Constants.getSearchConditionsHQL("t", param);
-    hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
+    hql += BaseUtil.getSearchConditionsHQL("t", param);
+    hql += BaseUtil.getGradeSearchConditionsHQL("t", pageUtil);
     return baseDao.count(hql, param);
   }
 
   @Override
   public boolean persistenceProject(Project p, Map<String, List<ProjectFollow>> map) {
-    Integer userId = Constants.getCurrendUser().getUserId();
+    String userId = super.getCurrendUser().getUserId();
     if (p.getProjectId() == null || "".equals(p.getProjectId())) {
       p.setCreated(new Date());
       p.setLastmod(new Date());
@@ -120,7 +122,7 @@ public class ProjectServiceImpl implements ProjectService {
 
   @Override
   public boolean delProject(Integer projectId) {
-    Integer userId = Constants.getCurrendUser().getUserId();
+    String userId = super.getCurrendUser().getUserId();
     Project i = (Project)baseDao.get(Project.class, projectId);
     i.setLastmod(new Date());
     i.setModifyer(userId);

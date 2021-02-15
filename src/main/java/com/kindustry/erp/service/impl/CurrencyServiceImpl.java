@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 import com.kindustry.erp.model.Currency;
 import com.kindustry.erp.service.CurrencyService;
 import com.kindustry.framework.dao.IBaseDao;
+import com.kindustry.framework.service.impl.BaseServiceImpl;
 
 @Service("currencyService")
-public class CurrencyServiceImpl implements CurrencyService {
+public class CurrencyServiceImpl extends BaseServiceImpl implements CurrencyService {
+
   @Autowired
   private IBaseDao<Currency> baseDao;
 

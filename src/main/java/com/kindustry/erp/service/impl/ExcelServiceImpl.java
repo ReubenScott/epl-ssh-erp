@@ -8,10 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.kindustry.erp.service.ExcelService;
 import com.kindustry.framework.dao.IBaseDao;
+import com.kindustry.framework.service.impl.BaseServiceImpl;
 
 @Service("excelService")
-public class ExcelServiceImpl implements ExcelService {
-  @SuppressWarnings("rawtypes")
+public class ExcelServiceImpl extends BaseServiceImpl implements ExcelService {
+
   @Autowired
   private IBaseDao baseDao;
 

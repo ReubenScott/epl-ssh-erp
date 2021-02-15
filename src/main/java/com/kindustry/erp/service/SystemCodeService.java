@@ -13,7 +13,7 @@ public interface SystemCodeService {
 
   boolean persistenceSystemCodeDig(SystemCode model, String permissionName, Integer codePid);
 
-  boolean delSystemCode(Integer codeId);
+  boolean delSystemCode(String codeId);
 
   List<SystemCode> findSystemCodeByType(String myId);
 

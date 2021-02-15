@@ -10,12 +10,12 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.CompanyInfo;
 import com.kindustry.erp.service.CompanyInfoService;
-import com.kindustry.erp.util.Constants;
-import com.kindustry.erp.util.PageUtil;
 import com.kindustry.erp.view.GridModel;
 import com.kindustry.framework.action.BaseAction;
+import com.kindustry.util.PageUtil;
 
 @Namespace("/companyInfo")
 @Action("companyInfoAction")
@@ -37,7 +37,7 @@ public class CompanyInfoAction extends BaseAction<CompanyInfo> {
     GridModel gridModel = new GridModel();
     gridModel.setRows(companyInfoService.findAllCompanyInfoList(map, pageUtil));
     gridModel.setTotal(companyInfoService.getCount(map, pageUtil));
-    OutputJson(gridModel);
+    outputJson(gridModel);
   }
 
   /**
@@ -48,7 +48,7 @@ public class CompanyInfoAction extends BaseAction<CompanyInfo> {
     map.put("addList", JSON.parseArray(inserted, CompanyInfo.class));
     map.put("updList", JSON.parseArray(updated, CompanyInfo.class));
     map.put("delList", JSON.parseArray(deleted, CompanyInfo.class));
-    OutputJson(getMessage(companyInfoService.persistenceCompanyInfo(map)));
+    outputJson(getMessage(companyInfoService.persistenceCompanyInfo(map)));
   }
 
   /**
@@ -59,9 +59,9 @@ public class CompanyInfoAction extends BaseAction<CompanyInfo> {
     list.add(super.sample);
     Integer companyId = super.sample.getCompanyId();
     if (companyId == null || "".equals(companyId)) {
-      OutputJson(getMessage(companyInfoService.addCompanyInfo(list)), Constants.TEXT_TYPE_PLAIN);
+      outputJson(getMessage(companyInfoService.addCompanyInfo(list)), Constants.TEXT_TYPE_PLAIN);
     } else {
-      OutputJson(getMessage(companyInfoService.updCompanyInfo(list)), Constants.TEXT_TYPE_PLAIN);
+      outputJson(getMessage(companyInfoService.updCompanyInfo(list)), Constants.TEXT_TYPE_PLAIN);
     }
   }
 
@@ -69,7 +69,7 @@ public class CompanyInfoAction extends BaseAction<CompanyInfo> {
    * 删除companyinfo
    */
   public void delCompanyInfo() {
-    OutputJson(getMessage(companyInfoService.delCompanyInfo(super.sample.getCompanyId())));
+    outputJson(getMessage(companyInfoService.delCompanyInfo(super.sample.getCompanyId())));
   }
 
 }

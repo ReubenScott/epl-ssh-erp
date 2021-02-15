@@ -34,26 +34,13 @@ public class Parameter implements java.io.Serializable {
   private String editor;
   private Date created;
   private Date lastmod;
-  private Integer creater;
-  private Integer modifyer;
+  private String creater;
+  private String modifyer;
 
   // Constructors
 
   /** default constructor */
   public Parameter() {}
-
-  /** full constructor */
-  public Parameter(String myid, String name, String value, String description, String status, Date created, Date lastmod, Integer creater, Integer modifyer) {
-    this.myid = myid;
-    this.name = name;
-    this.value = value;
-    this.description = description;
-    this.status = status;
-    this.created = created;
-    this.lastmod = lastmod;
-    this.creater = creater;
-    this.modifyer = modifyer;
-  }
 
   // Property accessors
   @Id
@@ -169,20 +156,20 @@ public class Parameter implements java.io.Serializable {
   }
 
   @Column(name = "CREATER")
-  public Integer getCreater() {
+  public String getCreater() {
     return this.creater;
   }
 
-  public void setCreater(Integer creater) {
+  public void setCreater(String creater) {
     this.creater = creater;
   }
 
   @Column(name = "MODIFYER")
-  public Integer getModifyer() {
+  public String getModifyer() {
     return this.modifyer;
   }
 
-  public void setModifyer(Integer modifyer) {
+  public void setModifyer(String modifyer) {
     this.modifyer = modifyer;
   }
 

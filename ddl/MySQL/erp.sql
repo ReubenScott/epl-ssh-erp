@@ -575,7 +575,7 @@ CREATE TABLE `location` (
 -- ----------------------------
 DROP TABLE IF EXISTS `log`;
 CREATE TABLE `log` (
-  `LOG_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '日志自动生成ID',
+  `SID` int(11) NOT NULL AUTO_INCREMENT COMMENT '日志自动生成ID',
   `USER_ID` int(11) DEFAULT NULL COMMENT '操作用户ID',
   `NAME` varchar(20) DEFAULT NULL COMMENT '操作用户名称',
   `LOG_DATE` datetime DEFAULT NULL COMMENT '日志生成时间',
@@ -586,7 +586,7 @@ CREATE TABLE `log` (
   `OBJECT_ID` varchar(100) DEFAULT NULL COMMENT '操作事件写入权限编码，系统事件写入系统编码',
   `EVENT_NAME` varchar(100) DEFAULT NULL COMMENT '事件名称',
   `EVENT_RECORD` varchar(500) DEFAULT NULL COMMENT '详细描述',
-  PRIMARY KEY (`LOG_ID`),
+  PRIMARY KEY (`SID`),
   KEY `FK_LOG1` (`USER_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1314 DEFAULT CHARSET=utf8 COMMENT='日录资料表';
 

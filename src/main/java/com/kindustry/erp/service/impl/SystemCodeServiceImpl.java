@@ -7,20 +7,22 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.SystemCode;
 import com.kindustry.erp.service.SystemCodeService;
-import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.view.TreeModel;
 import com.kindustry.framework.dao.IBaseDao;
+import com.kindustry.framework.service.impl.BaseServiceImpl;
 
 @Service("systemCodeService")
-public class SystemCodeServiceImpl implements SystemCodeService {
+public class SystemCodeServiceImpl extends BaseServiceImpl implements SystemCodeService {
+
   @Autowired
   private IBaseDao<SystemCode> baseDao;
 
   @Override
   public List<SystemCode> findSystemCodeList(Integer id) {
-    String hql = "from SystemCode t where t.status='A' ";
+    String hql = "from SystemCode t where t.state='A' ";
     if (null == id || "".equals(id)) {
       hql += " and t.parentId is null";
     } else {
@@ -31,7 +33,7 @@ public class SystemCodeServiceImpl implements SystemCodeService {
 
   @Override
   public List<TreeModel> findSystemCodeList() {
-    String hql = "from SystemCode t where t.status='A' ";
+    String hql = "from SystemCode t where t.state='A' ";
     List<SystemCode> list = baseDao.find(hql);
     List<TreeModel> tempList = new ArrayList<TreeModel>();
     for (SystemCode s : list) {
@@ -40,7 +42,7 @@ public class SystemCodeServiceImpl implements SystemCodeService {
       treeModel.setPid(s.getParentId() == null ? "" : s.getParentId().toString());
       treeModel.setName(s.getName());
       treeModel.setIconCls(s.getIconCls());
-      treeModel.setState("open");
+      treeModel.setStatus("open");
       treeModel.setPermissionId(s.getPermissionId());
       tempList.add(treeModel);
     }
@@ -49,9 +51,9 @@ public class SystemCodeServiceImpl implements SystemCodeService {
 
   @Override
   public boolean persistenceSystemCodeDig(SystemCode systemCode, String permissionName, Integer codePid) {
-    Integer userId = Constants.getCurrendUser().getUserId();
-    Integer pid = systemCode.getParentId();
-    Integer codeId = systemCode.getCodeId();
+    String userId = super.getCurrendUser().getUserId();
+    String pid = systemCode.getParentId();
+    String codeId = systemCode.getCodeId();
     if (null == codeId || "".equals(codeId)) {
       systemCode.setCreated(new Date());
       systemCode.setLastmod(new Date());
@@ -71,7 +73,7 @@ public class SystemCodeServiceImpl implements SystemCodeService {
         }
         systemCode.setState(Constants.TREE_STATUS_OPEN);
       }
-      String hql = " from SystemCode t where t.status='A' and t.type='M' and t.permissionId=" + systemCode.getPermissionId();
+      String hql = " from SystemCode t where t.state='A' and t.type='M' and t.permissionId=" + systemCode.getPermissionId();
       List<SystemCode> list = baseDao.find(hql);
       if (list != null && !list.isEmpty()) {
         if (pid == null || "".equals(pid)) {
@@ -104,13 +106,13 @@ public class SystemCodeServiceImpl implements SystemCodeService {
   }
 
   @Override
-  public boolean delSystemCode(Integer codeId) {
-    String hql = "from SystemCode t where t.status='A' and t.parentId=" + codeId;
+  public boolean delSystemCode(String codeId) {
+    String hql = "from SystemCode t where t.state='A' and t.parentId=" + codeId;
     List<SystemCode> list = baseDao.find(hql);
     if (list != null && !list.isEmpty()) {
       return false;
     } else {
-      Integer userId = Constants.getCurrendUser().getUserId();
+      String userId = super.getCurrendUser().getUserId();
       SystemCode s = baseDao.get(SystemCode.class, codeId);
       s.setLastmod(new Date());
       s.setModifyer(userId);
@@ -122,11 +124,11 @@ public class SystemCodeServiceImpl implements SystemCodeService {
 
   @Override
   public List<SystemCode> findSystemCodeByType(String codeMyId) {
-    String hql = "from SystemCode t where t.status='A' and t.type='D' and t.codeMyid='" + codeMyId + "'";
+    String hql = "from SystemCode t where t.state='A' and t.type='D' and t.codeMyid='" + codeMyId + "'";
     List<SystemCode> list = baseDao.find(hql);
     if (list.size() == 1) {
       SystemCode ss = list.get(0);
-      String hql2 = "from SystemCode t where t.status='A' and t.parentId=" + ss.getCodeId();
+      String hql2 = "from SystemCode t where t.state='A' and t.parentId=" + ss.getCodeId();
       return baseDao.find(hql2);
     }
     return null;

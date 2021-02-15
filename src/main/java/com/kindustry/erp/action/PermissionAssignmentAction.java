@@ -7,9 +7,9 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.Role;
 import com.kindustry.erp.service.PermissionAssignmentService;
-import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.view.GridModel;
 import com.kindustry.erp.view.Json;
 import com.kindustry.framework.action.BaseAction;
@@ -30,7 +30,7 @@ public class PermissionAssignmentAction extends BaseAction<Role> {
    * 按节点查询所有程式
    */
   public String findAllFunctionList() {
-    OutputJson(permissionAssignmentService.findAllFunctionsList(id));
+    outputJson(permissionAssignmentService.findAllFunctionsList(id));
     return null;
   }
 
@@ -42,7 +42,7 @@ public class PermissionAssignmentAction extends BaseAction<Role> {
     GridModel gridModel = new GridModel();
     gridModel.setRows(permissionAssignmentService.findAllRoleList(map, page, rows, true));
     gridModel.setTotal(permissionAssignmentService.getCount(map));
-    OutputJson(gridModel);
+    outputJson(gridModel);
     return null;
   }
 
@@ -50,7 +50,7 @@ public class PermissionAssignmentAction extends BaseAction<Role> {
    * 根据roleid获取权限
    */
   public String getRolePermission() {
-    OutputJson(permissionAssignmentService.getRolePermission(super.sample.getRoleId()));
+    outputJson(permissionAssignmentService.getRolePermission(super.sample.getRoleId()));
     return null;
   }
 
@@ -58,7 +58,7 @@ public class PermissionAssignmentAction extends BaseAction<Role> {
    * 持久化角色
    */
   public String persistenceRoleDlg() {
-    OutputJson(getMessage(permissionAssignmentService.persistenceRole(super.sample)), Constants.TEXT_TYPE_PLAIN);
+    outputJson(getMessage(permissionAssignmentService.persistenceRole(super.sample)), Constants.TEXT_TYPE_PLAIN);
     return null;
   }
 
@@ -73,12 +73,12 @@ public class PermissionAssignmentAction extends BaseAction<Role> {
     } else {
       json.setMessage("分配失败！");
     }
-    OutputJson(json);
+    outputJson(json);
     return null;
   }
 
   public String delRole() {
-    OutputJson(getMessage(permissionAssignmentService.persistenceRole(super.sample.getRoleId())));
+    outputJson(getMessage(permissionAssignmentService.persistenceRole(super.sample.getRoleId())));
     return null;
   }
 
@@ -89,7 +89,7 @@ public class PermissionAssignmentAction extends BaseAction<Role> {
     Map<String, Object> map = searchRole();
     GridModel gridModel = new GridModel();
     gridModel.setRows(permissionAssignmentService.findAllRoleList(map, null, null, false));
-    OutputJson(gridModel);
+    outputJson(gridModel);
     return null;
   }
 

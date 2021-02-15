@@ -27,23 +27,12 @@ public class Brand implements java.io.Serializable {
   private Date created;
   private Date lastmod;
   private String status;
-  private Integer creater;
-  private Integer modifyer;
+  private String creater;
+  private String modifyer;
 
   // Constructors
 
   /** default constructor */
-  public Brand() {}
-
-  /** full constructor */
-  public Brand(String name, Date created, Date lastmod, String status, Integer creater, Integer modifyer) {
-    this.name = name;
-    this.created = created;
-    this.lastmod = lastmod;
-    this.status = status;
-    this.creater = creater;
-    this.modifyer = modifyer;
-  }
 
   // Property accessors
   @Id
@@ -96,20 +85,20 @@ public class Brand implements java.io.Serializable {
   }
 
   @Column(name = "CREATER")
-  public Integer getCreater() {
+  public String getCreater() {
     return this.creater;
   }
 
-  public void setCreater(Integer creater) {
+  public void setCreater(String creater) {
     this.creater = creater;
   }
 
   @Column(name = "MODIFYER")
-  public Integer getModifyer() {
+  public String getModifyer() {
     return this.modifyer;
   }
 
-  public void setModifyer(Integer modifyer) {
+  public void setModifyer(String modifyer) {
     this.modifyer = modifyer;
   }
 

@@ -9,13 +9,13 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.OrderSale;
 import com.kindustry.erp.model.OrderSaleLine;
 import com.kindustry.erp.service.OrderSaleService;
-import com.kindustry.erp.util.Constants;
-import com.kindustry.erp.util.PageUtil;
 import com.kindustry.erp.view.GridModel;
 import com.kindustry.framework.action.BaseAction;
+import com.kindustry.util.PageUtil;
 
 @Namespace("/orderSale")
 @Action("orderSaleAction")
@@ -32,7 +32,7 @@ public class OrderSaleAction extends BaseAction<OrderSale> {
     GridModel gridModel = new GridModel();
     gridModel.setRows(orderSaleService.findOrderSaleLineList(super.sample.getOrderSaleId()));
     gridModel.setTotal(null);
-    OutputJson(gridModel);
+    outputJson(gridModel);
   }
 
   /**
@@ -47,7 +47,7 @@ public class OrderSaleAction extends BaseAction<OrderSale> {
     GridModel gridModel = new GridModel();
     gridModel.setRows(orderSaleService.findOrderSaleList(map, pageUtil));
     gridModel.setTotal(orderSaleService.getCount(map, pageUtil));
-    OutputJson(gridModel);
+    outputJson(gridModel);
   }
 
   /**
@@ -56,7 +56,7 @@ public class OrderSaleAction extends BaseAction<OrderSale> {
    * @return
    */
   public void delOrderSale() {
-    OutputJson(getMessage(orderSaleService.delOrderSale(super.sample.getOrderSaleId())));
+    outputJson(getMessage(orderSaleService.delOrderSale(super.sample.getOrderSaleId())));
   }
 
   /**
@@ -73,7 +73,7 @@ public class OrderSaleAction extends BaseAction<OrderSale> {
     if (deleted != null && !"".equals(deleted)) {
       map.put("delList", JSON.parseArray(deleted, OrderSaleLine.class));
     }
-    OutputJson(getMessage(orderSaleService.persistenceOrderSale(super.sample, map)), Constants.TEXT_TYPE_PLAIN);
+    outputJson(getMessage(orderSaleService.persistenceOrderSale(super.sample, map)), Constants.TEXT_TYPE_PLAIN);
   }
 
 }

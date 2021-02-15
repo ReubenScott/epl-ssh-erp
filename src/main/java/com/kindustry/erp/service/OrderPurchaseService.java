@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.kindustry.erp.model.OrderPurchase;
 import com.kindustry.erp.model.OrderPurchaseLine;
-import com.kindustry.erp.util.PageUtil;
+import com.kindustry.util.PageUtil;
 
 public interface OrderPurchaseService {
 

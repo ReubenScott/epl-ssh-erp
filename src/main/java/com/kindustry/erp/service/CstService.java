@@ -5,8 +5,8 @@ import java.util.Map;
 
 import com.kindustry.erp.model.Customer;
 import com.kindustry.erp.model.CustomerContact;
-import com.kindustry.erp.util.PageUtil;
 import com.kindustry.erp.view.TreeModel;
+import com.kindustry.util.PageUtil;
 
 public interface CstService {
 
@@ -18,6 +18,6 @@ public interface CstService {
 
   boolean persistenceCustomer(Customer model, Map<String, List<CustomerContact>> map);
 
-  boolean delCustomer(Integer customerId);
+  boolean delCustomer(String customerId);
 
 }

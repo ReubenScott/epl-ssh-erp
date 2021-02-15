@@ -6,6 +6,6 @@ import com.kindustry.erp.model.CustomerContact;
 
 public interface CstContactService {
 
-  List<CustomerContact> findCustomerContactList(Integer customerId);
+  List<CustomerContact> findCustomerContactList(String customerId);
 
 }

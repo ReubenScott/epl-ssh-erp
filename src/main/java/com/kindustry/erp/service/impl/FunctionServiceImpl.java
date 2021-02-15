@@ -11,22 +11,24 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.Permission;
 import com.kindustry.erp.service.FunctionService;
-import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.view.TreeGridModel;
 import com.kindustry.erp.view.TreeModel;
 import com.kindustry.framework.dao.IBaseDao;
+import com.kindustry.framework.service.impl.BaseServiceImpl;
 
 @Service("functionService")
-public class FunctionServiceImpl implements FunctionService {
+public class FunctionServiceImpl extends BaseServiceImpl implements FunctionService {
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
   @Autowired
   private IBaseDao<Permission> baseDao;
 
   @Override
   public List<TreeGridModel> findAllFunctionList(Long pid) {
-    String hql = "from Permission t where t.status='A'";
+    String hql = "from Permission t where t.state='A'";
     if (pid == null) {
       hql += " and t.pid is null";
     } else {
@@ -53,7 +55,7 @@ public class FunctionServiceImpl implements FunctionService {
 
   @Override
   public List<TreeModel> findAllFunctionList() {
-    String hql = "from Permission t where t.status='A' and t.type='F' order by t.sort asc, t.sid asc ";
+    String hql = "from Permission t where t.state='A' and t.type='F' order by t.sort asc, t.sid asc ";
     List<Permission> list = baseDao.find(hql);
     List<TreeModel> templist = new ArrayList<TreeModel>();
     for (Permission function : list) {
@@ -62,7 +64,7 @@ public class FunctionServiceImpl implements FunctionService {
       treeModel.setPid(function.getPid() == null ? "" : function.getPid().toString());
       treeModel.setName(function.getName());
       treeModel.setIconCls(function.getIconCls());
-      treeModel.setState(Constants.TREE_STATUS_OPEN);
+      treeModel.setStatus(Constants.TREE_STATUS_OPEN);
       templist.add(treeModel);
     }
     return templist;
@@ -71,7 +73,7 @@ public class FunctionServiceImpl implements FunctionService {
   @Override
   public boolean persistenceFunction(List<Permission> list) {
     logger.debug("f");
-    Integer userId = Constants.getCurrendUser().getUserId();
+    String userId = super.getCurrendUser().getUserId();
     for (Permission function : list) {
       function.setLastmod(new Date());
       function.setModifyer(userId);
@@ -90,7 +92,7 @@ public class FunctionServiceImpl implements FunctionService {
 
   @Override
   public boolean persistenceFunction(Permission permission) {
-    Integer userId = Constants.getCurrendUser().getUserId();
+    String userId = super.getCurrendUser().getUserId();
     // permission为空就创建
     if (null == permission.getSid() || "".equals(permission.getSid())) {
       permission.setCreated(new Date());
@@ -99,16 +101,16 @@ public class FunctionServiceImpl implements FunctionService {
       permission.setModifyer(userId);
       permission.setStatus(Constants.PERSISTENCE_STATUS);
       if (Constants.IS_FUNCTION.equals(permission.getType())) {
-        permission.setState(Constants.TREE_STATUS_CLOSED);
+        permission.setStatus(Constants.TREE_STATUS_CLOSED);
       } else {
-        permission.setState(Constants.TREE_STATUS_OPEN);
+        permission.setStatus(Constants.TREE_STATUS_OPEN);
       }
       baseDao.save(permission);
     } else {
       if (Constants.IS_FUNCTION.equals(permission.getType())) {
-        permission.setState(Constants.TREE_STATUS_CLOSED);
+        permission.setStatus(Constants.TREE_STATUS_CLOSED);
       } else {
-        permission.setState(Constants.TREE_STATUS_OPEN);
+        permission.setStatus(Constants.TREE_STATUS_OPEN);
       }
       permission.setLastmod(new Date());
       permission.setModifyer(userId);
@@ -119,7 +121,7 @@ public class FunctionServiceImpl implements FunctionService {
 
   @Override
   public boolean delFunction(Long sid) {
-    String hql = "from Permission t where t.status='A' and t.pid=" + sid;
+    String hql = "from Permission t where t.state='A' and t.pid=" + sid;
     List<Permission> list = baseDao.find(hql);
     if (list != null && !list.isEmpty()) {
       return false;
@@ -127,7 +129,7 @@ public class FunctionServiceImpl implements FunctionService {
       Permission function = baseDao.get(Permission.class, sid);
       function.setStatus(Constants.PERSISTENCE_DELETE_STATUS);
       function.setLastmod(new Date());
-      function.setModifyer(Constants.getCurrendUser().getUserId());
+      function.setModifyer(super.getCurrendUser().getUserId());
       baseDao.update(function);
       return true;
     }

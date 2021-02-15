@@ -10,17 +10,19 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.Parameter;
 import com.kindustry.erp.service.SystemParameterService;
 import com.kindustry.erp.shiro.ShiroUser;
-import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.view.CheckBoxModel;
 import com.kindustry.erp.view.Options;
 import com.kindustry.erp.view.ParameterModel;
 import com.kindustry.framework.dao.IBaseDao;
+import com.kindustry.framework.service.impl.BaseServiceImpl;
 
 @Service("systemParameterService")
-public class SystemParameterServiceImpl implements SystemParameterService {
+public class SystemParameterServiceImpl extends BaseServiceImpl implements SystemParameterService {
+
   @Autowired
   private IBaseDao<Parameter> baseDao;
 
@@ -36,7 +38,7 @@ public class SystemParameterServiceImpl implements SystemParameterService {
     if (delList != null && !delList.isEmpty()) {
       for (Parameter p : delList) {
         p.setLastmod(new Date());
-        p.setModifyer(Constants.getCurrendUser().getUserId());
+        p.setModifyer(super.getCurrendUser().getUserId());
         p.setStatus(Constants.PERSISTENCE_DELETE_STATUS);
         baseDao.update(p);
       }
@@ -46,7 +48,7 @@ public class SystemParameterServiceImpl implements SystemParameterService {
 
   private boolean addParameter(List<Parameter> addlist) {
     if (addlist != null && !addlist.isEmpty()) {
-      ShiroUser users = Constants.getCurrendUser();
+      ShiroUser users = super.getCurrendUser();
       for (Parameter p : addlist) {
         p.setCreated(new Date());
         p.setLastmod(new Date());
@@ -61,7 +63,7 @@ public class SystemParameterServiceImpl implements SystemParameterService {
 
   private boolean updParameter(List<Parameter> updlist) {
     if (updlist != null && !updlist.isEmpty()) {
-      ShiroUser user = Constants.getCurrendUser();
+      ShiroUser user = super.getCurrendUser();
       for (Parameter p : updlist) {
         p.setLastmod(new Date());
         p.setModifyer(user.getUserId());

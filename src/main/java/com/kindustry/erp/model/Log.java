@@ -23,7 +23,7 @@ public class Log extends BaseEntity implements Serializable {
   private static final long serialVersionUID = -6324602935200380329L;
 
   @Column(name = "USER_ID")
-  private Integer userId;
+  private String userId;
 
   @Column(name = "NAME", length = 20)
   private String name;
@@ -53,11 +53,11 @@ public class Log extends BaseEntity implements Serializable {
   @Column(name = "EVENT_RECORD", length = 500)
   private String eventRecord;
 
-  public Integer getUserId() {
+  public String getUserId() {
     return userId;
   }
 
-  public void setUserId(Integer userId) {
+  public void setUserId(String userId) {
     this.userId = userId;
   }
 

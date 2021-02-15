@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -11,6 +12,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.kindustry.framework.orm.constant.StateType;
+import com.kindustry.framework.orm.converter.StateConverter;
 
 /**
  * 
@@ -28,33 +32,34 @@ public abstract class BaseEntity implements Serializable, Cloneable {
   @GeneratedValue(generator = "idGenerator")
   @GenericGenerator(name = "idGenerator", strategy = "com.kindustry.framework.orm.hibernate.ActiveIdGenerator")
   @Column(name = "sid", unique = true, nullable = false)
-  private Long sid;
+  private String sid;
 
   /**
    * 標識
    */
-  @Column(name = "STATUS", nullable = false, length = 1)
-  private String status;
+  @Convert(converter = StateConverter.class)
+  @Column(name = "STATE", nullable = true, length = 1)
+  private StateType state;
 
   /**
    * 创建时间
    */
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "CREATED", nullable = false, length = 10)
+  @Column(name = "CREATED", nullable = true, length = 10)
   private Date created;
 
   /**
    * 更新时间
    */
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "LASTMOD", length = 10)
+  @Column(name = "LASTMOD", nullable = true, length = 10)
   private Date lastmod;
 
-  @Column(name = "CREATER")
-  private Integer creater;
+  @Column(name = "CREATER", nullable = true)
+  private String creater;
 
-  @Column(name = "MODIFYER")
-  private Integer modifyer;
+  @Column(name = "MODIFYER", nullable = true)
+  private String modifyer;
 
   // Property accessors
 
@@ -63,7 +68,7 @@ public abstract class BaseEntity implements Serializable, Cloneable {
    * 
    * @return the sid
    */
-  public Long getSid() {
+  public String getSid() {
     return sid;
   }
 
@@ -73,46 +78,27 @@ public abstract class BaseEntity implements Serializable, Cloneable {
    * @param sid
    *          the sid to set
    */
-  public void setSid(Long sid) {
+  public void setSid(String sid) {
     this.sid = sid;
   }
 
   /**
-   * statusを取得する。
+   * stateを取得する。
    * 
-   * @return the status
+   * @return the state
    */
-  public String getStatus() {
-    return status;
+  public StateType getState() {
+    return state;
   }
 
   /**
-   * statusを設定する。
+   * stateを設定する。
    * 
-   * @param status
-   *          the status to set
+   * @param state
+   *          the state to set
    */
-  public void setStatus(String status) {
-    this.status = status;
-  }
-
-  /**
-   * createrを取得する。
-   * 
-   * @return the creater
-   */
-  public Integer getCreater() {
-    return creater;
-  }
-
-  /**
-   * createrを設定する。
-   * 
-   * @param creater
-   *          the creater to set
-   */
-  public void setCreater(Integer creater) {
-    this.creater = creater;
+  public void setState(StateType state) {
+    this.state = state;
   }
 
   /**
@@ -135,25 +121,6 @@ public abstract class BaseEntity implements Serializable, Cloneable {
   }
 
   /**
-   * modifyerを取得する。
-   * 
-   * @return the modifyer
-   */
-  public Integer getModifyer() {
-    return modifyer;
-  }
-
-  /**
-   * modifyerを設定する。
-   * 
-   * @param modifyer
-   *          the modifyer to set
-   */
-  public void setModifyer(Integer modifyer) {
-    this.modifyer = modifyer;
-  }
-
-  /**
    * lastmodを取得する。
    * 
    * @return the lastmod
@@ -170,6 +137,44 @@ public abstract class BaseEntity implements Serializable, Cloneable {
    */
   public void setLastmod(Date lastmod) {
     this.lastmod = lastmod;
+  }
+
+  /**
+   * createrを取得する。
+   * 
+   * @return the creater
+   */
+  public String getCreater() {
+    return creater;
+  }
+
+  /**
+   * createrを設定する。
+   * 
+   * @param creater
+   *          the creater to set
+   */
+  public void setCreater(String creater) {
+    this.creater = creater;
+  }
+
+  /**
+   * modifyerを取得する。
+   * 
+   * @return the modifyer
+   */
+  public String getModifyer() {
+    return modifyer;
+  }
+
+  /**
+   * modifyerを設定する。
+   * 
+   * @param modifyer
+   *          the modifyer to set
+   */
+  public void setModifyer(String modifyer) {
+    this.modifyer = modifyer;
   }
 
 }

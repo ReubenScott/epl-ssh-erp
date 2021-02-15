@@ -4,9 +4,9 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.SystemCode;
 import com.kindustry.erp.service.SystemCodeService;
-import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.view.Json;
 import com.kindustry.framework.action.BaseAction;
 
@@ -26,7 +26,7 @@ public class SystemCodeAction extends BaseAction<SystemCode> {
    * 按节点查询所有词典
    */
   public String findSystemCodeList() {
-    OutputJson(systemCodeService.findSystemCodeList(id));
+    outputJson(systemCodeService.findSystemCodeList(id));
     return null;
   }
 
@@ -34,7 +34,7 @@ public class SystemCodeAction extends BaseAction<SystemCode> {
    * 查询所有词典
    */
   public String findAllSystemCodeList() {
-    OutputJson(systemCodeService.findSystemCodeList());
+    outputJson(systemCodeService.findSystemCodeList());
     return null;
   }
 
@@ -42,14 +42,14 @@ public class SystemCodeAction extends BaseAction<SystemCode> {
    * 按照codeid查询词典
    */
   public void findSystemCodeByType() {
-    OutputJson(systemCodeService.findSystemCodeByType(super.sample.getCodeMyid()));
+    outputJson(systemCodeService.findSystemCodeByType(super.sample.getCodeMyid()));
   }
 
   /**
    * 弹窗持久化systemCode
    */
   public String persistenceSystemCodeDig() {
-    OutputJson(getMessage(systemCodeService.persistenceSystemCodeDig(super.sample, permissionName, codePid)), Constants.TEXT_TYPE_PLAIN);
+    outputJson(getMessage(systemCodeService.persistenceSystemCodeDig(super.sample, permissionName, codePid)), Constants.TEXT_TYPE_PLAIN);
     return null;
   }
 
@@ -65,7 +65,7 @@ public class SystemCodeAction extends BaseAction<SystemCode> {
     } else {
       json.setMessage("数据更新失败，或含有子项不能删除!");
     }
-    OutputJson(json);
+    outputJson(json);
     return null;
   }
 

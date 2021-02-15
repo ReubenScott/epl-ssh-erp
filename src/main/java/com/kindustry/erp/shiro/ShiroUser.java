@@ -6,20 +6,19 @@ public class ShiroUser implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private Integer userId;
+  private String userId;
   private String account;
 
-  public ShiroUser(Integer userId, String account) {
-    super();
+  public ShiroUser(String userId, String account) {
     this.userId = userId;
     this.account = account;
   }
 
-  public Integer getUserId() {
+  public String getUserId() {
     return userId;
   }
 
-  public void setUserId(Integer userId) {
+  public void setUserId(String userId) {
     this.userId = userId;
   }
 

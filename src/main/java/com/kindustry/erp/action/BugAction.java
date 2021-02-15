@@ -23,13 +23,14 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileCopyUtils;
 
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.Bug;
 import com.kindustry.erp.service.BugService;
-import com.kindustry.erp.util.Constants;
-import com.kindustry.erp.util.PageUtil;
-import com.kindustry.erp.util.ResourceUtil;
 import com.kindustry.erp.view.GridModel;
 import com.kindustry.framework.action.BaseAction;
+import com.kindustry.util.BaseUtil;
+import com.kindustry.util.PageUtil;
+import com.kindustry.util.ResourceUtil;
 
 @Namespace("/bug")
 @Action("bugAction")
@@ -55,21 +56,21 @@ public class BugAction extends BaseAction<Bug> {
     GridModel gridModel = new GridModel();
     gridModel.setRows(bugService.findBugList(map, pageUtil));
     gridModel.setTotal(bugService.getCount(map, pageUtil));
-    OutputJson(gridModel);
+    outputJson(gridModel);
   }
 
   /**
    * 添加bug
    */
   public void persistenceBug() {
-    OutputJson(getMessage(bugService.persistenceBug(super.sample)), Constants.TEXT_TYPE_PLAIN);
+    outputJson(getMessage(bugService.persistenceBug(super.sample)), Constants.TEXT_TYPE_PLAIN);
   }
 
   /**
    * 删除bug
    */
   public void delBug() {
-    OutputJson(getMessage(bugService.delBug(super.sample.getBugId())));
+    outputJson(getMessage(bugService.delBug(super.sample.getBugId())));
   }
 
   /**
@@ -155,7 +156,7 @@ public class BugAction extends BaseAction<Bug> {
           System.out.println("filedataFileName=" + filedataFileName);
           String fileExt = filedataFileName.substring(filedataFileName.lastIndexOf(".") + 1).toLowerCase();
           String newFileName = UUID.randomUUID().toString().replaceAll("-", "") + "." + fileExt;
-          Constants.copy(filedata, savePath + newFileName);
+          BaseUtil.copy(filedata, savePath + newFileName);
           Map<String, Object> nm = new HashMap<String, Object>();
           map.put("err", "");
           nm.put("url", saveUrl + newFileName);
@@ -174,7 +175,7 @@ public class BugAction extends BaseAction<Bug> {
     System.out.println("filedataFileName==>>" + filedataFileName);
     System.out.println("savePath==>>" + savePath);
     System.out.println("saveUrl==>>" + saveUrl);
-    OutputJson(map, Constants.TEXT_TYPE_PLAIN);
+    outputJson(map, Constants.TEXT_TYPE_PLAIN);
     // savePath==========>D:\apache-tomcat-7.0.57\webapps\MyErp\attached\2015/11/12/
     // saveUrl==========>/MyErp\attached\2015/11/12/
     // 13992

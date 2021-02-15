@@ -28,8 +28,8 @@ public class Suplier implements java.io.Serializable {
   private String status;
   private Date created;
   private Date lastmod;
-  private Integer creater;
-  private Integer modifiyer;
+  private String creater;
+  private String modifiyer;
   private Integer classId;
   private String tel;
   private String fax;
@@ -89,70 +89,6 @@ public class Suplier implements java.io.Serializable {
     this.name = name;
     this.status = status;
     this.created = created;
-  }
-
-  /** full constructor */
-  public Suplier(String name, String myid, String status, Date created, Date lastmod, Integer creater, Integer modifiyer, Integer classId, String tel, String fax, String url,
-    String email, Integer areaId, String areaName, Integer provinceId, String provinceName, Integer cityId, String cityName, String address, String zip, Integer levelId,
-    String levelName, Integer sourceId, String sourceName, Integer natureId, String natureName, Integer industryId, String industryName, String mainBusiness, Integer sizeId,
-    String sizeName, Date setupDate, Integer capital, String corporation, Integer creditId, String creditName, String bank, String account, String taxno, String shared,
-    Integer pid, Integer attachmentId, String description, Integer buyerId, String buyerName, Integer buyerOrganizationId, String buyerOrganizationName, String suplierStatus,
-    String className, Integer empCount, String totalSales, Integer currencyId, String currencyName, String deductionTax, Integer tax) {
-    this.name = name;
-    this.myid = myid;
-    this.status = status;
-    this.created = created;
-    this.lastmod = lastmod;
-    this.creater = creater;
-    this.modifiyer = modifiyer;
-    this.classId = classId;
-    this.tel = tel;
-    this.fax = fax;
-    this.url = url;
-    this.email = email;
-    this.areaId = areaId;
-    this.areaName = areaName;
-    this.provinceId = provinceId;
-    this.provinceName = provinceName;
-    this.cityId = cityId;
-    this.cityName = cityName;
-    this.address = address;
-    this.zip = zip;
-    this.levelId = levelId;
-    this.levelName = levelName;
-    this.sourceId = sourceId;
-    this.sourceName = sourceName;
-    this.natureId = natureId;
-    this.natureName = natureName;
-    this.industryId = industryId;
-    this.industryName = industryName;
-    this.mainBusiness = mainBusiness;
-    this.sizeId = sizeId;
-    this.sizeName = sizeName;
-    this.setupDate = setupDate;
-    this.capital = capital;
-    this.corporation = corporation;
-    this.creditId = creditId;
-    this.creditName = creditName;
-    this.bank = bank;
-    this.account = account;
-    this.taxno = taxno;
-    this.shared = shared;
-    this.pid = pid;
-    this.attachmentId = attachmentId;
-    this.description = description;
-    this.buyerId = buyerId;
-    this.buyerName = buyerName;
-    this.buyerOrganizationId = buyerOrganizationId;
-    this.buyerOrganizationName = buyerOrganizationName;
-    this.suplierStatus = suplierStatus;
-    this.className = className;
-    this.empCount = empCount;
-    this.totalSales = totalSales;
-    this.currencyId = currencyId;
-    this.currencyName = currencyName;
-    this.deductionTax = deductionTax;
-    this.tax = tax;
   }
 
   // Property accessors
@@ -215,20 +151,20 @@ public class Suplier implements java.io.Serializable {
   }
 
   @Column(name = "CREATER")
-  public Integer getCreater() {
+  public String getCreater() {
     return this.creater;
   }
 
-  public void setCreater(Integer creater) {
+  public void setCreater(String creater) {
     this.creater = creater;
   }
 
   @Column(name = "MODIFIYER")
-  public Integer getModifiyer() {
+  public String getModifiyer() {
     return this.modifiyer;
   }
 
-  public void setModifiyer(Integer modifiyer) {
+  public void setModifiyer(String modifiyer) {
     this.modifiyer = modifiyer;
   }
 

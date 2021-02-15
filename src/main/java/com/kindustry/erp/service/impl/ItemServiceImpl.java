@@ -7,33 +7,35 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.Brand;
 import com.kindustry.erp.model.Item;
 import com.kindustry.erp.service.ItemService;
-import com.kindustry.erp.util.Constants;
-import com.kindustry.erp.util.PageUtil;
 import com.kindustry.framework.dao.IBaseDao;
+import com.kindustry.framework.service.impl.BaseServiceImpl;
+import com.kindustry.util.BaseUtil;
+import com.kindustry.util.PageUtil;
 
 @Service("itemService")
 @SuppressWarnings("unchecked")
-public class ItemServiceImpl implements ItemService {
-  @SuppressWarnings("rawtypes")
+public class ItemServiceImpl extends BaseServiceImpl implements ItemService {
+
   @Autowired
   private IBaseDao baseDao;
 
   @Override
   public List<Item> findItemList(Map<String, Object> map, PageUtil pageUtil) {
     String hql = "from Item t where t.status='A' ";
-    hql += Constants.getSearchConditionsHQL("t", map);
-    hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
+    hql += BaseUtil.getSearchConditionsHQL("t", map);
+    hql += BaseUtil.getGradeSearchConditionsHQL("t", pageUtil);
     return baseDao.find(hql, map, pageUtil.getPage(), pageUtil.getRows());
   }
 
   @Override
   public Long getCount(Map<String, Object> map, PageUtil pageUtil) {
     String hql = "select count(*) from Item t where t.status='A' ";
-    hql += Constants.getSearchConditionsHQL("t", map);
-    hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
+    hql += BaseUtil.getSearchConditionsHQL("t", map);
+    hql += BaseUtil.getGradeSearchConditionsHQL("t", pageUtil);
     return baseDao.count(hql, map);
   }
 
@@ -44,7 +46,7 @@ public class ItemServiceImpl implements ItemService {
 
   @Override
   public boolean persistenceItem(Item item) {
-    Integer userId = Constants.getCurrendUser().getUserId();
+    String userId = super.getCurrendUser().getUserId();
     if (item.getItemId() == null || "".equals(item.getItemId())) {
       item.setCreated(new Date());
       item.setLastmod(new Date());
@@ -67,8 +69,8 @@ public class ItemServiceImpl implements ItemService {
     b.setLastmod(new Date());
     b.setStatus("A");
     b.setName(name);
-    b.setCreater(Constants.getCurrendUser().getUserId());
-    b.setModifyer(Constants.getCurrendUser().getUserId());
+    b.setCreater(super.getCurrendUser().getUserId());
+    b.setModifyer(super.getCurrendUser().getUserId());
     baseDao.save(b);
     return true;
   }
@@ -77,7 +79,7 @@ public class ItemServiceImpl implements ItemService {
   public boolean delItem(Integer itemId) {
     Item i = (Item)baseDao.get(Item.class, itemId);
     i.setLastmod(new Date());
-    i.setModifyer(Constants.getCurrendUser().getUserId());
+    i.setModifyer(super.getCurrendUser().getUserId());
     i.setStatus("I");
     baseDao.update(i);
     return true;

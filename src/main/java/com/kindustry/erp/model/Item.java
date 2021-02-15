@@ -49,8 +49,8 @@ public class Item implements java.io.Serializable {
   private Date created;
   private Date lastmod;
   private String status;
-  private Integer creater;
-  private Integer modifyer;
+  private String creater;
+  private String modifyer;
   private Integer attachmentId;
   private String barcode;
   private String image;
@@ -59,44 +59,6 @@ public class Item implements java.io.Serializable {
 
   /** default constructor */
   public Item() {}
-
-  /** full constructor */
-  public Item(String myid, String name, Integer classId, String className, String spec, Double weight, String maund, String unit, String packageUnit, Integer converts,
-    String oldMyid, Integer taxNo, String isBatch, String isValid, Double cost, Double retailPrice, Double salePrice, Integer brandId, String brandName, Integer cityId,
-    String cityName, String qualityPeriod, String description, Date created, Date lastmod, String status, Integer creater, Integer modifyer, Integer attachmentId, String barcode,
-    String image) {
-    this.myid = myid;
-    this.name = name;
-    this.classId = classId;
-    this.className = className;
-    this.spec = spec;
-    this.weight = weight;
-    this.maund = maund;
-    this.unit = unit;
-    this.packageUnit = packageUnit;
-    this.converts = converts;
-    this.oldMyid = oldMyid;
-    this.taxNo = taxNo;
-    this.isBatch = isBatch;
-    this.isValid = isValid;
-    this.cost = cost;
-    this.retailPrice = retailPrice;
-    this.salePrice = salePrice;
-    this.brandId = brandId;
-    this.brandName = brandName;
-    this.cityId = cityId;
-    this.cityName = cityName;
-    this.qualityPeriod = qualityPeriod;
-    this.description = description;
-    this.created = created;
-    this.lastmod = lastmod;
-    this.status = status;
-    this.creater = creater;
-    this.modifyer = modifyer;
-    this.attachmentId = attachmentId;
-    this.barcode = barcode;
-    this.image = image;
-  }
 
   // Property accessors
   @Id
@@ -347,20 +309,20 @@ public class Item implements java.io.Serializable {
   }
 
   @Column(name = "CREATER")
-  public Integer getCreater() {
+  public String getCreater() {
     return this.creater;
   }
 
-  public void setCreater(Integer creater) {
+  public void setCreater(String creater) {
     this.creater = creater;
   }
 
   @Column(name = "MODIFYER")
-  public Integer getModifyer() {
+  public String getModifyer() {
     return this.modifyer;
   }
 
-  public void setModifyer(Integer modifyer) {
+  public void setModifyer(String modifyer) {
     this.modifyer = modifyer;
   }
 

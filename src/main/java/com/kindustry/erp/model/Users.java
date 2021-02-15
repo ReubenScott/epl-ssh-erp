@@ -20,93 +20,97 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
-// @Table(name = "USERS")
 @Table(name = "USERS")
 @DynamicInsert(true)
 @DynamicUpdate(true)
 public class Users implements Serializable {
   private static final long serialVersionUID = -2461266895254368228L;
 
-  private Integer userId;
+  @Id
+  @GeneratedValue
+  @Column(name = "USER_ID", unique = true, nullable = false)
+  private String userId;
+
+  @Column(name = "MYID", length = 50)
   private String myid;
+
+  @Column(name = "ACCOUNT", length = 50)
   private String account;
+
+  @Column(name = "NAME", length = 50)
   private String name;
+
+  @Column(name = "ORGANIZE_ID")
   private Integer organizeId;
+
+  @Column(name = "ORGANIZE_NAME")
   private String organizeName;
+
+  @Column(name = "DUTY_ID")
   private Integer dutyId;
+
+  @Column(name = "TITLE_ID")
   private Integer titleId;
+
+  @Column(name = "PASSWORD", length = 128)
   private String password;
+
+  @Column(name = "EMAIL", length = 200)
   private String email;
+
+  @Column(name = "LANG", length = 20)
   private String lang;
+
   private String theme;
+
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "FIRST_VISIT", length = 10)
   private Date firstVisit;
+
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "PREVIOUS_VISIT", length = 10)
   private Date previousVisit;
+
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "LAST_VISITS", length = 10)
   private Date lastVisits;
+
+  @Column(name = "LOGIN_COUNT")
   private Integer loginCount;
+
   private Integer isemployee;
+
+  @Column(name = "STATUS", length = 20)
   private String status;
   private String ip;
   private String description;
   private Integer questionId;
   private String answer;
   private Integer isonline;
+
+  @Column(name = "STATE", length = 1)
+  private String state;
   private Date created;
   private Date lastmod;
-  private Integer creater;
-  private Integer modifyer;
+  private String creater;
+  private String modifyer;
   private String tel;
+
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
   private Set<UserRole> userRoles = new HashSet<UserRole>();
 
   /** default constructor */
   public Users() {}
 
-  /** full constructor */
-  public Users(String myid, String account, String name, Integer organizeId, String organizeName, Integer dutyId, Integer titleId, String password, String email, String lang,
-    String theme, Date firstVisit, Date previousVisit, Date lastVisits, Integer loginCount, Integer isemployee, String status, String ip, String description, Integer questionId,
-    String answer, Integer isonline, Date created, Date lastmod, Integer creater, Integer modifyer, String tel, Set<UserRole> userRoles) {
-    this.myid = myid;
-    this.account = account;
-    this.name = name;
-    this.organizeId = organizeId;
-    this.organizeName = organizeName;
-    this.dutyId = dutyId;
-    this.titleId = titleId;
-    this.password = password;
-    this.email = email;
-    this.lang = lang;
-    this.theme = theme;
-    this.firstVisit = firstVisit;
-    this.previousVisit = previousVisit;
-    this.lastVisits = lastVisits;
-    this.loginCount = loginCount;
-    this.isemployee = isemployee;
-    this.status = status;
-    this.ip = ip;
-    this.description = description;
-    this.questionId = questionId;
-    this.answer = answer;
-    this.isonline = isonline;
-    this.created = created;
-    this.lastmod = lastmod;
-    this.creater = creater;
-    this.modifyer = modifyer;
-    this.tel = tel;
-    this.userRoles = userRoles;
-  }
-
   // Property accessors
-  @Id
-  @GeneratedValue
-  @Column(name = "USER_ID", unique = true, nullable = false)
-  public Integer getUserId() {
+  public String getUserId() {
     return this.userId;
   }
 
-  public void setUserId(Integer userId) {
+  public void setUserId(String userId) {
     this.userId = userId;
   }
 
-  @Column(name = "MYID", length = 50)
   public String getMyid() {
     return this.myid;
   }
@@ -115,7 +119,6 @@ public class Users implements Serializable {
     this.myid = myid;
   }
 
-  @Column(name = "ACCOUNT", length = 50)
   public String getAccount() {
     return this.account;
   }
@@ -124,7 +127,6 @@ public class Users implements Serializable {
     this.account = account;
   }
 
-  @Column(name = "NAME", length = 50)
   public String getName() {
     return this.name;
   }
@@ -133,7 +135,6 @@ public class Users implements Serializable {
     this.name = name;
   }
 
-  @Column(name = "ORGANIZE_ID")
   public Integer getOrganizeId() {
     return this.organizeId;
   }
@@ -142,7 +143,6 @@ public class Users implements Serializable {
     this.organizeId = organizeId;
   }
 
-  @Column(name = "ORGANIZE_NAME")
   public String getOrganizeName() {
     return this.organizeName;
   }
@@ -151,7 +151,6 @@ public class Users implements Serializable {
     this.organizeName = organizeName;
   }
 
-  @Column(name = "DUTY_ID")
   public Integer getDutyId() {
     return this.dutyId;
   }
@@ -160,7 +159,6 @@ public class Users implements Serializable {
     this.dutyId = dutyId;
   }
 
-  @Column(name = "TITLE_ID")
   public Integer getTitleId() {
     return this.titleId;
   }
@@ -169,7 +167,6 @@ public class Users implements Serializable {
     this.titleId = titleId;
   }
 
-  @Column(name = "PASSWORD", length = 128)
   public String getPassword() {
     return this.password;
   }
@@ -178,7 +175,6 @@ public class Users implements Serializable {
     this.password = password;
   }
 
-  @Column(name = "EMAIL", length = 200)
   public String getEmail() {
     return this.email;
   }
@@ -187,7 +183,6 @@ public class Users implements Serializable {
     this.email = email;
   }
 
-  @Column(name = "LANG", length = 20)
   public String getLang() {
     return this.lang;
   }
@@ -205,8 +200,6 @@ public class Users implements Serializable {
     this.theme = theme;
   }
 
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "FIRST_VISIT", length = 10)
   public Date getFirstVisit() {
     return this.firstVisit;
   }
@@ -215,8 +208,6 @@ public class Users implements Serializable {
     this.firstVisit = firstVisit;
   }
 
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "PREVIOUS_VISIT", length = 10)
   public Date getPreviousVisit() {
     return this.previousVisit;
   }
@@ -225,8 +216,6 @@ public class Users implements Serializable {
     this.previousVisit = previousVisit;
   }
 
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "LAST_VISITS", length = 10)
   public Date getLastVisits() {
     return this.lastVisits;
   }
@@ -235,7 +224,6 @@ public class Users implements Serializable {
     this.lastVisits = lastVisits;
   }
 
-  @Column(name = "LOGIN_COUNT")
   public Integer getLoginCount() {
     return this.loginCount;
   }
@@ -253,7 +241,6 @@ public class Users implements Serializable {
     this.isemployee = isemployee;
   }
 
-  @Column(name = "STATUS", length = 1)
   public String getStatus() {
     return this.status;
   }
@@ -328,20 +315,20 @@ public class Users implements Serializable {
   }
 
   @Column(name = "CREATER")
-  public Integer getCreater() {
+  public String getCreater() {
     return this.creater;
   }
 
-  public void setCreater(Integer creater) {
+  public void setCreater(String creater) {
     this.creater = creater;
   }
 
   @Column(name = "MODIFYER")
-  public Integer getModifyer() {
+  public String getModifyer() {
     return this.modifyer;
   }
 
-  public void setModifyer(Integer modifyer) {
+  public void setModifyer(String modifyer) {
     this.modifyer = modifyer;
   }
 
@@ -354,7 +341,6 @@ public class Users implements Serializable {
     this.tel = tel;
   }
 
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
   public Set<UserRole> getUserRoles() {
     return this.userRoles;
   }

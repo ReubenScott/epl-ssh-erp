@@ -8,39 +8,41 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.OrderPurchase;
 import com.kindustry.erp.model.OrderPurchaseLine;
 import com.kindustry.erp.service.OrderPurchaseService;
-import com.kindustry.erp.util.Constants;
-import com.kindustry.erp.util.PageUtil;
 import com.kindustry.framework.dao.IBaseDao;
+import com.kindustry.framework.service.impl.BaseServiceImpl;
+import com.kindustry.util.BaseUtil;
+import com.kindustry.util.PageUtil;
 
 @Service("orderPurchaseService")
 @SuppressWarnings("unchecked")
-public class OrderPurchaseServiceImpl implements OrderPurchaseService {
-  @SuppressWarnings("rawtypes")
+public class OrderPurchaseServiceImpl extends BaseServiceImpl implements OrderPurchaseService {
+
   @Autowired
   private IBaseDao baseDao;
 
   @Override
   public List<OrderPurchase> findPurchaseOrderList(Map<String, Object> map, PageUtil pageUtil) {
     String hql = "from OrderPurchase t where t.status='A' ";
-    hql += Constants.getSearchConditionsHQL("t", map);
-    hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
+    hql += BaseUtil.getSearchConditionsHQL("t", map);
+    hql += BaseUtil.getGradeSearchConditionsHQL("t", pageUtil);
     return baseDao.find(hql, map, pageUtil.getPage(), pageUtil.getRows());
   }
 
   @Override
   public Long getCount(Map<String, Object> map, PageUtil pageUtil) {
     String hql = "select count(*) from OrderPurchase t where t.status='A' ";
-    hql += Constants.getSearchConditionsHQL("t", map);
-    hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
+    hql += BaseUtil.getSearchConditionsHQL("t", map);
+    hql += BaseUtil.getGradeSearchConditionsHQL("t", pageUtil);
     return baseDao.count(hql, map);
   }
 
   @Override
   public boolean delOrderPurchase(Integer orderPurchaseId) {
-    Integer userId = Constants.getCurrendUser().getUserId();
+    String userId = super.getCurrendUser().getUserId();
     OrderPurchase c = (OrderPurchase)baseDao.get(OrderPurchase.class, orderPurchaseId);
     c.setLastmod(new Date());
     c.setModifyer(userId);
@@ -69,7 +71,7 @@ public class OrderPurchaseServiceImpl implements OrderPurchaseService {
 
   @Override
   public boolean persistenceOrderPurchase(OrderPurchase c, Map<String, List<OrderPurchaseLine>> map) {
-    Integer userId = Constants.getCurrendUser().getUserId();
+    String userId = super.getCurrendUser().getUserId();
     if (c.getOrderPurchaseId() == null || "".equals(c.getOrderPurchaseId())) {
       c.setCreated(new Date());
       c.setLastmod(new Date());

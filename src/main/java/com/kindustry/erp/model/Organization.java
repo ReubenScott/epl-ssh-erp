@@ -32,45 +32,21 @@ public class Organization implements java.io.Serializable {
   private String iconCls;
   private Integer assistantManager;
   private Integer empQty;
-  private String status;
+  private String state;
   private Date created;
   private Date lastmod;
   private String shortName;
   private String tel;
   private String fax;
   private String description;
-  private Integer creater;
-  private Integer modifyer;
-  private String state = "closed";
+  private String creater;
+  private String modifyer;
+  private String status = "closed";
 
   // Constructors
 
   /** default constructor */
   public Organization() {}
-
-  /** full constructor */
-  public Organization(Integer companyId, String myid, Integer pid, String fullName, String ename, Integer manager, String iconCls, Integer assistantManager, Integer empQty,
-    String status, Date created, Date lastmod, String shortName, String tel, String fax, String description, Integer creater, Integer modifyer, String state) {
-    this.companyId = companyId;
-    this.myid = myid;
-    this.pid = pid;
-    this.fullName = fullName;
-    this.ename = ename;
-    this.manager = manager;
-    this.iconCls = iconCls;
-    this.assistantManager = assistantManager;
-    this.empQty = empQty;
-    this.status = status;
-    this.created = created;
-    this.lastmod = lastmod;
-    this.shortName = shortName;
-    this.tel = tel;
-    this.fax = fax;
-    this.description = description;
-    this.creater = creater;
-    this.modifyer = modifyer;
-    this.state = state;
-  }
 
   // Property accessors
   @Id
@@ -231,30 +207,30 @@ public class Organization implements java.io.Serializable {
   }
 
   @Column(name = "CREATER")
-  public Integer getCreater() {
+  public String getCreater() {
     return this.creater;
   }
 
-  public void setCreater(Integer creater) {
+  public void setCreater(String creater) {
     this.creater = creater;
   }
 
   @Column(name = "MODIFYER")
-  public Integer getModifyer() {
+  public String getModifyer() {
     return this.modifyer;
   }
 
-  public void setModifyer(Integer modifyer) {
+  public void setModifyer(String modifyer) {
     this.modifyer = modifyer;
   }
 
   @Column(name = "STATE", length = 20)
   public String getState() {
-    return this.state;
+    return this.status;
   }
 
   public void setState(String state) {
-    this.state = state;
+    this.status = state;
   }
 
 }

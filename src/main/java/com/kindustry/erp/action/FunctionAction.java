@@ -5,9 +5,9 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.Permission;
 import com.kindustry.erp.service.FunctionService;
-import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.view.Json;
 import com.kindustry.framework.action.BaseAction;
 
@@ -57,7 +57,7 @@ public class FunctionAction extends BaseAction<Permission> {
     } else {
       json.setMessage(Constants.POST_DATA_FAIL);
     }
-    OutputJson(json);
+    outputJson(json);
     return null;
   }
 
@@ -65,7 +65,7 @@ public class FunctionAction extends BaseAction<Permission> {
    * 弹出框编辑function
    */
   public String persistenceFunctionDig() {
-    OutputJson(getMessage(functionService.persistenceFunction(super.sample)), Constants.TEXT_TYPE_PLAIN);
+    outputJson(getMessage(functionService.persistenceFunction(super.sample)), Constants.TEXT_TYPE_PLAIN);
     return null;
   }
 
@@ -80,7 +80,7 @@ public class FunctionAction extends BaseAction<Permission> {
     } else {
       json.setMessage(Constants.POST_DATA_FAIL + Constants.IS_EXT_SUBMENU);
     }
-    OutputJson(json);
+    outputJson(json);
     return null;
   }
 
@@ -88,12 +88,12 @@ public class FunctionAction extends BaseAction<Permission> {
    * 按节点查询所有程式
    */
   public String findAllFunctionList() {
-    OutputJson(functionService.findAllFunctionList(id));
+    outputJson(functionService.findAllFunctionList(id));
     return null;
   }
 
   public String findAllFunctionLists() {
-    OutputJson(functionService.findAllFunctionList());
+    outputJson(functionService.findAllFunctionList());
     return null;
   }
 

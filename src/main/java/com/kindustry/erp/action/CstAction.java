@@ -9,13 +9,13 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.Customer;
 import com.kindustry.erp.model.CustomerContact;
 import com.kindustry.erp.service.CstService;
-import com.kindustry.erp.util.Constants;
-import com.kindustry.erp.util.PageUtil;
 import com.kindustry.erp.view.GridModel;
 import com.kindustry.framework.action.BaseAction;
+import com.kindustry.util.PageUtil;
 
 @Namespace("/cst")
 @Action("cstAction")
@@ -37,7 +37,7 @@ public class CstAction extends BaseAction<Customer> {
     GridModel gridModel = new GridModel();
     gridModel.setRows(cstService.findCustomerList(map, pageUtil));
     gridModel.setTotal(cstService.getCount(map, pageUtil));
-    OutputJson(gridModel);
+    outputJson(gridModel);
   }
 
   /**
@@ -52,14 +52,14 @@ public class CstAction extends BaseAction<Customer> {
     GridModel gridModel = new GridModel();
     gridModel.setRows(cstService.findCustomerList(map, pageUtil));
     gridModel.setTotal(null);
-    OutputJson(gridModel);
+    outputJson(gridModel);
   }
 
   /**
    * 获取所有销售代表
    */
   public void findSaleNameList() {
-    OutputJson(cstService.findSaleNameList());
+    outputJson(cstService.findSaleNameList());
   }
 
   /**
@@ -76,14 +76,14 @@ public class CstAction extends BaseAction<Customer> {
     if (deleted != null && !"".equals(deleted)) {
       map.put("delList", JSON.parseArray(deleted, CustomerContact.class));
     }
-    OutputJson(getMessage(cstService.persistenceCustomer(super.sample, map)), Constants.TEXT_TYPE_PLAIN);
+    outputJson(getMessage(cstService.persistenceCustomer(super.sample, map)), Constants.TEXT_TYPE_PLAIN);
   }
 
   /**
    * 删除客户
    */
   public void delCustomer() {
-    OutputJson(getMessage(cstService.delCustomer(super.sample.getCustomerId())));
+    outputJson(getMessage(cstService.delCustomer(super.sample.getCustomerId())));
   }
 
 }

@@ -4,9 +4,9 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.Organization;
 import com.kindustry.erp.service.OrganizationService;
-import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.view.Json;
 import com.kindustry.framework.action.BaseAction;
 
@@ -23,7 +23,7 @@ public class OrganizationAction extends BaseAction<Organization> {
    * 查询所有组织
    */
   public String findOrganizationList() {
-    OutputJson(organizationService.findOrganizationList());
+    outputJson(organizationService.findOrganizationList());
     return null;
   }
 
@@ -31,7 +31,7 @@ public class OrganizationAction extends BaseAction<Organization> {
    * 按节点查询所有组织
    */
   public String findOrganizationListTreeGrid() {
-    OutputJson(organizationService.findOrganizationList(id));
+    outputJson(organizationService.findOrganizationList(id));
     return null;
   }
 
@@ -39,7 +39,7 @@ public class OrganizationAction extends BaseAction<Organization> {
    * 持久化组织
    */
   public String persistenceOrganization() {
-    OutputJson(getMessage(organizationService.persistenceOrganization(super.sample)), Constants.TEXT_TYPE_PLAIN);
+    outputJson(getMessage(organizationService.persistenceOrganization(super.sample)), Constants.TEXT_TYPE_PLAIN);
     return null;
   }
 
@@ -54,7 +54,7 @@ public class OrganizationAction extends BaseAction<Organization> {
     } else {
       json.setMessage(Constants.POST_DATA_FAIL + Constants.IS_EXT_SUBMENU);
     }
-    OutputJson(json);
+    outputJson(json);
     return null;
   }
 

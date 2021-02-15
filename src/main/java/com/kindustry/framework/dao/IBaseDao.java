@@ -43,7 +43,7 @@ public interface IBaseDao<T> {
    */
   public void saveOrUpdate(T entity);
 
-  // ---------------------鍩烘湰鎿嶄綔------------------------
+  // ------------------------基本操作------------------------
 
   public void deleteAll(Collection<T> entities);
 
@@ -69,7 +69,7 @@ public interface IBaseDao<T> {
 
   public void flush();
 
-  // ----------------------鏌ヨ--------------------------------------
+  // ------------------------查询------------------------
 
   /**
    * 查询

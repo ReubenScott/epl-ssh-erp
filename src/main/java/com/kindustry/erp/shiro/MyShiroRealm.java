@@ -20,8 +20,8 @@ import org.apache.struts2.ServletActionContext;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.Users;
-import com.kindustry.erp.util.Constants;
 
 // AuthRealm
 public class MyShiroRealm extends AuthorizingRealm {
@@ -59,7 +59,7 @@ public class MyShiroRealm extends AuthorizingRealm {
     String username = token.getUsername();
     if (username != null && !"".equals(username)) {
       SessionFactory s = this.getSessionFactory();
-      String hql = "from Users t where t.status='A' and t.name=:name";
+      String hql = "from Users t where t.state='A' and t.name=:name";
       Users users = (Users)s.getCurrentSession().createQuery(hql).setParameter("name", username).uniqueResult();
       if (users != null) {
         Subject subject = SecurityUtils.getSubject();
@@ -92,14 +92,14 @@ public class MyShiroRealm extends AuthorizingRealm {
       String sql = null;
       // 超级管理员默认拥有所有操作权限
       if (Constants.SYSTEM_ADMINISTRATOR.equals(username)) {
-        sql = "SELECT p.SID,p.MYID FROM PERMISSION AS p\n" + "where p.STATUS='A' and p.TYPE='O' and p.ISUSED='Y'";
+        sql = "SELECT p.SID,p.MYID FROM PERMISSION AS p\n" + "where p.state='A' and p.TYPE='O' and p.ISUSED='Y'";
       } else {
         // 用户，用户角色，角色，角色权限，权限 ==> 五表关联查询
         sql =
           "SELECT DISTINCT rp.PERMISSION_ID,p.MYID FROM\n" + "ROLE_PERMISSION AS rp\n" + "INNER JOIN ROLE AS r ON rp.ROLE_ID = r.ROLE_ID\n"
             + "INNER JOIN USER_ROLE AS ur ON rp.ROLE_ID = ur.ROLE_ID\n" + "INNER JOIN USERS AS u ON u.USER_ID = ur.USER_ID\n"
             + "INNER JOIN PERMISSION AS p ON rp.PERMISSION_ID = p.SID\n"
-            + "WHERE rp.STATUS='A' and r.STATUS='A' and ur.STATUS='A' and u.STATUS='A' and p.STATUS='A' and p.TYPE='O' and p.ISUSED='Y'\n" + "and u.NAME ='" + username + "'";
+            + "WHERE rp.state='A' and r.state='A' and ur.state='A' and u.state='A' and p.state='A' and p.TYPE='O' and p.ISUSED='Y'\n" + "and u.NAME ='" + username + "'";
       }
       List<?> perList = this.getSessionFactory().getCurrentSession().createSQLQuery(sql).list();
       if (perList != null && !perList.isEmpty()) {

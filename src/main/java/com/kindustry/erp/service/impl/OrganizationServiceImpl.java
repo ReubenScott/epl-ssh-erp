@@ -7,20 +7,22 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.Organization;
 import com.kindustry.erp.service.OrganizationService;
-import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.view.TreeModel;
 import com.kindustry.framework.dao.IBaseDao;
+import com.kindustry.framework.service.impl.BaseServiceImpl;
 
 @Service("organizationService")
-public class OrganizationServiceImpl implements OrganizationService {
+public class OrganizationServiceImpl extends BaseServiceImpl implements OrganizationService {
+
   @Autowired
   private IBaseDao<Organization> baseDao;
 
   @Override
   public List<TreeModel> findOrganizationList() {
-    String hql = "from Organization o where o.status='A' ";
+    String hql = "from Organization o where o.state='A' ";
     List<Organization> templist = baseDao.find(hql);
     List<TreeModel> list = new ArrayList<TreeModel>();
     for (Organization o : templist) {
@@ -28,7 +30,7 @@ public class OrganizationServiceImpl implements OrganizationService {
       treeModel.setId(String.valueOf(o.getOrganizationId()));
       treeModel.setPid(o.getPid() == null ? null : o.getPid().toString());
       treeModel.setName(o.getFullName());
-      treeModel.setState(Constants.TREE_STATUS_OPEN);
+      treeModel.setStatus(Constants.TREE_STATUS_OPEN);
       treeModel.setIconCls(o.getIconCls());
       list.add(treeModel);
     }
@@ -37,7 +39,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
   @Override
   public List<Organization> findOrganizationList(Integer id) {
-    String hql = "from Organization o where o.status='A' ";
+    String hql = "from Organization o where o.state='A' ";
     if (null == id || "".equals(id)) {
       hql += " and o.pid is null";
     } else {
@@ -48,7 +50,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
   @Override
   public boolean persistenceOrganization(Organization o) {
-    Integer userId = Constants.getCurrendUser().getUserId();
+    String userId = super.getCurrendUser().getUserId();
     if (null == o.getOrganizationId() || "".equals(o.getOrganizationId())) {
       // 新建
       o.setCreated(new Date());
@@ -67,8 +69,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 
   @Override
   public boolean delOrganization(Integer id) {
-    Integer userId = Constants.getCurrendUser().getUserId();
-    String hql = "from Organization o where o.status='A' and o.pid=" + id;
+    String userId = super.getCurrendUser().getUserId();
+    String hql = "from Organization o where o.state='A' and o.pid=" + id;
     List<Organization> list = baseDao.find(hql);
     if (list != null && !list.isEmpty()) {
       return false;

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.kindustry.erp.model.Suplier;
 import com.kindustry.erp.model.SuplierContact;
-import com.kindustry.erp.util.PageUtil;
+import com.kindustry.util.PageUtil;
 
 public interface SupService {
 

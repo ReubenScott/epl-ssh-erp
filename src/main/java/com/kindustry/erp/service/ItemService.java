@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.kindustry.erp.model.Brand;
 import com.kindustry.erp.model.Item;
-import com.kindustry.erp.util.PageUtil;
+import com.kindustry.util.PageUtil;
 
 public interface ItemService {
 

@@ -20,6 +20,6 @@ public class WarehouseAction extends BaseAction<Warehouse> {
    * 查询所有仓库下拉框格式
    */
   public void findWarehouseListCombobox() {
-    OutputJson(warehouseService.findWarehouseListCombobox());
+    outputJson(warehouseService.findWarehouseListCombobox());
   }
 }

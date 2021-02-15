@@ -11,6 +11,7 @@ import com.kindustry.framework.dao.IBaseDao;
 
 @Service("warehouseService")
 public class WarehouseServiceImpl implements WarehouseService {
+
   @Autowired
   private IBaseDao<Warehouse> baseDao;
 

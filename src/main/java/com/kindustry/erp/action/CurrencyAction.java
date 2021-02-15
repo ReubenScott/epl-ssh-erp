@@ -18,6 +18,6 @@ public class CurrencyAction extends BaseAction {
    * 查询币别
    */
   public void findCurrencyList() {
-    OutputJson(currencyService.findCurrencyList());
+    outputJson(currencyService.findCurrencyList());
   }
 }

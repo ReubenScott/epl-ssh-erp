@@ -23,50 +23,36 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicInsert(true)
 public class SystemCode implements java.io.Serializable {
   private static final long serialVersionUID = -5522136453981132093L;
-  private Integer codeId;
+  private String codeId;
   private String codeMyid;
   private String name;
   private Integer sort;
   private String iconCls;
   private String state;
   private String type;
-  private Integer parentId;
-  private Integer permissionId;
+  private String parentId;
+  private String permissionId;
   private String description;
   private String status;
   private Date created;
   private Date lastmod;
-  private Integer creater;
-  private Integer modifyer;
+  private String creater;
+  private String modifyer;
 
   // Constructors
 
   /** default constructor */
   public SystemCode() {}
 
-  /** full constructor */
-  public SystemCode(String codeMyid, String name, Integer sort, Integer parentId, String description, String status, Date created, Date lastmod, Integer creater, Integer modifyer) {
-    this.codeMyid = codeMyid;
-    this.name = name;
-    this.sort = sort;
-    this.parentId = parentId;
-    this.description = description;
-    this.status = status;
-    this.created = created;
-    this.lastmod = lastmod;
-    this.creater = creater;
-    this.modifyer = modifyer;
-  }
-
   // Property accessors
   @Id
   @GeneratedValue
   @Column(name = "CODE_ID", unique = true, nullable = false)
-  public Integer getCodeId() {
+  public String getCodeId() {
     return this.codeId;
   }
 
-  public void setCodeId(Integer codeId) {
+  public void setCodeId(String codeId) {
     this.codeId = codeId;
   }
 
@@ -98,20 +84,20 @@ public class SystemCode implements java.io.Serializable {
   }
 
   @Column(name = "PARENT_ID")
-  public Integer getParentId() {
+  public String getParentId() {
     return this.parentId;
   }
 
-  public void setParentId(Integer parentId) {
+  public void setParentId(String parentId) {
     this.parentId = parentId;
   }
 
   @Column(name = "PERMISSIONID")
-  public Integer getPermissionId() {
+  public String getPermissionId() {
     return permissionId;
   }
 
-  public void setPermissionId(Integer permissionId) {
+  public void setPermissionId(String permissionId) {
     this.permissionId = permissionId;
   }
 
@@ -163,20 +149,20 @@ public class SystemCode implements java.io.Serializable {
   }
 
   @Column(name = "CREATER")
-  public Integer getCreater() {
+  public String getCreater() {
     return this.creater;
   }
 
-  public void setCreater(Integer creater) {
+  public void setCreater(String creater) {
     this.creater = creater;
   }
 
   @Column(name = "MODIFYER")
-  public Integer getModifyer() {
+  public String getModifyer() {
     return this.modifyer;
   }
 
-  public void setModifyer(Integer modifyer) {
+  public void setModifyer(String modifyer) {
     this.modifyer = modifyer;
   }
 

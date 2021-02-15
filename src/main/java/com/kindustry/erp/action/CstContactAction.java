@@ -25,14 +25,14 @@ public class CstContactAction extends BaseAction<CustomerContact> {
     GridModel gridModel = new GridModel();
     gridModel.setRows(cstContactService.findCustomerContactList(super.sample.getCustomerId()));
     gridModel.setTotal(null);
-    OutputJson(gridModel);
+    outputJson(gridModel);
   }
 
   /**
    * 查询客户联系人
    */
   public void findCustomerContactListCombobox() {
-    OutputJson(cstContactService.findCustomerContactList(super.sample.getCustomerId()));
+    outputJson(cstContactService.findCustomerContactList(super.sample.getCustomerId()));
   }
 
 }

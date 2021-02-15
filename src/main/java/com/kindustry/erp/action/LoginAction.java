@@ -12,11 +12,11 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.Users;
 import com.kindustry.erp.service.LoginService;
 import com.kindustry.erp.shiro.CaptchaUsernamePasswordToken;
 import com.kindustry.erp.shiro.IncorrectCaptchaException;
-import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.view.Json;
 import com.kindustry.framework.action.BaseAction;
 
@@ -130,7 +130,7 @@ public class LoginAction extends BaseAction<Users> {
     } catch (Exception e) {
       json.setMessage(Constants.UNKNOWN_EXCEPTION);
     }
-    OutputJson(json, Constants.TEXT_TYPE_PLAIN);
+    outputJson(json, Constants.TEXT_TYPE_PLAIN);
   }
 
   /**
@@ -154,14 +154,14 @@ public class LoginAction extends BaseAction<Users> {
 
     Json json = new Json();
     json.setStatus(true);
-    OutputJson(json);
+    outputJson(json);
   }
 
   /**
    * 查询用户所有权限菜单
    */
   public String findAllFunctionList() {
-    OutputJson(loginService.findMenuList());
+    outputJson(loginService.findMenuList());
     return null;
   }
 }

@@ -23,11 +23,6 @@ public class Permission extends BaseEntity {
 
   private static final long serialVersionUID = 1136795483472903508L;
 
-  // @Id
-  // @GeneratedValue
-  // @Column(name = "PERMISSION_ID", unique = true, nullable = false)
-  // private Integer permissionId;
-
   @Column(name = "PID")
   private Long pid;
 
@@ -46,8 +41,8 @@ public class Permission extends BaseEntity {
   @Column(name = "TYPE", length = 1)
   private String type;
 
-  @Column(name = "STATE", length = 20)
-  private String state;
+  @Column(name = "STATUS", length = 20)
+  private String status;
 
   @Column(name = "ISUSED", length = 1)
   private String isused;
@@ -137,12 +132,23 @@ public class Permission extends BaseEntity {
     this.url = url;
   }
 
-  public String getState() {
-    return this.state;
+  /**
+   * statusを取得する。
+   * 
+   * @return the status
+   */
+  public String getStatus() {
+    return status;
   }
 
-  public void setState(String state) {
-    this.state = state;
+  /**
+   * statusを設定する。
+   * 
+   * @param status
+   *          the status to set
+   */
+  public void setStatus(String status) {
+    this.status = status;
   }
 
   public String getIconCls() {

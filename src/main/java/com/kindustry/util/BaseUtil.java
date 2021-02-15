@@ -1,4 +1,4 @@
-package com.kindustry.erp.util;
+package com.kindustry.util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -18,75 +18,21 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.apache.struts2.ServletActionContext;
 import org.hibernate.Session;
 
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.Log;
-import com.kindustry.erp.shiro.ShiroUser;
 
-public class Constants {
-  public static final String LOGIN_SESSION_DATANAME = "users";
-  public static final String LOGIN_URL = "login";
-  public static final String LOGIN_SUCCESS_URL = "index";
-  public static final String LOGIN_LOGIN_OUT_URL = "loginout";
-  public static final String LOGIN_MSG = "loginMsg";
-  public static final String USERNAME_IS_NULL = "用户名为空!";
-  public static final String LOGIN_IS_EXIST = "该用户已登录!";
-  public static final String UNKNOWN_SESSION_EXCEPTION = "异常会话!";
-  public static final String UNKNOWN_ACCOUNT_EXCEPTION = "账号错误!";
-  public static final String INCORRECT_CREDENTIALS_EXCEPTION = "密码错误!";
-  public static final String LOCKED_ACCOUNT_EXCEPTION = "账号已被锁定，请与系统管理员联系!";
-  public static final String INCORRECT_CAPTCHA_EXCEPTION = "验证码错误!";
-  public static final String AUTHENTICATION_EXCEPTION = "您没有授权!";
-  public static final String UNKNOWN_EXCEPTION = "出现未知异常,请与系统管理员联系!";
-  public static final String TREE_GRID_ADD_STATUS = "add";
-  public static final String POST_DATA_SUCCESS = "数据更新成功!";
-  public static final String POST_DATA_FAIL = "提交失败了!";
-  public static final String GET_SQL_LIKE = "%";
-  public static final String IS_FUNCTION = "F";
-  public static final String PERSISTENCE_STATUS = "A";
-  public static final String PERSISTENCE_DELETE_STATUS = "I";
-  public static final String SYSTEM_ADMINISTRATOR = "admin";
-  public static final String NULL_STRING = "";
-  public static final String IS_DOT = ".";
-  public static final String HQL_LIKE = "like";
-  public static final String TEXT_TYPE_PLAIN = "text/plain";
-  public static final String TEXT_TYPE_HTML = "text/html";
-  public static final String FUNCTION_TYPE_O = "O";
-  public static final String TREE_STATUS_OPEN = "open";
-  public static final String TREE_STATUS_CLOSED = "closed";
-  public static final String IS_EXT_SUBMENU = " 或可能包含菜单!";
-  public static final String SHIRO_USER = "shiroUser";
-  public static final String LOGS_INSERT = "insert:";
-  public static final String LOGS_INSERT_TEXT = "插入:";
-  public static final String LOGS_INSERT_NAME = "insertLogs";
-  public static final String LOGS_UPDATE = "update:";
-  public static final String LOGS_UPDATE_TEXT = "更新:";
-  public static final String LOGS_UPDATE_NAME = "updateLogs";
-  public static final String LOGS_DELETE = "delete:";
-  public static final String LOGS_DELETE_TEXT = "删除:";
-  public static final String LOGS_DELETE_NAME = "deleteLogs";
-  public static final String LOGS_TB_NAME = "Log";
-  public static final String FILE_SUFFIX_SQL = ".sql";
-  public static final String FILE_SUFFIX_ZIP = ".zip";
-
-  public static final int BUFFER_SIZE = 16 * 1024;
-  public static String BASE_PATH = System.getProperty("erp");
-
-  public static String getPrimaryKeyByUUID() {
-    return UUID.randomUUID().toString();
-  }
-
-  public static ShiroUser getCurrendUser() {
-    Subject subject = SecurityUtils.getSubject();
-    return (ShiroUser)subject.getSession().getAttribute(SHIRO_USER);
-  }
+public class BaseUtil {
+  //
+  // public static ShiroUser getCurrendUser() {
+  // Subject subject = SecurityUtils.getSubject();
+  // return (ShiroUser)subject.getSession().getAttribute(Constants.SHIRO_USER);
+  // }
 
   /**
    * 高级查询hql条件拼接
@@ -105,11 +51,13 @@ public class Constants {
       for (int i = 0; i < searchColumnNameArray.length; i++) {
         if (searchColumnNameArray[i].trim().length() > 0 && searchConditionsArray[i].trim().length() > 0) {
           String temp = searchValsArray[i].trim().replaceAll("\\'", "");
-          if (HQL_LIKE.equals(searchConditionsArray[i].trim())) {
-            sb.append(" " + searchAndsArray[i].trim() + " " + asName + IS_DOT + searchColumnNameArray[i].trim() + " " + searchConditionsArray[i].trim() + " " + "'%" + temp + "%'");
+          if (Constants.HQL_LIKE.equals(searchConditionsArray[i].trim())) {
+            sb.append(" " + searchAndsArray[i].trim() + " " + asName + Constants.IS_DOT + searchColumnNameArray[i].trim() + " " + searchConditionsArray[i].trim() + " " + "'%"
+              + temp + "%'");
 
           } else {
-            sb.append(" " + searchAndsArray[i].trim() + " " + asName + IS_DOT + searchColumnNameArray[i].trim() + " " + searchConditionsArray[i].trim() + " " + "'" + temp + "'");
+            sb.append(" " + searchAndsArray[i].trim() + " " + asName + Constants.IS_DOT + searchColumnNameArray[i].trim() + " " + searchConditionsArray[i].trim() + " " + "'"
+              + temp + "'");
           }
         }
       }
@@ -137,7 +85,7 @@ public class Constants {
    * 获取操作日志
    */
   public static <T> void getLogs(Session session, T o, String eventName, String er, String name) {
-    if (!LOGS_TB_NAME.equals(o.getClass().getSimpleName())) {
+    if (!Constants.LOGS_TB_NAME.equals(o.getClass().getSimpleName())) {
       String ip = getIpAddr();
       String mac = null;
       try {
@@ -148,8 +96,8 @@ public class Constants {
       String[] sdf = getFiledName(o);
       String id = getFieldValueByName(sdf[1], o).toString();
       Log l = new Log();
-      l.setUserId(getCurrendUser().getUserId());
-      l.setName(getCurrendUser().getAccount());
+      // l.setUserId(getCurrendUser().getUserId());
+      // l.setName(getCurrendUser().getAccount());
       l.setLogDate(new Date());
       l.setEventName(eventName + o.getClass().getSimpleName());
       l.setEventRecord(er + o.getClass().getName());
@@ -210,9 +158,9 @@ public class Constants {
     OutputStream out = null;
     try {
       File newFile = new File(fullSavePath);
-      in = new BufferedInputStream(new FileInputStream(src), BUFFER_SIZE);
-      out = new BufferedOutputStream(new FileOutputStream(newFile), BUFFER_SIZE);
-      byte[] buffer = new byte[BUFFER_SIZE];
+      in = new BufferedInputStream(new FileInputStream(src), Constants.BUFFER_SIZE);
+      out = new BufferedOutputStream(new FileOutputStream(newFile), Constants.BUFFER_SIZE);
+      byte[] buffer = new byte[Constants.BUFFER_SIZE];
       int len = 0;
       while ((len = in.read(buffer)) > 0) {
         out.write(buffer, 0, len);
@@ -245,8 +193,8 @@ public class Constants {
 
     SimpleDateFormat sd = new SimpleDateFormat("yyyyMMddHHmmss");
     String fineName = "dbBackup-" + sd.format(new Date());
-    String sqlName = fineName + FILE_SUFFIX_SQL;
-    String pathSql = BASE_PATH + "attachment" + File.separator + "dbBackUp";
+    String sqlName = fineName + ".sql";
+    String pathSql = "attachment" + File.separator + "dbBackUp";
     try {
       File filePathSql = new File(pathSql);
       if (!filePathSql.exists()) {

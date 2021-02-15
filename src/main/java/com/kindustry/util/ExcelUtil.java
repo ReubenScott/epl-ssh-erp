@@ -1,4 +1,4 @@
-package com.kindustry.erp.util;
+package com.kindustry.util;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +14,8 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.util.CellRangeAddressList;
+
+import com.kindustry.framework.annotation.ExcelVOAttribute;
 
 public class ExcelUtil<T> {
   Class<T> clazz;

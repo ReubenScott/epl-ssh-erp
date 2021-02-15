@@ -1,10 +1,11 @@
 package com.kindustry.erp.service;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 import com.kindustry.erp.model.Log;
-import com.kindustry.erp.util.PageUtil;
+import com.kindustry.util.PageUtil;
 
 public interface LogsService {
 
@@ -12,7 +13,7 @@ public interface LogsService {
 
   Long getCount(Map<String, Object> params, PageUtil pageUtil);
 
-  boolean delLogs(Long logId);
+  boolean delLogs(Serializable logId);
 
   boolean persistenceLogs(Log model);
 

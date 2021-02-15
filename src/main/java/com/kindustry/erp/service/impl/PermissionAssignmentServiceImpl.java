@@ -10,19 +10,20 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.Permission;
 import com.kindustry.erp.model.Role;
 import com.kindustry.erp.model.RolePermission;
 import com.kindustry.erp.service.PermissionAssignmentService;
-import com.kindustry.erp.util.Constants;
 import com.kindustry.erp.view.TreeGrid;
 import com.kindustry.framework.dao.IBaseDao;
+import com.kindustry.framework.service.impl.BaseServiceImpl;
+import com.kindustry.util.BaseUtil;
 
 @SuppressWarnings("unchecked")
 @Service("permissionAssignmentService")
-public class PermissionAssignmentServiceImpl implements PermissionAssignmentService {
+public class PermissionAssignmentServiceImpl extends BaseServiceImpl implements PermissionAssignmentService {
 
-  @SuppressWarnings("rawtypes")
   @Autowired
   private IBaseDao baseDao;
 
@@ -55,7 +56,7 @@ public class PermissionAssignmentServiceImpl implements PermissionAssignmentServ
   @Override
   public List<Role> findAllRoleList(Map<String, Object> map, Integer page, Integer rows, boolean b) {
     String hql = "from Role t where t.status='A' ";
-    hql += Constants.getSearchConditionsHQL("t", map);
+    hql += BaseUtil.getSearchConditionsHQL("t", map);
     List<Role> templist = null;
     if (b) {
       templist = baseDao.find(hql, map, page, rows);
@@ -72,7 +73,7 @@ public class PermissionAssignmentServiceImpl implements PermissionAssignmentServ
   @Override
   public Long getCount(Map<String, Object> map) {
     String hql = "select count(*) from Role t where t.status='A' ";
-    hql += Constants.getSearchConditionsHQL("t", map);
+    hql += BaseUtil.getSearchConditionsHQL("t", map);
     return baseDao.count(hql, map);
   }
 
@@ -83,10 +84,10 @@ public class PermissionAssignmentServiceImpl implements PermissionAssignmentServ
   @Override
   public List<Permission> getRolePermission(Integer roleId) {
     String sql = "SELECT t.PERMISSION_ID FROM ROLE_PERMISSION t WHERE t.STATUS = 'A' and t.ROLE_ID=" + roleId;
-    List<Long> list = baseDao.findBySQL(sql);
+    List<String> list = baseDao.findBySQL(sql);
     List<Permission> templist = new ArrayList<Permission>();
     if (list != null && !list.isEmpty()) {
-      for (Long i : list) {
+      for (String i : list) {
         Permission permission = new Permission();
         permission.setSid(i);
         templist.add(permission);
@@ -97,7 +98,7 @@ public class PermissionAssignmentServiceImpl implements PermissionAssignmentServ
 
   @Override
   public boolean persistenceRole(Role r) {
-    Integer userId = Constants.getCurrendUser().getUserId();
+    String userId = super.getCurrendUser().getUserId();
     if (null == r.getRoleId() || "".equals(r.getRoleId())) {
       r.setCreated(new Date());
       r.setLastmod(new Date());
@@ -115,12 +116,12 @@ public class PermissionAssignmentServiceImpl implements PermissionAssignmentServ
 
   @Override
   public boolean savePermission(Integer roleId, String checkedIds) {
-    Integer userId = Constants.getCurrendUser().getUserId();
+    String userId = super.getCurrendUser().getUserId();
     Role role = (Role)baseDao.get(Role.class, roleId);
     Map<String, RolePermission> map = new HashMap<String, RolePermission>();
     Set<RolePermission> rolePermissions = role.getRolePermissions();
     for (RolePermission rolePermission : rolePermissions) {
-      Long permissionId = rolePermission.getPermission().getSid();
+      String permissionId = rolePermission.getPermission().getSid();
       map.put(permissionId.toString(), rolePermission);
       updRolePermission(userId, rolePermission, Constants.PERSISTENCE_DELETE_STATUS);
     }
@@ -150,7 +151,7 @@ public class PermissionAssignmentServiceImpl implements PermissionAssignmentServ
 
   @Override
   public boolean persistenceRole(Integer roleId) {
-    Integer userId = Constants.getCurrendUser().getUserId();
+    String userId = super.getCurrendUser().getUserId();
     Role role = (Role)baseDao.get(Role.class, roleId);
     role.setLastmod(new Date());
     role.setModifyer(userId);
@@ -159,7 +160,7 @@ public class PermissionAssignmentServiceImpl implements PermissionAssignmentServ
     return true;
   }
 
-  private void updRolePermission(Integer userId, RolePermission rolePermission, String satus) {
+  private void updRolePermission(String userId, RolePermission rolePermission, String satus) {
     rolePermission.setLastmod(new Date());
     rolePermission.setCreater(userId);
     rolePermission.setModifyer(userId);

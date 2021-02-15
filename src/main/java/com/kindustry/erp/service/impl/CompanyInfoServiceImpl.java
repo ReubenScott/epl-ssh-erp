@@ -9,28 +9,30 @@ import org.springframework.stereotype.Service;
 
 import com.kindustry.erp.model.CompanyInfo;
 import com.kindustry.erp.service.CompanyInfoService;
-import com.kindustry.erp.util.Constants;
-import com.kindustry.erp.util.PageUtil;
 import com.kindustry.framework.dao.IBaseDao;
+import com.kindustry.framework.service.impl.BaseServiceImpl;
+import com.kindustry.util.BaseUtil;
+import com.kindustry.util.PageUtil;
 
 @Service("companyInfoService")
-public class CompanyInfoServiceImpl implements CompanyInfoService {
+public class CompanyInfoServiceImpl extends BaseServiceImpl implements CompanyInfoService {
+
   @Autowired
   private IBaseDao<CompanyInfo> baseDao;
 
   @Override
   public List<CompanyInfo> findAllCompanyInfoList(Map<String, Object> map, PageUtil pageUtil) {
     String hql = "from CompanyInfo t where t.status='A' ";
-    hql += Constants.getSearchConditionsHQL("t", map);
-    hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
+    hql += BaseUtil.getSearchConditionsHQL("t", map);
+    hql += BaseUtil.getGradeSearchConditionsHQL("t", pageUtil);
     return baseDao.find(hql, map, pageUtil.getPage(), pageUtil.getRows());
   }
 
   @Override
   public Long getCount(Map<String, Object> map, PageUtil pageUtil) {
     String hql = "select count(*) from CompanyInfo t where t.status='A' ";
-    hql += Constants.getSearchConditionsHQL("t", map);
-    hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
+    hql += BaseUtil.getSearchConditionsHQL("t", map);
+    hql += BaseUtil.getGradeSearchConditionsHQL("t", pageUtil);
     return baseDao.count(hql, map);
   }
 
@@ -59,7 +61,7 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
     if (list != null && !list.isEmpty()) {
       for (CompanyInfo c : list) {
         c.setLastmod(new Date());
-        c.setModifyer(Constants.getCurrendUser().getUserId());
+        c.setModifyer(super.getCurrendUser().getUserId());
         baseDao.save(c);
       }
     }
@@ -73,8 +75,8 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
         c.setCreated(new Date());
         c.setLastmod(new Date());
         c.setStatus("A");
-        c.setCreater(Constants.getCurrendUser().getUserId());
-        c.setModifyer(Constants.getCurrendUser().getUserId());
+        c.setCreater(super.getCurrendUser().getUserId());
+        c.setModifyer(super.getCurrendUser().getUserId());
         baseDao.save(c);
       }
     }

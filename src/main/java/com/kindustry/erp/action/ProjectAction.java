@@ -9,13 +9,13 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.Project;
 import com.kindustry.erp.model.ProjectFollow;
 import com.kindustry.erp.service.ProjectService;
-import com.kindustry.erp.util.Constants;
-import com.kindustry.erp.util.PageUtil;
 import com.kindustry.erp.view.GridModel;
 import com.kindustry.framework.action.BaseAction;
+import com.kindustry.util.PageUtil;
 
 @Namespace("/project")
 @Action(value = "projectAction")
@@ -39,7 +39,7 @@ public class ProjectAction extends BaseAction<Project> {
    * @throws
    */
   public String findCustomers() throws Exception {
-    OutputJson(projectService.findCustomers());
+    outputJson(projectService.findCustomers());
     return null;
   }
 
@@ -54,7 +54,7 @@ public class ProjectAction extends BaseAction<Project> {
    * @throws
    */
   public String findProjectFollowsList() throws Exception {
-    OutputJson(projectService.findProjectFollowsList(super.sample.getProjectId()));
+    outputJson(projectService.findProjectFollowsList(super.sample.getProjectId()));
     return null;
   }
 
@@ -77,7 +77,7 @@ public class ProjectAction extends BaseAction<Project> {
     GridModel gridModel = new GridModel();
     gridModel.setRows(projectService.findProjectList(map, pageUtil));
     gridModel.setTotal(projectService.getCount(map, pageUtil));
-    OutputJson(gridModel);
+    outputJson(gridModel);
     return null;
   }
 
@@ -92,7 +92,7 @@ public class ProjectAction extends BaseAction<Project> {
    * @throws
    */
   public String findProjectListCombobox() throws Exception {
-    OutputJson(projectService.findProjectListCombobox());
+    outputJson(projectService.findProjectListCombobox());
     return null;
   }
 
@@ -117,7 +117,7 @@ public class ProjectAction extends BaseAction<Project> {
     if (deleted != null && !"".equals(deleted)) {
       map.put("delList", JSON.parseArray(deleted, ProjectFollow.class));
     }
-    OutputJson(getMessage(projectService.persistenceProject(super.sample, map)), Constants.TEXT_TYPE_PLAIN);
+    outputJson(getMessage(projectService.persistenceProject(super.sample, map)), Constants.TEXT_TYPE_PLAIN);
     return null;
   }
 
@@ -132,7 +132,7 @@ public class ProjectAction extends BaseAction<Project> {
    * @throws
    */
   public String delProject() throws Exception {
-    OutputJson(getMessage(projectService.delProject(super.sample.getProjectId())));
+    outputJson(getMessage(projectService.delProject(super.sample.getProjectId())));
     return null;
   }
 

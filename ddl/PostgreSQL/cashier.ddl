@@ -29,38 +29,41 @@ CREATE TABLE cashier_info (
 -- 货号 条码 名称 规格 类别 库存 售出 单位 会员价	零售价 进价 打折	积分 更新 备注
 -- ordinal, goods_barcode, goods_name, unit, specs, sale_price, member_price, discount, sold_price, volume, amount
 -- 商品信息表  
-CREATE TABLE goods (
+CREATE TABLE commodity (
+  sid BIGINT NOT NULL,
   barcode VARCHAR(20) NOT NULL,     -- 商品条码
   title VARCHAR(80) NOT NULL,        -- 商品名称
-  specs varchar(20),                -- 规格型号
-  unit varchar(20),                 -- 单位 
-  category_id varchar(20),          -- 商品类别
+  standard VARCHAR(20),                -- 规格型号
+  unit VARCHAR(20),                 -- 单位 
+  category_id VARCHAR(20),          -- 商品类别
   cargo_no VARCHAR(20) NOT NULL,    -- 货号 
   purchase_price NUMERIC(16,6),     -- 进价
   sale_price NUMERIC(16,2),         -- 零售价
   member_price NUMERIC(16,2),       -- 会员价   
   storage_time TIMESTAMP WITHOUT TIME ZONE,    -- 首次入库时间
   update_time TIMESTAMP  WITHOUT TIME ZONE,            -- 更新时间
-  branch_no varchar(20) ,           -- 机构号  暂时不用
+  branch_no VARCHAR(20) ,           -- 机构号  暂时不用
+  state CHAR(1),                    -- 是否有效
   remarks VARCHAR(80),              -- 备注
-  PRIMARY KEY (barcode)
+  PRIMARY KEY (sid)
 );
 
-comment on table goods is '商品信息表 ';
-comment on column goods.barcode is '商品条码';
-comment on column goods.title is '商品名称';
-comment on column goods.specs is '规格型号';
-comment on column goods.unit is '单位';
-comment on column goods.barcode is '单位';
-comment on column goods.category_id is '商品类别';
-comment on column goods.cargo_no is '货号';
-comment on column goods.purchase_price is '进价';
-comment on column goods.sale_price is '零售价';
-comment on column goods.member_price is '会员价';
-comment on column goods.storage_time is '首次入库时间';
-comment on column goods.update_time is '更新时间';
-comment on column goods.branch_no is '机构号  暂时不用';
-comment on column goods.remarks is '备注';
+
+comment on table commodity is '商品信息表 ';
+comment on column commodity.barcode is '商品条码';
+comment on column commodity.title is '商品名称';
+comment on column commodity.standard is '规格型号';
+comment on column commodity.unit is '单位';
+comment on column commodity.category_id is '商品类别';
+comment on column commodity.cargo_no is '货号';
+comment on column commodity.purchase_price is '进价';
+comment on column commodity.sale_price is '零售价';
+comment on column commodity.member_price is '会员价';
+comment on column commodity.storage_time is '首次入库时间';
+comment on column commodity.update_time is '更新时间';
+comment on column commodity.state is '數據狀態 (A : active  ; I : inactive )';
+comment on column commodity.branch_no is '机构号  暂时不用';
+comment on column commodity.remarks is '备注';
 
 
 

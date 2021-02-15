@@ -12,15 +12,15 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.BackupScheduleConfig;
 import com.kindustry.erp.service.DbBackUpService;
-import com.kindustry.erp.util.Constants;
-import com.kindustry.erp.util.FileUtil;
-import com.kindustry.erp.util.PageUtil;
-import com.kindustry.erp.util.ZipUtils;
 import com.kindustry.erp.view.GridModel;
 import com.kindustry.erp.view.Json;
 import com.kindustry.framework.action.BaseAction;
+import com.kindustry.util.FileUtil;
+import com.kindustry.util.PageUtil;
+import com.kindustry.util.ZipUtils;
 
 @Namespace("/dbBackUp")
 @Action("dbBackUpAction")
@@ -50,7 +50,7 @@ public class DbBackUpAction extends BaseAction<BackupScheduleConfig> {
     GridModel gridModel = new GridModel();
     gridModel.setRows(dbBackUpService.findLogsAllList(map, pageUtil));
     gridModel.setTotal(dbBackUpService.getCount(map, pageUtil));
-    OutputJson(gridModel);
+    outputJson(gridModel);
   }
 
   /**
@@ -83,14 +83,14 @@ public class DbBackUpAction extends BaseAction<BackupScheduleConfig> {
         json.setMessage("文件不存在!");
       }
     }
-    OutputJson(json);
+    outputJson(json);
   }
 
   /**
    * 获取调度配置
    */
   public void getScheduleConfig() {
-    OutputJson(dbBackUpService.getBackupScheduleConfig());
+    outputJson(dbBackUpService.getBackupScheduleConfig());
   }
 
   /**
@@ -106,7 +106,7 @@ public class DbBackUpAction extends BaseAction<BackupScheduleConfig> {
       json.setStatus(false);
       json.setMessage("备份失败!");
     }
-    OutputJson(json, Constants.TEXT_TYPE_PLAIN);
+    outputJson(json, Constants.TEXT_TYPE_PLAIN);
   }
 
   /**
@@ -119,7 +119,7 @@ public class DbBackUpAction extends BaseAction<BackupScheduleConfig> {
     json.setTitle("提示");
     json.setStatus(true);
     json.setMessage(msg);
-    OutputJson(json, Constants.TEXT_TYPE_PLAIN);
+    outputJson(json, Constants.TEXT_TYPE_PLAIN);
   }
 
   /**

@@ -32,7 +32,7 @@
     <mybatis-spring.version>2.0.0</mybatis-spring.version>
     
     <!-- hibernate -->
-    <hibernate.version>4.1.12.Final</hibernate.version>
+    <hibernate.version>5.2.18.Final</hibernate.version>
     
     <!-- struts -->
     <struts.version>2.3.37</struts.version>
@@ -241,10 +241,11 @@
     </dependency>
     <!-- DB Driver End  -->
 
+    <!-- HikariCP 数据库连接池 -->
     <dependency>
-      <groupId>com.alibaba</groupId>
-      <artifactId>druid</artifactId>
-      <version>1.0.26</version>
+      <groupId>com.zaxxer</groupId>
+      <artifactId>HikariCP</artifactId>
+      <version>${hikariCP.version}</version>
     </dependency>
     
     

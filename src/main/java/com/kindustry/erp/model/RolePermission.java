@@ -48,10 +48,10 @@ public class RolePermission implements java.io.Serializable {
   private Date lastmod;
 
   @Column(name = "CREATER")
-  private Integer creater;
+  private String creater;
 
   @Column(name = "MODIFYER")
-  private Integer modifyer;
+  private String modifyer;
 
   // Constructors
 
@@ -62,17 +62,6 @@ public class RolePermission implements java.io.Serializable {
   public RolePermission(Role role, Permission permission) {
     this.role = role;
     this.permission = permission;
-  }
-
-  /** full constructor */
-  public RolePermission(Role role, Permission permission, String status, Date created, Date lastmod, Integer creater, Integer modifyer) {
-    this.role = role;
-    this.permission = permission;
-    this.status = status;
-    this.created = created;
-    this.lastmod = lastmod;
-    this.creater = creater;
-    this.modifyer = modifyer;
   }
 
   // Property accessors
@@ -124,19 +113,19 @@ public class RolePermission implements java.io.Serializable {
     this.lastmod = lastmod;
   }
 
-  public Integer getCreater() {
+  public String getCreater() {
     return this.creater;
   }
 
-  public void setCreater(Integer creater) {
+  public void setCreater(String creater) {
     this.creater = creater;
   }
 
-  public Integer getModifyer() {
+  public String getModifyer() {
     return this.modifyer;
   }
 
-  public void setModifyer(Integer modifyer) {
+  public void setModifyer(String modifyer) {
     this.modifyer = modifyer;
   }
 }

@@ -1,4 +1,4 @@
-package com.kindustry.erp.util;
+package com.kindustry.util;
 
 public class PageUtil {
   public Integer page;

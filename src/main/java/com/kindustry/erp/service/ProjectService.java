@@ -6,7 +6,7 @@ import java.util.Map;
 import com.kindustry.erp.model.Customer;
 import com.kindustry.erp.model.Project;
 import com.kindustry.erp.model.ProjectFollow;
-import com.kindustry.erp.util.PageUtil;
+import com.kindustry.util.PageUtil;
 
 public interface ProjectService {
 

@@ -30,8 +30,8 @@ public class UserRole implements Serializable {
   private String status;
   private Date created;
   private Date lastmod;
-  private Integer creater;
-  private Integer modifyer;
+  private String creater;
+  private String modifyer;
 
   /** default constructor */
   public UserRole() {}
@@ -39,17 +39,6 @@ public class UserRole implements Serializable {
   /** minimal constructor */
   public UserRole(Users users) {
     this.users = users;
-  }
-
-  /** full constructor */
-  public UserRole(Users users, Role role, String status, Date created, Date lastmod, Integer creater, Integer modifyer) {
-    this.users = users;
-    this.role = role;
-    this.status = status;
-    this.created = created;
-    this.lastmod = lastmod;
-    this.creater = creater;
-    this.modifyer = modifyer;
   }
 
   // Property accessors
@@ -114,20 +103,20 @@ public class UserRole implements Serializable {
   }
 
   @Column(name = "CREATER")
-  public Integer getCreater() {
+  public String getCreater() {
     return this.creater;
   }
 
-  public void setCreater(Integer creater) {
+  public void setCreater(String creater) {
     this.creater = creater;
   }
 
   @Column(name = "MODIFYER")
-  public Integer getModifyer() {
+  public String getModifyer() {
     return this.modifyer;
   }
 
-  public void setModifyer(Integer modifyer) {
+  public void setModifyer(String modifyer) {
     this.modifyer = modifyer;
   }
 }

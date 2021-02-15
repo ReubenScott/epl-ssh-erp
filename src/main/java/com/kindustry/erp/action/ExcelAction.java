@@ -18,9 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kindustry.erp.model.CompanyInfo;
 import com.kindustry.erp.service.ExcelService;
-import com.kindustry.erp.util.ExcelUtil;
-import com.kindustry.erp.util.FileUtil;
 import com.kindustry.framework.action.BaseAction;
+import com.kindustry.util.ExcelUtil;
+import com.kindustry.util.FileUtil;
 
 @Namespace("/excel")
 @Action("excelAction")

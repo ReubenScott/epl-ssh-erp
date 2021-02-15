@@ -39,8 +39,8 @@ public class SuplierContact implements java.io.Serializable {
   private String status;
   private Date created;
   private Date lastmod;
-  private Integer creater;
-  private Integer modifyer;
+  private String creater;
+  private String modifyer;
   private String qq;
 
   // Constructors
@@ -53,28 +53,6 @@ public class SuplierContact implements java.io.Serializable {
     this.classId = classId;
     this.name = name;
     this.sexId = sexId;
-  }
-
-  /** full constructor */
-  public SuplierContact(Integer classId, String name, Integer sexId, String className, String sexName, String organization, String duty, String tel, String email, String mobile,
-    String description, String status, Date created, Date lastmod, Integer creater, Integer modifyer, String qq) {
-    this.classId = classId;
-    this.name = name;
-    this.sexId = sexId;
-    this.className = className;
-    this.sexName = sexName;
-    this.organization = organization;
-    this.duty = duty;
-    this.tel = tel;
-    this.email = email;
-    this.mobile = mobile;
-    this.description = description;
-    this.status = status;
-    this.created = created;
-    this.lastmod = lastmod;
-    this.creater = creater;
-    this.modifyer = modifyer;
-    this.qq = qq;
   }
 
   // Property accessors
@@ -227,20 +205,20 @@ public class SuplierContact implements java.io.Serializable {
   }
 
   @Column(name = "CREATER")
-  public Integer getCreater() {
+  public String getCreater() {
     return this.creater;
   }
 
-  public void setCreater(Integer creater) {
+  public void setCreater(String creater) {
     this.creater = creater;
   }
 
   @Column(name = "MODIFYER")
-  public Integer getModifyer() {
+  public String getModifyer() {
     return this.modifyer;
   }
 
-  public void setModifyer(Integer modifyer) {
+  public void setModifyer(String modifyer) {
     this.modifyer = modifyer;
   }
 

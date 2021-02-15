@@ -7,13 +7,13 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.Users;
 import com.kindustry.erp.service.UserService;
-import com.kindustry.erp.util.Constants;
-import com.kindustry.erp.util.PageUtil;
 import com.kindustry.erp.view.GridModel;
 import com.kindustry.erp.view.Json;
 import com.kindustry.framework.action.BaseAction;
+import com.kindustry.util.PageUtil;
 
 @Namespace("/user")
 @Action(value = "userAction")
@@ -36,7 +36,7 @@ public class UserAction extends BaseAction<Users> {
     GridModel gridModel = new GridModel();
     gridModel.setRows(userService.findAllUserList(map, pageUtil));
     gridModel.setTotal(userService.getCount(map, pageUtil));
-    OutputJson(gridModel);
+    outputJson(gridModel);
     return null;
   }
 
@@ -44,7 +44,7 @@ public class UserAction extends BaseAction<Users> {
    * 持久化用户弹窗模式
    */
   public String persistenceUsersDig() {
-    OutputJson(getMessage(userService.persistenceUsers(super.sample)), Constants.TEXT_TYPE_PLAIN);
+    outputJson(getMessage(userService.persistenceUsers(super.sample)), Constants.TEXT_TYPE_PLAIN);
     return null;
   }
 
@@ -52,7 +52,7 @@ public class UserAction extends BaseAction<Users> {
    * 查询用户拥有角色
    */
   public String findUsersRolesList() {
-    OutputJson(userService.findUsersRolesList(super.sample.getUserId()));
+    outputJson(userService.findUsersRolesList(super.sample.getUserId()));
     return null;
   }
 
@@ -67,12 +67,12 @@ public class UserAction extends BaseAction<Users> {
     } else {
       json.setMessage("提交失败了！");
     }
-    OutputJson(json);
+    outputJson(json);
     return null;
   }
 
   public String delUsers() {
-    OutputJson(getMessage(userService.delUsers(super.sample.getUserId())));
+    outputJson(getMessage(userService.delUsers(super.sample.getUserId())));
     return null;
   }
 

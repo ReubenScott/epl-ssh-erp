@@ -5,8 +5,8 @@ public class TreeModel {
   private String pid;
   private String name;
   private String iconCls;
-  private String state;
-  private Integer permissionId;
+  private String status;
+  private String permissionId;
   private Attributes attributes;
 
   public String getId() {
@@ -41,19 +41,30 @@ public class TreeModel {
     this.iconCls = iconCls;
   }
 
-  public String getState() {
-    return state;
+  /**
+   * statusを取得する。
+   * 
+   * @return the status
+   */
+  public String getStatus() {
+    return status;
   }
 
-  public void setState(String state) {
-    this.state = state;
+  /**
+   * statusを設定する。
+   * 
+   * @param status
+   *          the status to set
+   */
+  public void setStatus(String status) {
+    this.status = status;
   }
 
-  public Integer getPermissionId() {
+  public String getPermissionId() {
     return permissionId;
   }
 
-  public void setPermissionId(Integer permissionId) {
+  public void setPermissionId(String permissionId) {
     this.permissionId = permissionId;
   }
 

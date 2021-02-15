@@ -78,8 +78,8 @@ public class OrderSale implements java.io.Serializable {
   private Date created;
   private Date lastmod;
   private String status;
-  private Integer creater;
-  private Integer modifyer;
+  private String creater;
+  private String modifyer;
   private String orderStatus;
   private Integer currencyId;
   private String currencyName;
@@ -88,77 +88,6 @@ public class OrderSale implements java.io.Serializable {
 
   /** default constructor */
   public OrderSale() {}
-
-  /** full constructor */
-  public OrderSale(String myid, Date setupDate, Integer setupAccount, Integer warehouseId, Integer customerId, String customerName, String customerMyid, Integer projectId,
-    String projectName, String customerAddress, String customerContact, String customerTel, String contactMobile, String contactTel, String contactFax, Integer deliveryMode,
-    String deliveryModeName, Date estimatedDelivery, String deliveryAddress, String orderDesc, Integer payMode, Integer isinvoice, Integer saleId, String saleName,
-    Integer saleOrganizationId, String saleOrganizationName, String warehouseName, Integer enterId, String enterName, Integer enterOrganizationId, String enterOrganizationName,
-    Date enterDate, Integer auditeId, String auditeName, Integer auditeOrganizationId, String auditeOrganizationName, Date auditeDate, String auditeStatus, Integer attachmentId,
-    Integer sourceObject, Integer objectId, Integer printCount, Integer classId, String className, Integer batchId, String batchNo, String deductionTax, String customerOrderNo,
-    Double amount, Double taxAmount, Double totalAmount, Double advancePayment, Date created, Date lastmod, String status, Integer creater, Integer modifyer, String orderStatus,
-    Integer currencyId, String currencyName) {
-    this.myid = myid;
-    this.setupDate = setupDate;
-    this.setupAccount = setupAccount;
-    this.warehouseId = warehouseId;
-    this.customerId = customerId;
-    this.customerName = customerName;
-    this.customerMyid = customerMyid;
-    this.projectId = projectId;
-    this.projectName = projectName;
-    this.customerAddress = customerAddress;
-    this.customerContact = customerContact;
-    this.customerTel = customerTel;
-    this.contactMobile = contactMobile;
-    this.contactTel = contactTel;
-    this.contactFax = contactFax;
-    this.deliveryMode = deliveryMode;
-    this.deliveryModeName = deliveryModeName;
-    this.estimatedDelivery = estimatedDelivery;
-    this.deliveryAddress = deliveryAddress;
-    this.orderDesc = orderDesc;
-    this.payMode = payMode;
-    this.isinvoice = isinvoice;
-    this.saleId = saleId;
-    this.saleName = saleName;
-    this.saleOrganizationId = saleOrganizationId;
-    this.saleOrganizationName = saleOrganizationName;
-    this.warehouseName = warehouseName;
-    this.enterId = enterId;
-    this.enterName = enterName;
-    this.enterOrganizationId = enterOrganizationId;
-    this.enterOrganizationName = enterOrganizationName;
-    this.enterDate = enterDate;
-    this.auditeId = auditeId;
-    this.auditeName = auditeName;
-    this.auditeOrganizationId = auditeOrganizationId;
-    this.auditeOrganizationName = auditeOrganizationName;
-    this.auditeDate = auditeDate;
-    this.auditeStatus = auditeStatus;
-    this.attachmentId = attachmentId;
-    this.sourceObject = sourceObject;
-    this.objectId = objectId;
-    this.printCount = printCount;
-    this.classId = classId;
-    this.className = className;
-    this.batchId = batchId;
-    this.batchNo = batchNo;
-    this.deductionTax = deductionTax;
-    this.customerOrderNo = customerOrderNo;
-    this.amount = amount;
-    this.taxAmount = taxAmount;
-    this.totalAmount = totalAmount;
-    this.advancePayment = advancePayment;
-    this.created = created;
-    this.lastmod = lastmod;
-    this.status = status;
-    this.creater = creater;
-    this.modifyer = modifyer;
-    this.orderStatus = orderStatus;
-    this.currencyId = currencyId;
-    this.currencyName = currencyName;
-  }
 
   // Property accessors
   @Id
@@ -674,20 +603,20 @@ public class OrderSale implements java.io.Serializable {
   }
 
   @Column(name = "CREATER")
-  public Integer getCreater() {
+  public String getCreater() {
     return this.creater;
   }
 
-  public void setCreater(Integer creater) {
+  public void setCreater(String creater) {
     this.creater = creater;
   }
 
   @Column(name = "MODIFYER")
-  public Integer getModifyer() {
+  public String getModifyer() {
     return this.modifyer;
   }
 
-  public void setModifyer(Integer modifyer) {
+  public void setModifyer(String modifyer) {
     this.modifyer = modifyer;
   }
 

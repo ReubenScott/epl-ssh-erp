@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.kindustry.erp.model.CompanyInfo;
-import com.kindustry.erp.util.PageUtil;
+import com.kindustry.util.PageUtil;
 
 public interface CompanyInfoService {
 

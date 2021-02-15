@@ -22,14 +22,14 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicInsert(true)
 public class Customer implements java.io.Serializable {
   private static final long serialVersionUID = -2821343605850547602L;
-  private Integer customerId;
+  private String customerId;
   private String name;
   private String myid;
   private String status;
   private Date created;
   private Date lastmod;
-  private Integer creater;
-  private Integer modifiyer;
+  private String creater;
+  private String modifiyer;
   private Integer classId;
   private String tel;
   private String fax;
@@ -94,82 +94,15 @@ public class Customer implements java.io.Serializable {
     this.created = created;
   }
 
-  /** full constructor */
-  public Customer(String name, String myid, String status, Date created, Date lastmod, Integer creater, Integer modifiyer, Integer classId, String tel, String fax, String url,
-    String email, Integer areaId, String areaName, Integer provinceId, String provinceName, Integer cityId, String cityName, String address, String zip, Integer levelId,
-    String levelName, Integer priceLevel, Integer contactPeriod, Integer sourceId, String sourceName, Integer natureId, String natureName, Integer industryId, String industryName,
-    String mainBusiness, Integer sizeId, String sizeName, Date setupDate, Integer capital, String corporation, Integer creditId, String creditName, String bank, String account,
-    String taxno, String shared, Integer pid, Integer attachmentId, String description, Integer saleId, String saleName, Integer saleOrganizationId, String saleOrganizationName,
-    String customerStatus, String className, Integer empCount, Integer tax, Integer setupAccount, Integer currencyId, String currencyName, String totalSales, String deductionTax) {
-    this.name = name;
-    this.myid = myid;
-    this.status = status;
-    this.created = created;
-    this.lastmod = lastmod;
-    this.creater = creater;
-    this.modifiyer = modifiyer;
-    this.classId = classId;
-    this.tel = tel;
-    this.fax = fax;
-    this.url = url;
-    this.email = email;
-    this.areaId = areaId;
-    this.areaName = areaName;
-    this.provinceId = provinceId;
-    this.provinceName = provinceName;
-    this.cityId = cityId;
-    this.cityName = cityName;
-    this.address = address;
-    this.zip = zip;
-    this.levelId = levelId;
-    this.levelName = levelName;
-    this.priceLevel = priceLevel;
-    this.contactPeriod = contactPeriod;
-    this.sourceId = sourceId;
-    this.sourceName = sourceName;
-    this.natureId = natureId;
-    this.natureName = natureName;
-    this.industryId = industryId;
-    this.industryName = industryName;
-    this.mainBusiness = mainBusiness;
-    this.sizeId = sizeId;
-    this.sizeName = sizeName;
-    this.setupDate = setupDate;
-    this.capital = capital;
-    this.corporation = corporation;
-    this.creditId = creditId;
-    this.creditName = creditName;
-    this.bank = bank;
-    this.account = account;
-    this.taxno = taxno;
-    this.shared = shared;
-    this.pid = pid;
-    this.attachmentId = attachmentId;
-    this.description = description;
-    this.saleId = saleId;
-    this.saleName = saleName;
-    this.saleOrganizationId = saleOrganizationId;
-    this.saleOrganizationName = saleOrganizationName;
-    this.customerStatus = customerStatus;
-    this.className = className;
-    this.empCount = empCount;
-    this.tax = tax;
-    this.setupAccount = setupAccount;
-    this.currencyId = currencyId;
-    this.currencyName = currencyName;
-    this.totalSales = totalSales;
-    this.deductionTax = deductionTax;
-  }
-
   // Property accessors
   @Id
   @GeneratedValue
   @Column(name = "CUSTOMER_ID", unique = true, nullable = false)
-  public Integer getCustomerId() {
+  public String getCustomerId() {
     return this.customerId;
   }
 
-  public void setCustomerId(Integer customerId) {
+  public void setCustomerId(String customerId) {
     this.customerId = customerId;
   }
 
@@ -221,20 +154,20 @@ public class Customer implements java.io.Serializable {
   }
 
   @Column(name = "CREATER")
-  public Integer getCreater() {
+  public String getCreater() {
     return this.creater;
   }
 
-  public void setCreater(Integer creater) {
+  public void setCreater(String creater) {
     this.creater = creater;
   }
 
   @Column(name = "MODIFIYER")
-  public Integer getModifiyer() {
+  public String getModifiyer() {
     return this.modifiyer;
   }
 
-  public void setModifiyer(Integer modifiyer) {
+  public void setModifiyer(String modifiyer) {
     this.modifiyer = modifiyer;
   }
 

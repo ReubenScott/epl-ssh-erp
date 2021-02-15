@@ -7,22 +7,25 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.Bug;
 import com.kindustry.erp.service.BugService;
-import com.kindustry.erp.util.Constants;
-import com.kindustry.erp.util.PageUtil;
 import com.kindustry.framework.dao.IBaseDao;
+import com.kindustry.framework.service.impl.BaseServiceImpl;
+import com.kindustry.util.BaseUtil;
+import com.kindustry.util.PageUtil;
 
 @Service("bugService")
-public class BugServiceImpl implements BugService {
+public class BugServiceImpl extends BaseServiceImpl implements BugService {
+
   @Autowired
   private IBaseDao<Bug> baseDao;
 
   @Override
   public List<Bug> findBugList(Map<String, Object> map, PageUtil pageUtil) {
     String hql = "from Bug t where t.status='A' ";
-    hql += Constants.getSearchConditionsHQL("t", map);
-    hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
+    hql += BaseUtil.getSearchConditionsHQL("t", map);
+    hql += BaseUtil.getGradeSearchConditionsHQL("t", pageUtil);
     hql += " order by t.bugId desc ";
     return baseDao.find(hql, map, pageUtil.getPage(), pageUtil.getRows());
   }
@@ -30,15 +33,15 @@ public class BugServiceImpl implements BugService {
   @Override
   public Long getCount(Map<String, Object> map, PageUtil pageUtil) {
     String hql = "select count(*) from Bug t where t.status='A' ";
-    hql += Constants.getSearchConditionsHQL("t", map);
-    hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
+    hql += BaseUtil.getSearchConditionsHQL("t", map);
+    hql += BaseUtil.getGradeSearchConditionsHQL("t", pageUtil);
     hql += " order by t.bugId desc ";
     return baseDao.count(hql, map);
   }
 
   @Override
   public boolean persistenceBug(Bug bug) {
-    Integer userId = Constants.getCurrendUser().getUserId();
+    String userId = super.getCurrendUser().getUserId();
     if (bug.getBugId() == null || "".equals(bug.getBugId())) {
       bug.setLastmod(new Date());
       bug.setCreated(new Date());
@@ -58,7 +61,7 @@ public class BugServiceImpl implements BugService {
   public boolean delBug(Integer bugId) {
     Bug bug = baseDao.get(Bug.class, bugId);
     bug.setLastmod(new Date());
-    bug.setModifyer(Constants.getCurrendUser().getUserId());
+    bug.setModifyer(super.getCurrendUser().getUserId());
     bug.setStatus(Constants.PERSISTENCE_DELETE_STATUS);
     baseDao.update(bug);
     return true;

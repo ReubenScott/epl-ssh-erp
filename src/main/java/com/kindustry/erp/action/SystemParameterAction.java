@@ -25,7 +25,7 @@ public class SystemParameterAction extends BaseAction {
    * 查询所有
    */
   public String findParameterList() {
-    OutputJson(systemParameterService.findParameterList(type));
+    outputJson(systemParameterService.findParameterList(type));
     return null;
   }
 
@@ -34,7 +34,7 @@ public class SystemParameterAction extends BaseAction {
     map.put("addList", JSON.parseArray(inserted, Parameter.class));
     map.put("updList", JSON.parseArray(updated, Parameter.class));
     map.put("delList", JSON.parseArray(deleted, Parameter.class));
-    OutputJson(getMessage(systemParameterService.persistenceParameter(map)));
+    outputJson(getMessage(systemParameterService.persistenceParameter(map)));
     return null;
   }
 

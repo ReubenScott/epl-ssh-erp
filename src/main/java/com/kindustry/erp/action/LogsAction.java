@@ -7,12 +7,12 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.Log;
 import com.kindustry.erp.service.LogsService;
-import com.kindustry.erp.util.Constants;
-import com.kindustry.erp.util.PageUtil;
 import com.kindustry.erp.view.GridModel;
 import com.kindustry.framework.action.BaseAction;
+import com.kindustry.util.PageUtil;
 
 @Namespace("/logs")
 @Action(value = "logsAction")
@@ -34,7 +34,7 @@ public class LogsAction extends BaseAction<Log> {
     GridModel gridModel = new GridModel();
     gridModel.setRows(logsService.findLogsAllList(params, pageUtil));
     gridModel.setTotal(logsService.getCount(params, pageUtil));
-    OutputJson(gridModel);
+    outputJson(gridModel);
     return null;
   }
 
@@ -42,7 +42,7 @@ public class LogsAction extends BaseAction<Log> {
    * 删除日志
    */
   public String delLogs() {
-    OutputJson(getMessage(logsService.delLogs(super.sample.getSid())));
+    outputJson(getMessage(logsService.delLogs(super.sample.getSid())));
     return null;
   }
 
@@ -50,7 +50,7 @@ public class LogsAction extends BaseAction<Log> {
    * 持久化日志弹窗
    */
   public String persistenceLogs() {
-    OutputJson(getMessage(logsService.persistenceLogs(super.sample)), Constants.TEXT_TYPE_PLAIN);
+    outputJson(getMessage(logsService.persistenceLogs(super.sample)), Constants.TEXT_TYPE_PLAIN);
     return null;
   }
 

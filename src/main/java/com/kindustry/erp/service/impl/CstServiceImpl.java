@@ -8,37 +8,39 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.Customer;
 import com.kindustry.erp.model.CustomerContact;
 import com.kindustry.erp.model.Organization;
 import com.kindustry.erp.model.Users;
 import com.kindustry.erp.service.CstService;
-import com.kindustry.erp.util.Constants;
-import com.kindustry.erp.util.PageUtil;
 import com.kindustry.erp.view.Attributes;
 import com.kindustry.erp.view.TreeModel;
 import com.kindustry.framework.dao.IBaseDao;
+import com.kindustry.framework.service.impl.BaseServiceImpl;
+import com.kindustry.util.BaseUtil;
+import com.kindustry.util.PageUtil;
 
 @Service("cstService")
 @SuppressWarnings("unchecked")
-public class CstServiceImpl implements CstService {
-  @SuppressWarnings("rawtypes")
+public class CstServiceImpl extends BaseServiceImpl implements CstService {
+
   @Autowired
   private IBaseDao baseDao;
 
   @Override
   public List<Customer> findCustomerList(Map<String, Object> map, PageUtil pageUtil) {
     String hql = "from Customer t where t.status='A'";
-    hql += Constants.getSearchConditionsHQL("t", map);
-    hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
+    hql += BaseUtil.getSearchConditionsHQL("t", map);
+    hql += BaseUtil.getGradeSearchConditionsHQL("t", pageUtil);
     return baseDao.find(hql, map, pageUtil.getPage(), pageUtil.getRows());
   }
 
   @Override
   public Long getCount(Map<String, Object> map, PageUtil pageUtil) {
     String hql = "select count(*) from Customer t where t.status='A' ";
-    hql += Constants.getSearchConditionsHQL("t", map);
-    hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
+    hql += BaseUtil.getSearchConditionsHQL("t", map);
+    hql += BaseUtil.getGradeSearchConditionsHQL("t", pageUtil);
     return baseDao.count(hql, map);
   }
 
@@ -55,7 +57,7 @@ public class CstServiceImpl implements CstService {
         treeModel.setId("0" + u.getUserId());
         treeModel.setPid(u.getOrganizeId() + "");
         treeModel.setName(u.getName());
-        treeModel.setState(Constants.TREE_STATUS_OPEN);
+        treeModel.setStatus(Constants.TREE_STATUS_OPEN);
         treeModel.setPermissionId(u.getUserId());
         Attributes attributes = new Attributes();
         attributes.setStatus("u");
@@ -68,7 +70,7 @@ public class CstServiceImpl implements CstService {
       treeModel.setId(o.getOrganizationId() + Constants.NULL_STRING);
       treeModel.setPid(o.getPid() == null ? null : o.getPid().toString());
       treeModel.setName(o.getFullName());
-      treeModel.setState(Constants.TREE_STATUS_OPEN);
+      treeModel.setStatus(Constants.TREE_STATUS_OPEN);
       treeModel.setIconCls(o.getIconCls());
       Attributes attributes = new Attributes();
       attributes.setStatus("o");
@@ -80,7 +82,7 @@ public class CstServiceImpl implements CstService {
 
   @Override
   public boolean persistenceCustomer(Customer model, Map<String, List<CustomerContact>> map) {
-    Integer userId = Constants.getCurrendUser().getUserId();
+    String userId = super.getCurrendUser().getUserId();
     if (model.getCustomerId() == null || "".equals(model.getCustomerId())) {
       model.setCreated(new Date());
       model.setLastmod(new Date());
@@ -140,8 +142,8 @@ public class CstServiceImpl implements CstService {
   }
 
   @Override
-  public boolean delCustomer(Integer customerId) {
-    Integer userId = Constants.getCurrendUser().getUserId();
+  public boolean delCustomer(String customerId) {
+    String userId = super.getCurrendUser().getUserId();
     Customer c = (Customer)baseDao.get(Customer.class, customerId);
     c.setLastmod(new Date());
     c.setModifiyer(userId);

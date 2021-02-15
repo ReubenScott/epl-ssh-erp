@@ -1,4 +1,4 @@
-package com.kindustry.erp.util;
+package com.kindustry.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

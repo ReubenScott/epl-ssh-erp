@@ -13,7 +13,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.kindustry.erp.util.ExcelVOAttribute;
+import com.kindustry.framework.annotation.ExcelVOAttribute;
 
 /**
  * CompanyInfo entity. @author MyEclipse Persistence Tools
@@ -47,8 +47,8 @@ public class CompanyInfo implements java.io.Serializable {
   private String bankaccount;
   @ExcelVOAttribute(name = "描述", column = "H")
   private String description;
-  private Integer creater;
-  private Integer modifyer;
+  private String creater;
+  private String modifyer;
 
   // Constructors
 
@@ -59,27 +59,6 @@ public class CompanyInfo implements java.io.Serializable {
   public CompanyInfo(String status, Date created) {
     this.status = status;
     this.created = created;
-  }
-
-  /** full constructor */
-  public CompanyInfo(String name, String tel, String fax, String address, String zip, String email, String contact, String status, Date created, Date lastmod, String manager,
-    String bank, String bankaccount, String description, Integer creater, Integer modifyer) {
-    this.name = name;
-    this.tel = tel;
-    this.fax = fax;
-    this.address = address;
-    this.zip = zip;
-    this.email = email;
-    this.contact = contact;
-    this.status = status;
-    this.created = created;
-    this.lastmod = lastmod;
-    this.manager = manager;
-    this.bank = bank;
-    this.bankaccount = bankaccount;
-    this.description = description;
-    this.creater = creater;
-    this.modifyer = modifyer;
   }
 
   // Property accessors
@@ -223,20 +202,20 @@ public class CompanyInfo implements java.io.Serializable {
   }
 
   @Column(name = "CREATER")
-  public Integer getCreater() {
+  public String getCreater() {
     return this.creater;
   }
 
-  public void setCreater(Integer creater) {
+  public void setCreater(String creater) {
     this.creater = creater;
   }
 
   @Column(name = "MODIFYER")
-  public Integer getModifyer() {
+  public String getModifyer() {
     return this.modifyer;
   }
 
-  public void setModifyer(Integer modifyer) {
+  public void setModifyer(String modifyer) {
     this.modifyer = modifyer;
   }
 

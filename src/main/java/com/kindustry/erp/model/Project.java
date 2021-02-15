@@ -49,48 +49,13 @@ public class Project implements java.io.Serializable {
   private Date created;
   private Date lastmod;
   private String status;
-  private Integer creater;
-  private Integer modifyer;
+  private String creater;
+  private String modifyer;
 
   // Constructors
 
   /** default constructor */
   public Project() {}
-
-  /** full constructor */
-  public Project(String myid, String name, Date setupDate, Integer classId, String className, Integer customerId, String customerMyid, String telNo, String contacts,
-    String mobile, Integer sourceId, String sourceName, String budget, Date startTime, Date endTime, String description, Integer attachmentId, String shared, Integer printCount,
-    Integer managerId, String managerName, Integer managerOrganizationId, String managerOrganizationName, Date created, Date lastmod, String status, Integer creater,
-    Integer modifyer) {
-    this.myid = myid;
-    this.name = name;
-    this.setupDate = setupDate;
-    this.classId = classId;
-    this.className = className;
-    this.customerId = customerId;
-    this.customerMyid = customerMyid;
-    this.telNo = telNo;
-    this.contacts = contacts;
-    this.mobile = mobile;
-    this.sourceId = sourceId;
-    this.sourceName = sourceName;
-    this.budget = budget;
-    this.startTime = startTime;
-    this.endTime = endTime;
-    this.description = description;
-    this.attachmentId = attachmentId;
-    this.shared = shared;
-    this.printCount = printCount;
-    this.managerId = managerId;
-    this.managerName = managerName;
-    this.managerOrganizationId = managerOrganizationId;
-    this.managerOrganizationName = managerOrganizationName;
-    this.created = created;
-    this.lastmod = lastmod;
-    this.status = status;
-    this.creater = creater;
-    this.modifyer = modifyer;
-  }
 
   // Property accessors
   @Id
@@ -344,20 +309,20 @@ public class Project implements java.io.Serializable {
   }
 
   @Column(name = "CREATER")
-  public Integer getCreater() {
+  public String getCreater() {
     return this.creater;
   }
 
-  public void setCreater(Integer creater) {
+  public void setCreater(String creater) {
     this.creater = creater;
   }
 
   @Column(name = "MODIFYER")
-  public Integer getModifyer() {
+  public String getModifyer() {
     return this.modifyer;
   }
 
-  public void setModifyer(Integer modifyer) {
+  public void setModifyer(String modifyer) {
     this.modifyer = modifyer;
   }
 

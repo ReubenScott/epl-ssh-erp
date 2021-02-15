@@ -9,13 +9,13 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.Suplier;
 import com.kindustry.erp.model.SuplierContact;
 import com.kindustry.erp.service.SupService;
-import com.kindustry.erp.util.Constants;
-import com.kindustry.erp.util.PageUtil;
 import com.kindustry.erp.view.GridModel;
 import com.kindustry.framework.action.BaseAction;
+import com.kindustry.util.PageUtil;
 
 @Namespace("/sup")
 @Action("supAction")
@@ -36,7 +36,7 @@ public class SupAction extends BaseAction<Suplier> {
     GridModel gridModel = new GridModel();
     gridModel.setRows(supService.findSuplierList(map, pageUtil));
     gridModel.setTotal(supService.getCount(map, pageUtil));
-    OutputJson(gridModel);
+    outputJson(gridModel);
   }
 
   /**
@@ -51,14 +51,14 @@ public class SupAction extends BaseAction<Suplier> {
     GridModel gridModel = new GridModel();
     gridModel.setRows(supService.findSuplierListNoPage(map, pageUtil));
     gridModel.setTotal(null);
-    OutputJson(gridModel);
+    outputJson(gridModel);
   }
 
   /**
    * 删除Suplier
    */
   public void delSuplier() {
-    OutputJson(getMessage(supService.delSuplier(super.sample.getSuplierId())));
+    outputJson(getMessage(supService.delSuplier(super.sample.getSuplierId())));
   }
 
   /**
@@ -75,7 +75,7 @@ public class SupAction extends BaseAction<Suplier> {
     if (deleted != null && !"".equals(deleted)) {
       map.put("delList", JSON.parseArray(deleted, SuplierContact.class));
     }
-    OutputJson(getMessage(supService.persistenceSuplier(super.sample, map)), Constants.TEXT_TYPE_PLAIN);
+    outputJson(getMessage(supService.persistenceSuplier(super.sample, map)), Constants.TEXT_TYPE_PLAIN);
   }
 
   /**
@@ -85,13 +85,13 @@ public class SupAction extends BaseAction<Suplier> {
     GridModel gridModel = new GridModel();
     gridModel.setRows(supService.findSuplierContactList(super.sample.getSuplierId()));
     gridModel.setTotal(null);
-    OutputJson(gridModel);
+    outputJson(gridModel);
   }
 
   /**
    * 查询供应商联系人下拉框格式
    */
   public void findSuplierContactListCombobox() {
-    OutputJson(supService.findSuplierContactList(super.sample.getSuplierId()));
+    outputJson(supService.findSuplierContactList(super.sample.getSuplierId()));
   }
 }

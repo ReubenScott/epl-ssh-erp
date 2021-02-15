@@ -10,9 +10,7 @@ import java.util.Map;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.ReplicationMode;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
@@ -25,11 +23,13 @@ import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.NativeQuery;
+import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate4.HibernateCallback;
-import org.springframework.orm.hibernate4.HibernateTemplate;
+import org.springframework.orm.hibernate5.HibernateCallback;
+import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kindustry.framework.dao.IBaseDao;
@@ -37,15 +37,10 @@ import com.kindustry.framework.support.CustomExample;
 import com.kindustry.framework.support.PaginationSupport;
 import com.kindustry.system.model.Menu;
 
-@SuppressWarnings("unchecked")
 @Repository("baseDao")
 public class BaseDaoImpl<T> implements IBaseDao<T> {
 
-  private static final long serialVersionUID = 1L;
-
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-  private Class<T> entityClass;
 
   @Autowired
   private SessionFactory sessionFactory;
@@ -54,18 +49,28 @@ public class BaseDaoImpl<T> implements IBaseDao<T> {
   private HibernateTemplate hibernateTemplate;
 
   private Session getCurrentSession() {
-    return sessionFactory.getCurrentSession();
+    return hibernateTemplate.getSessionFactory().getCurrentSession();
+    // return sessionFactory.getCurrentSession();
   }
 
-  public BaseDaoImpl() {
+  // public BaseDaoImpl() {
+  // try {
+  // entityClass = (Class<T>)((ParameterizedType)this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+  // System.out.println("BaseDaoImpl : init " + entityClass);
+  // } catch (Exception ex) {
+  // ex.printStackTrace();
+  // }
+  // }
+
+  public Class<T> getEntityClass() {
+    Class<T> entityClass = null;
+
     try {
       entityClass = (Class<T>)((ParameterizedType)this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+      System.out.println("BaseDaoImpl : init " + entityClass);
     } catch (Exception ex) {
       ex.printStackTrace();
     }
-  }
-
-  public Class<T> getEntityClass() {
     return entityClass;
   }
 
@@ -114,7 +119,8 @@ public class BaseDaoImpl<T> implements IBaseDao<T> {
   }
 
   public void flush() {
-    hibernateTemplate.flush();
+    getCurrentSession().flush();
+    // hibernateTemplate.flush();
   }
 
   public int deleteAllByProperties(Object... propertyNameAndValuePaires) {
@@ -129,9 +135,7 @@ public class BaseDaoImpl<T> implements IBaseDao<T> {
 
   @Override
   public Serializable save(T entity) {
-    Serializable serializable = this.getCurrentSession().save(entity);
-    // hibernateTemplate.save(entity);
-    // Constants.getLogs(this.getCurrentSession(), o, Constants.LOGS_INSERT, Constants.LOGS_INSERT_TEXT, Constants.LOGS_INSERT_NAME);
+    Serializable serializable = hibernateTemplate.save(entity);
     return serializable;
   }
 
@@ -232,13 +236,13 @@ public class BaseDaoImpl<T> implements IBaseDao<T> {
 
   @Override
   public List<?> findBySQL(String sql) {
-    return this.getCurrentSession().createSQLQuery(sql).list();
+    return this.getCurrentSession().createNativeQuery(sql).list();
   }
 
   // ------------------------查询------------------------
 
   public T findById(Serializable id) {
-    return (T)hibernateTemplate.get(entityClass, id);
+    return (T)hibernateTemplate.get(this.getEntityClass(), id);
   }
 
   public T uniqueResult(List<T> items) {
@@ -281,14 +285,14 @@ public class BaseDaoImpl<T> implements IBaseDao<T> {
   }
 
   public int countBySQL(final String sql) {
-    SQLQuery query = this.getCurrentSession().createSQLQuery(sql);
+    NativeQuery query = this.getCurrentSession().createNativeQuery(sql);
     query.addScalar("count");
     BigDecimal result = (BigDecimal)query.uniqueResult();
     return result.intValue();
   }
 
   public List<T> findAll() {
-    return (List<T>)getCurrentSession().createCriteria(entityClass).list();
+    return (List<T>)getCurrentSession().createCriteria(this.getEntityClass()).list();
   }
 
   public List<T> findAllByCriteria(Criterion... criterion) {
@@ -415,7 +419,7 @@ public class BaseDaoImpl<T> implements IBaseDao<T> {
 
   // ------------------------分页查询------------------------
   public PaginationSupport<T> findPage(int startIndex, int pageSize) {
-    return findPageByCriteria(DetachedCriteria.forClass(entityClass), startIndex, pageSize);
+    return findPageByCriteria(DetachedCriteria.forClass(this.getEntityClass()), startIndex, pageSize);
   }
 
   public PaginationSupport<T> findPageByCriteria(final DetachedCriteria detachedCriteria, final int startIndex, final int pageSize) {
@@ -480,14 +484,14 @@ public class BaseDaoImpl<T> implements IBaseDao<T> {
   }
 
   public PaginationSupport<Object[]> findPageBySQL(final String sql, final String[] scalar, final int startIndex, final int pageSize) {
-    SQLQuery query = this.getCurrentSession().createSQLQuery(sql);
+    NativeQuery query = this.getCurrentSession().createNativeQuery(sql);
     query.setFirstResult(startIndex);
     query.setMaxResults(pageSize);
     for (String s : scalar)
       query.addScalar(s);
     List<Object> list = query.list();
 
-    query = this.getCurrentSession().createSQLQuery("select count(*) as count " + sql.substring(sql.indexOf("from")));
+    query = this.getCurrentSession().createNativeQuery("select count(*) as count " + sql.substring(sql.indexOf("from")));
     query.addScalar("count");
     BigDecimal result = (BigDecimal)query.uniqueResult();
 
@@ -521,7 +525,7 @@ public class BaseDaoImpl<T> implements IBaseDao<T> {
       }
     }
     System.out.println("------------------------------------------- sql:" + sql.toString());
-    SQLQuery query = this.getCurrentSession().createSQLQuery(sql.toString());
+    NativeQuery query = this.getCurrentSession().createNativeQuery(sql.toString());
     query.setMaxResults(20);
     query.addScalar("id");
     query.addScalar("name");
@@ -540,7 +544,7 @@ public class BaseDaoImpl<T> implements IBaseDao<T> {
 
   public void excuteSql(String sql) {
     Session session = sessionFactory.openSession();
-    SQLQuery org = session.createSQLQuery(sql);
+    NativeQuery org = session.createNativeQuery(sql);
     org.executeUpdate();
     session.close();
   }

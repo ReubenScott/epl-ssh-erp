@@ -8,39 +8,41 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.Suplier;
 import com.kindustry.erp.model.SuplierContact;
 import com.kindustry.erp.service.SupService;
-import com.kindustry.erp.util.Constants;
-import com.kindustry.erp.util.PageUtil;
 import com.kindustry.framework.dao.IBaseDao;
+import com.kindustry.framework.service.impl.BaseServiceImpl;
+import com.kindustry.util.BaseUtil;
+import com.kindustry.util.PageUtil;
 
 @Service("supService")
 @SuppressWarnings("unchecked")
-public class SupServiceImpl implements SupService {
-  @SuppressWarnings("rawtypes")
+public class SupServiceImpl extends BaseServiceImpl implements SupService {
+
   @Autowired
   private IBaseDao baseDao;
 
   @Override
   public List<Suplier> findSuplierList(Map<String, Object> map, PageUtil pageUtil) {
     String hql = "from Suplier t where t.status='A'";
-    hql += Constants.getSearchConditionsHQL("t", map);
-    hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
+    hql += BaseUtil.getSearchConditionsHQL("t", map);
+    hql += BaseUtil.getGradeSearchConditionsHQL("t", pageUtil);
     return baseDao.find(hql, map, pageUtil.getPage(), pageUtil.getRows());
   }
 
   @Override
   public Long getCount(Map<String, Object> map, PageUtil pageUtil) {
     String hql = "select count(*) from Suplier t where t.status='A' ";
-    hql += Constants.getSearchConditionsHQL("t", map);
-    hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
+    hql += BaseUtil.getSearchConditionsHQL("t", map);
+    hql += BaseUtil.getGradeSearchConditionsHQL("t", pageUtil);
     return baseDao.count(hql, map);
   }
 
   @Override
   public boolean delSuplier(Integer suplierId) {
-    Integer userId = Constants.getCurrendUser().getUserId();
+    String userId = super.getCurrendUser().getUserId();
     Suplier c = (Suplier)baseDao.get(Suplier.class, suplierId);
     c.setLastmod(new Date());
     c.setModifiyer(userId);
@@ -59,7 +61,7 @@ public class SupServiceImpl implements SupService {
 
   @Override
   public boolean persistenceSuplier(Suplier c, Map<String, List<SuplierContact>> map) {
-    Integer userId = Constants.getCurrendUser().getUserId();
+    String userId = super.getCurrendUser().getUserId();
     if (c.getSuplierId() == null || "".equals(c.getSuplierId())) {
       c.setCreated(new Date());
       c.setLastmod(new Date());
@@ -131,8 +133,8 @@ public class SupServiceImpl implements SupService {
   @Override
   public List<Suplier> findSuplierListNoPage(Map<String, Object> map, PageUtil pageUtil) {
     String hql = "from Suplier t where t.status='A'";
-    hql += Constants.getSearchConditionsHQL("t", map);
-    hql += Constants.getGradeSearchConditionsHQL("t", pageUtil);
+    hql += BaseUtil.getSearchConditionsHQL("t", map);
+    hql += BaseUtil.getGradeSearchConditionsHQL("t", pageUtil);
     return baseDao.find(hql, map);
   }
 

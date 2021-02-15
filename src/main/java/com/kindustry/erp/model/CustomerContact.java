@@ -23,7 +23,7 @@ import org.hibernate.annotations.DynamicUpdate;
 public class CustomerContact implements java.io.Serializable {
   private static final long serialVersionUID = -7809181941868071559L;
   private Integer contactId;
-  private Integer customerId;
+  private String customerId;
   private Integer classId;
   private String name;
   private Integer sexId;
@@ -38,8 +38,8 @@ public class CustomerContact implements java.io.Serializable {
   private String status;
   private Date created;
   private Date lastmod;
-  private Integer creater;
-  private Integer modifyer;
+  private String creater;
+  private String modifyer;
   private String fax;
   private String qq;
   private Date birthday;
@@ -48,39 +48,6 @@ public class CustomerContact implements java.io.Serializable {
 
   /** default constructor */
   public CustomerContact() {}
-
-  /** minimal constructor */
-  public CustomerContact(Integer customerId, Integer classId, String name, Integer sexId) {
-    this.customerId = customerId;
-    this.classId = classId;
-    this.name = name;
-    this.sexId = sexId;
-  }
-
-  /** full constructor */
-  public CustomerContact(Integer customerId, Integer classId, String name, Integer sexId, String className, String sexName, String organization, String duty, String tel,
-    String email, String mobile, String description, String status, Date created, Date lastmod, Integer creater, Integer modifyer, String fax, String qq, Date birthday) {
-    this.customerId = customerId;
-    this.classId = classId;
-    this.name = name;
-    this.sexId = sexId;
-    this.className = className;
-    this.sexName = sexName;
-    this.organization = organization;
-    this.duty = duty;
-    this.tel = tel;
-    this.email = email;
-    this.mobile = mobile;
-    this.description = description;
-    this.status = status;
-    this.created = created;
-    this.lastmod = lastmod;
-    this.creater = creater;
-    this.modifyer = modifyer;
-    this.fax = fax;
-    this.qq = qq;
-    this.birthday = birthday;
-  }
 
   // Property accessors
   @Id
@@ -95,11 +62,11 @@ public class CustomerContact implements java.io.Serializable {
   }
 
   @Column(name = "CUSTOMER_ID")
-  public Integer getCustomerId() {
+  public String getCustomerId() {
     return this.customerId;
   }
 
-  public void setCustomerId(Integer customerId) {
+  public void setCustomerId(String customerId) {
     this.customerId = customerId;
   }
 
@@ -232,20 +199,20 @@ public class CustomerContact implements java.io.Serializable {
   }
 
   @Column(name = "CREATER")
-  public Integer getCreater() {
+  public String getCreater() {
     return this.creater;
   }
 
-  public void setCreater(Integer creater) {
+  public void setCreater(String creater) {
     this.creater = creater;
   }
 
   @Column(name = "MODIFYER")
-  public Integer getModifyer() {
+  public String getModifyer() {
     return this.modifyer;
   }
 
-  public void setModifyer(Integer modifyer) {
+  public void setModifyer(String modifyer) {
     this.modifyer = modifyer;
   }
 

@@ -69,22 +69,23 @@ public abstract class BaseAction<T> extends ActionSupport implements ModelDriven
     return sample;
   }
 
-  public void OutputJson(Object object) {
-    HttpServletResponse httpServletResponse = ServletActionContext.getResponse();
-    httpServletResponse.setContentType("application/json");
-    httpServletResponse.setCharacterEncoding("utf-8");
-    PrintWriter out = null;
-    try {
-      out = httpServletResponse.getWriter();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    String json = JSON.toJSONStringWithDateFormat(object, "yyyy-MM-dd HH:mm:ss");
-    out.print(json);
-    out.close();
+  /**
+   * ajaxJsonOutput
+   * 
+   * @param object
+   * @author kindustry
+   */
+  public void outputJson(Object object) {
+    this.outputJson(object, "application/json");
   }
 
-  public void OutputJson(Object object, String type) {
+  /**
+   * 
+   * @param object
+   * @param type
+   * @author kindustry
+   */
+  public void outputJson(Object object, String type) {
     PrintWriter out = null;
     HttpServletResponse httpServletResponse = ServletActionContext.getResponse();
     httpServletResponse.setContentType(type);
