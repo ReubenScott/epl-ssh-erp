@@ -8,13 +8,13 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.fastjson.JSON;
 import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.Customer;
 import com.kindustry.erp.model.CustomerContact;
 import com.kindustry.erp.service.CstService;
 import com.kindustry.erp.view.GridModel;
 import com.kindustry.framework.action.BaseAction;
+import com.kindustry.util.JsonUtil;
 import com.kindustry.util.PageUtil;
 
 @Namespace("/cst")
@@ -68,13 +68,13 @@ public class CstAction extends BaseAction<Customer> {
   public void persistenceCustomer() {
     Map<String, List<CustomerContact>> map = new HashMap<String, List<CustomerContact>>();
     if (inserted != null && !"".equals(inserted)) {
-      map.put("addList", JSON.parseArray("inserted", CustomerContact.class));
+      map.put("addList", JsonUtil.parseList("inserted", CustomerContact.class));
     }
     if (updated != null && !"".equals(updated)) {
-      map.put("updList", JSON.parseArray(updated, CustomerContact.class));
+      map.put("updList", JsonUtil.parseList(updated, CustomerContact.class));
     }
     if (deleted != null && !"".equals(deleted)) {
-      map.put("delList", JSON.parseArray(deleted, CustomerContact.class));
+      map.put("delList", JsonUtil.parseList(deleted, CustomerContact.class));
     }
     outputJson(getMessage(cstService.persistenceCustomer(super.sample, map)), Constants.TEXT_TYPE_PLAIN);
   }

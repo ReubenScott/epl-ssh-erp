@@ -226,17 +226,6 @@
   </listener>
   
   
-  <!-- druid Web监控统计功能 -->
-  <servlet>
-    <servlet-name>druidStatView</servlet-name>
-    <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>druidStatView</servlet-name>
-    <url-pattern>/druid/*</url-pattern>
-  </servlet-mapping>
-  
-  
   <!-- 其他参数配置 -->
   <session-config>
     <session-timeout>15</session-timeout>

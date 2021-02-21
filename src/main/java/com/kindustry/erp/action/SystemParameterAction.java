@@ -8,10 +8,10 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.fastjson.JSON;
 import com.kindustry.erp.model.Parameter;
 import com.kindustry.erp.service.SystemParameterService;
 import com.kindustry.framework.action.BaseAction;
+import com.kindustry.util.JsonUtil;
 
 @Namespace("/systemParameter")
 @Action("systemParameterAction")
@@ -31,9 +31,9 @@ public class SystemParameterAction extends BaseAction {
 
   public String persistenceCompanyInfo() {
     Map<String, List<Parameter>> map = new HashMap<String, List<Parameter>>();
-    map.put("addList", JSON.parseArray(inserted, Parameter.class));
-    map.put("updList", JSON.parseArray(updated, Parameter.class));
-    map.put("delList", JSON.parseArray(deleted, Parameter.class));
+    map.put("addList", JsonUtil.parseList(inserted, Parameter.class));
+    map.put("updList", JsonUtil.parseList(updated, Parameter.class));
+    map.put("delList", JsonUtil.parseList(deleted, Parameter.class));
     outputJson(getMessage(systemParameterService.persistenceParameter(map)));
     return null;
   }

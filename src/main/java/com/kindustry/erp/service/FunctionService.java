@@ -7,7 +7,7 @@ import com.kindustry.erp.view.TreeGridModel;
 import com.kindustry.erp.view.TreeModel;
 
 public interface FunctionService {
-  List<TreeGridModel> findAllFunctionList(Long pid);
+  List<TreeGridModel> findAllFunctionList(String pid);
 
   List<TreeModel> findAllFunctionList();
 
@@ -15,6 +15,6 @@ public interface FunctionService {
 
   boolean persistenceFunction(Permission permission);
 
-  boolean delFunction(Long id);
+  boolean delFunction(String id);
 
 }

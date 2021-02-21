@@ -14,11 +14,11 @@ public interface PermissionAssignmentService {
 
   Long getCount(Map<String, Object> map);
 
-  List<Permission> getRolePermission(Integer roleId);
+  List<Permission> getRolePermission(String roleId);
 
   boolean persistenceRole(Role r);
 
-  boolean savePermission(Integer roleId, String checkedIds);
+  boolean savePermission(String roleId, String checkedIds);
 
   boolean persistenceRole(Integer roleId);
 

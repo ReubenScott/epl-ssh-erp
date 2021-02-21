@@ -24,16 +24,42 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicInsert(true)
 public class Role implements java.io.Serializable {
   private static final long serialVersionUID = -8220535212044563981L;
-  private Integer roleId;
+
+  @Id
+  @GeneratedValue
+  @Column(name = "ROLE_ID", unique = true, nullable = false)
+  private String roleId;
+
+  @Column(name = "NAME", length = 55)
   private String name;
+
+  @Column(name = "DESCRIPTION", length = 500)
   private String description;
+
+  @Column(name = "STATUS", length = 1)
   private String status;
+
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "CREATED", length = 10)
   private Date created;
+
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "LASTMOD", length = 10)
   private Date lastmod;
+
+  @Column(name = "SORT")
   private Integer sort;
+
+  @Column(name = "CREATER")
   private String creater;
+
+  @Column(name = "MODIFYER")
   private String modifyer;
+
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "role")
   private Set<UserRole> userRoles = new HashSet<UserRole>(0);
+
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "role")
   private Set<RolePermission> rolePermissions = new HashSet<RolePermission>(0);
 
   // Constructors
@@ -42,18 +68,14 @@ public class Role implements java.io.Serializable {
   public Role() {}
 
   // Property accessors
-  @Id
-  @GeneratedValue
-  @Column(name = "ROLE_ID", unique = true, nullable = false)
-  public Integer getRoleId() {
+  public String getRoleId() {
     return this.roleId;
   }
 
-  public void setRoleId(Integer roleId) {
+  public void setRoleId(String roleId) {
     this.roleId = roleId;
   }
 
-  @Column(name = "NAME", length = 55)
   public String getName() {
     return this.name;
   }
@@ -62,7 +84,6 @@ public class Role implements java.io.Serializable {
     this.name = name;
   }
 
-  @Column(name = "DESCRIPTION", length = 500)
   public String getDescription() {
     return this.description;
   }
@@ -71,7 +92,6 @@ public class Role implements java.io.Serializable {
     this.description = description;
   }
 
-  @Column(name = "STATUS", length = 1)
   public String getStatus() {
     return this.status;
   }
@@ -80,8 +100,6 @@ public class Role implements java.io.Serializable {
     this.status = status;
   }
 
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "CREATED", length = 10)
   public Date getCreated() {
     return this.created;
   }
@@ -90,8 +108,6 @@ public class Role implements java.io.Serializable {
     this.created = created;
   }
 
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "LASTMOD", length = 10)
   public Date getLastmod() {
     return this.lastmod;
   }
@@ -100,7 +116,6 @@ public class Role implements java.io.Serializable {
     this.lastmod = lastmod;
   }
 
-  @Column(name = "SORT")
   public Integer getSort() {
     return this.sort;
   }
@@ -109,7 +124,6 @@ public class Role implements java.io.Serializable {
     this.sort = sort;
   }
 
-  @Column(name = "CREATER")
   public String getCreater() {
     return this.creater;
   }
@@ -118,7 +132,6 @@ public class Role implements java.io.Serializable {
     this.creater = creater;
   }
 
-  @Column(name = "MODIFYER")
   public String getModifyer() {
     return this.modifyer;
   }
@@ -127,7 +140,6 @@ public class Role implements java.io.Serializable {
     this.modifyer = modifyer;
   }
 
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "role")
   public Set<UserRole> getUserRoles() {
     return this.userRoles;
   }
@@ -136,7 +148,6 @@ public class Role implements java.io.Serializable {
     this.userRoles = userRoles;
   }
 
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "role")
   public Set<RolePermission> getRolePermissions() {
     return this.rolePermissions;
   }

@@ -24,7 +24,7 @@ public class Permission extends BaseEntity {
   private static final long serialVersionUID = 1136795483472903508L;
 
   @Column(name = "PID")
-  private Long pid;
+  private String pid;
 
   @Column(name = "NAME", length = 100)
   private String name;
@@ -68,11 +68,11 @@ public class Permission extends BaseEntity {
   // this.permissionId = permissionId;
   // }
 
-  public Long getPid() {
+  public String getPid() {
     return this.pid;
   }
 
-  public void setPid(Long pid) {
+  public void setPid(String pid) {
     this.pid = pid;
   }
 

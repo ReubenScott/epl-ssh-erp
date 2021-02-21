@@ -8,13 +8,13 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.fastjson.JSON;
 import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.Project;
 import com.kindustry.erp.model.ProjectFollow;
 import com.kindustry.erp.service.ProjectService;
 import com.kindustry.erp.view.GridModel;
 import com.kindustry.framework.action.BaseAction;
+import com.kindustry.util.JsonUtil;
 import com.kindustry.util.PageUtil;
 
 @Namespace("/project")
@@ -109,13 +109,13 @@ public class ProjectAction extends BaseAction<Project> {
   public String persistenceProject() throws Exception {
     Map<String, List<ProjectFollow>> map = new HashMap<String, List<ProjectFollow>>();
     if (inserted != null && !"".equals(inserted)) {
-      map.put("addList", JSON.parseArray(inserted, ProjectFollow.class));
+      map.put("addList", JsonUtil.parseList(inserted, ProjectFollow.class));
     }
     if (updated != null && !"".equals(updated)) {
-      map.put("updList", JSON.parseArray(updated, ProjectFollow.class));
+      map.put("updList", JsonUtil.parseList(updated, ProjectFollow.class));
     }
     if (deleted != null && !"".equals(deleted)) {
-      map.put("delList", JSON.parseArray(deleted, ProjectFollow.class));
+      map.put("delList", JsonUtil.parseList(deleted, ProjectFollow.class));
     }
     outputJson(getMessage(projectService.persistenceProject(super.sample, map)), Constants.TEXT_TYPE_PLAIN);
     return null;

@@ -14,8 +14,8 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.alibaba.fastjson.JSON;
 import com.kindustry.erp.view.Json;
+import com.kindustry.util.JsonUtil;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
@@ -93,7 +93,8 @@ public abstract class BaseAction<T> extends ActionSupport implements ModelDriven
     String json = null;
     try {
       out = httpServletResponse.getWriter();
-      json = JSON.toJSONStringWithDateFormat(object, "yyyy-MM-dd HH:mm:ss");
+      // json = JSON.toJSONStringWithDateFormat(object, "yyyy-MM-dd HH:mm:ss");
+      json = JsonUtil.toJSONString(object);
     } catch (IOException e) {
       e.printStackTrace();
     }

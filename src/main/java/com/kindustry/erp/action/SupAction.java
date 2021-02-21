@@ -8,13 +8,13 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.fastjson.JSON;
 import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.Suplier;
 import com.kindustry.erp.model.SuplierContact;
 import com.kindustry.erp.service.SupService;
 import com.kindustry.erp.view.GridModel;
 import com.kindustry.framework.action.BaseAction;
+import com.kindustry.util.JsonUtil;
 import com.kindustry.util.PageUtil;
 
 @Namespace("/sup")
@@ -67,13 +67,13 @@ public class SupAction extends BaseAction<Suplier> {
   public void persistenceSuplier() {
     Map<String, List<SuplierContact>> map = new HashMap<String, List<SuplierContact>>();
     if (inserted != null && !"".equals(inserted)) {
-      map.put("addList", JSON.parseArray(inserted, SuplierContact.class));
+      map.put("addList", JsonUtil.parseList(inserted, SuplierContact.class));
     }
     if (updated != null && !"".equals(updated)) {
-      map.put("updList", JSON.parseArray(updated, SuplierContact.class));
+      map.put("updList", JsonUtil.parseList(updated, SuplierContact.class));
     }
     if (deleted != null && !"".equals(deleted)) {
-      map.put("delList", JSON.parseArray(deleted, SuplierContact.class));
+      map.put("delList", JsonUtil.parseList(deleted, SuplierContact.class));
     }
     outputJson(getMessage(supService.persistenceSuplier(super.sample, map)), Constants.TEXT_TYPE_PLAIN);
   }

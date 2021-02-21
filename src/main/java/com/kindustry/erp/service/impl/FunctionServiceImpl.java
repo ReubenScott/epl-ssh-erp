@@ -27,12 +27,12 @@ public class FunctionServiceImpl extends BaseServiceImpl implements FunctionServ
   private IBaseDao<Permission> baseDao;
 
   @Override
-  public List<TreeGridModel> findAllFunctionList(Long pid) {
+  public List<TreeGridModel> findAllFunctionList(String pid) {
     String hql = "from Permission t where t.state='A'";
     if (pid == null) {
       hql += " and t.pid is null";
     } else {
-      hql += " and t.pid=" + pid;
+      hql += " and t.pid='" + pid + "'";
     }
     hql += " order by t.sort asc , t.sid asc ";
     List<Permission> list = baseDao.find(hql);
@@ -41,6 +41,8 @@ public class FunctionServiceImpl extends BaseServiceImpl implements FunctionServ
       TreeGridModel treeGridModel = new TreeGridModel();
       try {
         BeanUtils.copyProperties(treeGridModel, function);
+        treeGridModel.setState(function.getStatus());
+        treeGridModel.setStatus(function.getState().getValue());
       } catch (IllegalAccessException | InvocationTargetException e) {
         e.printStackTrace();
       }
@@ -120,7 +122,7 @@ public class FunctionServiceImpl extends BaseServiceImpl implements FunctionServ
   }
 
   @Override
-  public boolean delFunction(Long sid) {
+  public boolean delFunction(String sid) {
     String hql = "from Permission t where t.state='A' and t.pid=" + sid;
     List<Permission> list = baseDao.find(hql);
     if (list != null && !list.isEmpty()) {

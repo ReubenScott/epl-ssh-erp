@@ -78,7 +78,7 @@ public class PermissionAssignmentAction extends BaseAction<Role> {
   }
 
   public String delRole() {
-    outputJson(getMessage(permissionAssignmentService.persistenceRole(super.sample.getRoleId())));
+    // outputJson(getMessage(permissionAssignmentService.persistenceRole(super.sample.getRoleId())));
     return null;
   }
 

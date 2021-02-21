@@ -82,7 +82,7 @@ public class PermissionAssignmentServiceImpl extends BaseServiceImpl implements 
   }
 
   @Override
-  public List<Permission> getRolePermission(Integer roleId) {
+  public List<Permission> getRolePermission(String roleId) {
     String sql = "SELECT t.PERMISSION_ID FROM ROLE_PERMISSION t WHERE t.STATUS = 'A' and t.ROLE_ID=" + roleId;
     List<String> list = baseDao.findBySQL(sql);
     List<Permission> templist = new ArrayList<Permission>();
@@ -115,7 +115,7 @@ public class PermissionAssignmentServiceImpl extends BaseServiceImpl implements 
   }
 
   @Override
-  public boolean savePermission(Integer roleId, String checkedIds) {
+  public boolean savePermission(String roleId, String checkedIds) {
     String userId = super.getCurrendUser().getUserId();
     Role role = (Role)baseDao.get(Role.class, roleId);
     Map<String, RolePermission> map = new HashMap<String, RolePermission>();

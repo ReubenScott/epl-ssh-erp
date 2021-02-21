@@ -97,7 +97,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
   public boolean saveUserRoles(String userId, String isCheckedIds) {
     Users users = (Users)baseDao.get(Users.class, userId);
     Set<UserRole> set = users.getUserRoles();
-    Map<Integer, UserRole> map = new HashMap<Integer, UserRole>();
+    Map<String, UserRole> map = new HashMap<String, UserRole>();
     for (UserRole userRole : set) {
       map.put(userRole.getRole().getRoleId(), userRole);
       userRole.setLastmod(new Date());

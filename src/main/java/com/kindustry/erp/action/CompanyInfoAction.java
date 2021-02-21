@@ -9,12 +9,12 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.fastjson.JSON;
 import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.CompanyInfo;
 import com.kindustry.erp.service.CompanyInfoService;
 import com.kindustry.erp.view.GridModel;
 import com.kindustry.framework.action.BaseAction;
+import com.kindustry.util.JsonUtil;
 import com.kindustry.util.PageUtil;
 
 @Namespace("/companyInfo")
@@ -45,9 +45,9 @@ public class CompanyInfoAction extends BaseAction<CompanyInfo> {
    */
   public void persistenceCompanyInfo() {
     Map<String, List<CompanyInfo>> map = new HashMap<String, List<CompanyInfo>>();
-    map.put("addList", JSON.parseArray(inserted, CompanyInfo.class));
-    map.put("updList", JSON.parseArray(updated, CompanyInfo.class));
-    map.put("delList", JSON.parseArray(deleted, CompanyInfo.class));
+    map.put("addList", JsonUtil.parseList(inserted, CompanyInfo.class));
+    map.put("updList", JsonUtil.parseList(updated, CompanyInfo.class));
+    map.put("delList", JsonUtil.parseList(deleted, CompanyInfo.class));
     outputJson(getMessage(companyInfoService.persistenceCompanyInfo(map)));
   }
 

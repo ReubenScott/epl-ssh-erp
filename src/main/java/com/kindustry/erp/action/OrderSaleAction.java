@@ -8,13 +8,13 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.fastjson.JSON;
 import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.OrderSale;
 import com.kindustry.erp.model.OrderSaleLine;
 import com.kindustry.erp.service.OrderSaleService;
 import com.kindustry.erp.view.GridModel;
 import com.kindustry.framework.action.BaseAction;
+import com.kindustry.util.JsonUtil;
 import com.kindustry.util.PageUtil;
 
 @Namespace("/orderSale")
@@ -65,13 +65,13 @@ public class OrderSaleAction extends BaseAction<OrderSale> {
   public void persistenceOrderSale() {
     Map<String, List<OrderSaleLine>> map = new HashMap<String, List<OrderSaleLine>>();
     if (inserted != null && !"".equals(inserted)) {
-      map.put("addList", JSON.parseArray(inserted, OrderSaleLine.class));
+      map.put("addList", JsonUtil.parseList(inserted, OrderSaleLine.class));
     }
     if (updated != null && !"".equals(updated)) {
-      map.put("updList", JSON.parseArray(updated, OrderSaleLine.class));
+      map.put("updList", JsonUtil.parseList(updated, OrderSaleLine.class));
     }
     if (deleted != null && !"".equals(deleted)) {
-      map.put("delList", JSON.parseArray(deleted, OrderSaleLine.class));
+      map.put("delList", JsonUtil.parseList(deleted, OrderSaleLine.class));
     }
     outputJson(getMessage(orderSaleService.persistenceOrderSale(super.sample, map)), Constants.TEXT_TYPE_PLAIN);
   }

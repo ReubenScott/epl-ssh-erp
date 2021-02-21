@@ -4,12 +4,12 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.fastjson.JSON;
 import com.kindustry.context.config.Constants;
 import com.kindustry.erp.model.Permission;
 import com.kindustry.erp.service.FunctionService;
 import com.kindustry.erp.view.Json;
 import com.kindustry.framework.action.BaseAction;
+import com.kindustry.util.JsonUtil;
 
 /**
  * 程式管理action
@@ -24,14 +24,14 @@ public class FunctionAction extends BaseAction<Permission> {
   private FunctionService functionService;
 
   // treegrid
-  private Long id;
+  private String id;
 
   /**
    * idを取得する。
    * 
    * @return the id
    */
-  public Long getId() {
+  public String getId() {
     return id;
   }
 
@@ -41,7 +41,7 @@ public class FunctionAction extends BaseAction<Permission> {
    * @param id
    *          the id to set
    */
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
   }
 
@@ -50,7 +50,7 @@ public class FunctionAction extends BaseAction<Permission> {
    */
   public String persistenceFunction() {
     Json json = new Json();
-    if (functionService.persistenceFunction(JSON.parseArray(updated, Permission.class))) {
+    if (functionService.persistenceFunction(JsonUtil.parseList(updated, Permission.class))) {
       logger.debug("持久化信息！");
       json.setStatus(true);
       json.setMessage(Constants.POST_DATA_SUCCESS);
