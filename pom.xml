@@ -25,7 +25,7 @@
     <!--  本地jar目录   ${basedir}/../epl-parent-pom/lib -->
     <local.jar.dir>${basedir}/lib</local.jar.dir>
     <!-- spring -->
-    <spring.version>4.3.20.RELEASE</spring.version>
+    <spring.version>5.3.19</spring.version>
     <!-- Mybatis -->
     <mybatis.version>3.5.4</mybatis.version>
     <!-- Mybatis 整合 Spring -->
