@@ -51,7 +51,7 @@
     <janino.version>3.0.10</janino.version>
 
     <!-- Json -->
-    <jackson.version>2.6.7</jackson.version>
+    <jackson.version>2.13.4.1</jackson.version>
 
     <!-- Servlet -->
     <servlet.version>3.0.1</servlet.version>
